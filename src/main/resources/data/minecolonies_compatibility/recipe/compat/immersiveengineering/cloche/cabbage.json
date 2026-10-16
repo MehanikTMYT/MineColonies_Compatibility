@@ -1,26 +1,24 @@
 {
-	"type": "immersiveengineering:cloche",
-	"neoforge:conditions": [
-		{
-			"type": "neoforge:mod_loaded",
-			"modid": "immersiveengineering"
-		}
-	],
-	"results": [
-		{
-			"id": "minecolonies:cabbage",
-			"count": 2
-		}
-	],
-	"input": {
-		"item": "minecolonies:cabbage"
-	},
-	"soil": {
-		"item": "minecraft:dirt"
-	},
-	"time": 800,
-	"render": {
-		"type": "immersiveengineering:crop",
-		"block": "minecolonies:cabbage"
-	}
+  "type": "immersiveengineering:cloche",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecolonies:cabbage",
+      "count": 2
+    }
+  ],
+  "input": "minecolonies:cabbage",
+  "soil": {
+    "item": "minecraft:dirt"
+  },
+  "time": 800,
+  "render": {
+    "type": "immersiveengineering:crop",
+    "block": "minecolonies:cabbage"
+  }
 }

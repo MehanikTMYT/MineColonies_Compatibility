@@ -1,26 +1,24 @@
 {
-	"type": "immersiveengineering:cloche",
-	"neoforge:conditions": [
-		{
-			"type": "neoforge:mod_loaded",
-			"modid": "immersiveengineering"
-		}
-	],
-	"results": [
-		{
-			"id": "minecolonies:soybean",
-			"count": 2
-		}
-	],
-	"input": {
-		"item": "minecolonies:soybean"
-	},
-	"soil": {
-		"item": "minecraft:dirt"
-	},
-	"time": 800,
-	"render": {
-		"type": "immersiveengineering:crop",
-		"block": "minecolonies:soybean"
-	}
+  "type": "immersiveengineering:cloche",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecolonies:soybean",
+      "count": 2
+    }
+  ],
+  "input": "minecolonies:soybean",
+  "soil": {
+    "item": "minecraft:dirt"
+  },
+  "time": 800,
+  "render": {
+    "type": "immersiveengineering:crop",
+    "block": "minecolonies:soybean"
+  }
 }

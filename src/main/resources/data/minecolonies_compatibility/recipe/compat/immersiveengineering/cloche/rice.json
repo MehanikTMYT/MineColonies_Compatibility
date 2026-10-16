@@ -1,26 +1,24 @@
 {
-	"type": "immersiveengineering:cloche",
-	"neoforge:conditions": [
-		{
-			"type": "neoforge:mod_loaded",
-			"modid": "immersiveengineering"
-		}
-	],
-	"results": [
-		{
-			"id": "minecolonies:rice",
-			"count": 2
-		}
-	],
-	"input": {
-		"item": "minecolonies:rice"
-	},
-	"soil": {
-		"item": "minecraft:dirt"
-	},
-	"time": 800,
-	"render": {
-		"type": "immersiveengineering:crop",
-		"block": "minecolonies:rice"
-	}
+  "type": "immersiveengineering:cloche",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecolonies:rice",
+      "count": 2
+    }
+  ],
+  "input": "minecolonies:rice",
+  "soil": {
+    "item": "minecraft:dirt"
+  },
+  "time": 800,
+  "render": {
+    "type": "immersiveengineering:crop",
+    "block": "minecolonies:rice"
+  }
 }

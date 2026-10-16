@@ -1,26 +1,24 @@
 {
-	"type": "immersiveengineering:cloche",
-	"neoforge:conditions": [
-		{
-			"type": "neoforge:mod_loaded",
-			"modid": "immersiveengineering"
-		}
-	],
-	"results": [
-		{
-			"id": "minecolonies:durum",
-			"count": 2
-		}
-	],
-	"input": {
-		"item": "minecolonies:durum"
-	},
-	"soil": {
-		"item": "minecraft:dirt"
-	},
-	"time": 800,
-	"render": {
-		"type": "immersiveengineering:crop",
-		"block": "minecolonies:durum"
-	}
+  "type": "immersiveengineering:cloche",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecolonies:durum",
+      "count": 2
+    }
+  ],
+  "input": "minecolonies:durum",
+  "soil": {
+    "item": "minecraft:dirt"
+  },
+  "time": 800,
+  "render": {
+    "type": "immersiveengineering:crop",
+    "block": "minecolonies:durum"
+  }
 }

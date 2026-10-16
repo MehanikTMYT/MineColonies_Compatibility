@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "minecolonies_compatibility:item/common_network_storage"
+  }
+}

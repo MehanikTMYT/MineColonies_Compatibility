@@ -83,16 +83,6 @@ public abstract class AbstractEntityAIHerderMixin<J extends AbstractJob<?, J>, B
 		return player;
 	}
 
-	@WrapOperation(method = "butcherSwing", remap = false, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Animal;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
-	private boolean butcherSwing_hurt(Animal animal, DamageSource source, float damage, Operation<Boolean> operation)
-	{
-		if (source.is(DamageTypes.PLAYER_ATTACK) && source.getEntity() instanceof FakePlayer player)
-		{
-			// fleet 26.1.2: Butchercraft slaughter hook removed with the disabled butchercraft module
-
-		}
-
-		return operation.call(animal, source, damage);
-	}
+	// fleet 26.1.2: butcherSwing hurt wrapper removed (it only served the disabled Butchercraft module; Entity#hurt is void in 26.1)
 
 }

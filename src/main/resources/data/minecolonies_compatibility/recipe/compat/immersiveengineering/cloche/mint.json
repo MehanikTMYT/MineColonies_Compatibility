@@ -1,26 +1,24 @@
 {
-	"type": "immersiveengineering:cloche",
-	"neoforge:conditions": [
-		{
-			"type": "neoforge:mod_loaded",
-			"modid": "immersiveengineering"
-		}
-	],
-	"results": [
-		{
-			"id": "minecolonies:mint",
-			"count": 2
-		}
-	],
-	"input": {
-		"item": "minecolonies:mint"
-	},
-	"soil": {
-		"item": "minecraft:dirt"
-	},
-	"time": 800,
-	"render": {
-		"type": "immersiveengineering:crop",
-		"block": "minecolonies:mint"
-	}
+  "type": "immersiveengineering:cloche",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "immersiveengineering"
+    }
+  ],
+  "results": [
+    {
+      "id": "minecolonies:mint",
+      "count": 2
+    }
+  ],
+  "input": "minecolonies:mint",
+  "soil": {
+    "item": "minecraft:dirt"
+  },
+  "time": 800,
+  "render": {
+    "type": "immersiveengineering:crop",
+    "block": "minecolonies:mint"
+  }
 }

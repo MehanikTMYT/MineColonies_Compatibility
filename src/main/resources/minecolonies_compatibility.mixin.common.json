@@ -5,11 +5,9 @@
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"minecraft.AbstractArrowAccessor",
-		"minecraft.BlockBehaviourMixin",
+		"minecraft.BlockEntityPreRemoveMixin",
 		"minecraft.CropBlockAccessor",
 		"minecraft.ItemStackMixin",
-		"minecraft.SmithingTransformRecipeAccessor",
-		"minecraft.SmithingTrimRecipeAccessor",
 		"minecraft.StemBlockAccessor",
 		"minecolonies.AbstractBuildingGuardsMixin",
 		"minecolonies.AbstractEntityAIBasicMixin",

@@ -1,10 +1,10 @@
 {
-	"type": "botanypots:block_derived_crop",
-	"neoforge:conditions": [
-		{
-			"type": "neoforge:mod_loaded",
-			"modid": "botanypots"
-		}
-	],
-	"block": "minecolonies:soybean"
+  "type": "botanypots:block_derived_crop",
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "botanypots"
+    }
+  ],
+  "block": "minecolonies:soybean"
 }

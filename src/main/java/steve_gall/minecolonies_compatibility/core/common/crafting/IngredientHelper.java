@@ -31,6 +31,12 @@ public class IngredientHelper
 		return ingredient.items().map(ItemStack::new).toList();
 	}
 
+	/** fleet 26.1.2: optional ingredients (smithing template/addition) -> no stacks when absent. */
+	public static List<ItemStack> getStacks(@NotNull java.util.Optional<Ingredient> ingredient)
+	{
+		return ingredient.map(IngredientHelper::getStacks).orElseGet(List::of);
+	}
+
 	public static List<Ingredient> filterNotEmpty(List<Ingredient> ingredients)
 	{
 		return ingredients.stream().filter(ingredient -> !ingredient.isEmpty()).toList();

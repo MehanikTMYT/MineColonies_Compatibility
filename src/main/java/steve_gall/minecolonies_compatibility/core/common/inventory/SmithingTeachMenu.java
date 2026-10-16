@@ -22,7 +22,6 @@ import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import steve_gall.minecolonies_compatibility.api.common.inventory.IMenuRecipeValidator;
 import steve_gall.minecolonies_compatibility.api.common.inventory.MenuRecipeValidatorRecipe;
 import steve_gall.minecolonies_compatibility.core.common.crafting.SmithingCraftingType;
-import steve_gall.minecolonies_compatibility.core.common.crafting.SmithingRecipeAccessor;
 import steve_gall.minecolonies_compatibility.core.common.init.ModMenuTypes;
 import steve_gall.minecolonies_tweaks.core.common.item.ItemSerializationHelper;
 
@@ -113,10 +112,9 @@ public class SmithingTeachMenu extends TeachRecipeMenu<RecipeHolder<SmithingReci
 	@Override
 	public Component getRecipeError(RecipeHolder<SmithingRecipe> recipe)
 	{
-		if (recipe.value() instanceof SmithingRecipeAccessor accessor)
+		if (recipe.value() instanceof SmithingRecipe smithing)
 		{
-			var addition = accessor.getAddition();
-			var error = this.testRequiredLevel(SmithingCraftingType.getRequiredMinLevel(addition));
+			var error = this.testRequiredLevel(smithing.additionIngredient().map(SmithingCraftingType::getRequiredMinLevel).orElse(-1));
 
 			if (error != null)
 			{

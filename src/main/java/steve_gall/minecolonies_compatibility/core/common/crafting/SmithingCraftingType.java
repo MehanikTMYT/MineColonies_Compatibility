@@ -45,10 +45,10 @@ public class SmithingCraftingType extends CraftingType
 
 		for (var holder : recipeMap.byType(RecipeType.SMITHING))
 		{
-			if (holder.value() instanceof SmithingRecipeAccessor accesor)
+			if (holder.value() instanceof SmithingRecipe accesor) // fleet 26.1.2: public SmithingRecipe getters instead of accessor mixins
 			{
-				var template = IngredientHelper.getStacks(accesor.getTemplate());
-				var baseList = IngredientHelper.getStacks(accesor.getBase());
+				var template = IngredientHelper.getStacks(accesor.templateIngredient());
+				var baseList = IngredientHelper.getStacks(accesor.baseIngredient());
 
 				if (baseList.size() == 0)
 				{
@@ -56,7 +56,7 @@ public class SmithingCraftingType extends CraftingType
 				}
 
 				var base = Arrays.asList(baseList.get(0));
-				var remainedAddition = new HashSet<>(IngredientHelper.getStacks(accesor.getAddition()));
+				var remainedAddition = new HashSet<>(IngredientHelper.getStacks(accesor.additionIngredient()));
 
 				for (var i = 0; i < tags.length; i++)
 				{

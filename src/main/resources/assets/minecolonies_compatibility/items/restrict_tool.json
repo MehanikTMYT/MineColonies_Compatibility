@@ -1,0 +1,6 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "minecolonies_compatibility:item/restrict_tool"
+  }
+}
