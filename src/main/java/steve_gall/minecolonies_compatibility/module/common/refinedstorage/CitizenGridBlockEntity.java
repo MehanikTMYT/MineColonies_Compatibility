@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.module.common.refinedstorage;
 
+import net.minecraft.core.UUIDUtil;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,17 +112,17 @@ public class CitizenGridBlockEntity extends AbstractBaseNetworkNodeContainerBloc
 
 		if (tag.contains(TAG_LINK))
 		{
-			this.view.readLink(provider, tag.getCompound(TAG_LINK));
+			this.view.readLink(provider, tag.getCompoundOrEmpty(TAG_LINK));
 		}
 
 		if (tag.contains(TAG_DATA))
 		{
-			this.view.readData(provider, tag.getCompound(TAG_DATA));
+			this.view.readData(provider, tag.getCompoundOrEmpty(TAG_DATA));
 		}
 
 		if (tag.contains(TAG_ACCESS_MODE))
 		{
-			this.accessMode = AccessModeSettings.getAccessMode(tag.getInt(TAG_ACCESS_MODE));
+			this.accessMode = AccessModeSettings.getAccessMode(tag.getIntOr(TAG_ACCESS_MODE, 0));
 		}
 
 	}
@@ -158,9 +159,9 @@ public class CitizenGridBlockEntity extends AbstractBaseNetworkNodeContainerBloc
 
 		public TaskHolder(CompoundTag tag)
 		{
-			if (tag.hasUUID("taskId"))
+			if (tag.read("taskId", UUIDUtil.CODEC).isPresent())
 			{
-				this.taskId = new TaskId(tag.getUUID("taskId"));
+				this.taskId = new TaskId(tag.read("taskId", UUIDUtil.CODEC).orElseThrow());
 			}
 
 		}
@@ -171,7 +172,7 @@ public class CitizenGridBlockEntity extends AbstractBaseNetworkNodeContainerBloc
 
 			if (this.taskId != null)
 			{
-				tag.putUUID("taskId", this.taskId.id());
+				tag.store("taskId", UUIDUtil.CODEC, this.taskId.id());
 			}
 
 			return tag;
@@ -343,10 +344,10 @@ public class CitizenGridBlockEntity extends AbstractBaseNetworkNodeContainerBloc
 			var factoryController = StandardFactoryController.getInstance();
 			this.tasks.clear();
 
-			for (var taskTag : NBTUtils.streamCompound(tag.getList("tasks", Tag.TAG_COMPOUND)).toList())
+			for (var taskTag : NBTUtils.streamCompound(tag.getListOrEmpty("tasks")).toList())
 			{
-				IToken<?> requestId = factoryController.deserializeTag(provider, taskTag.getCompound("requestId"));
-				var task = new TaskHolder(taskTag.getCompound("task"));
+				IToken<?> requestId = factoryController.deserializeTag(provider, taskTag.getCompoundOrEmpty("requestId"));
+				var task = new TaskHolder(taskTag.getCompoundOrEmpty("task"));
 				this.tasks.put(requestId, task);
 			}
 

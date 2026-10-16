@@ -4,7 +4,7 @@ import com.minecolonies.core.blocks.MinecoloniesCropBlock;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -13,7 +13,7 @@ import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibili
 
 public class CropAgeComponentProvider implements IBlockComponentProvider
 {
-	public static final ResourceLocation UID = MineColoniesCompatibility.rl("crop.age");
+	public static final Identifier UID = MineColoniesCompatibility.rl("crop.age");
 	public static final CropAgeComponentProvider INSTANCE = new CropAgeComponentProvider();
 
 	private CropAgeComponentProvider()
@@ -22,7 +22,7 @@ public class CropAgeComponentProvider implements IBlockComponentProvider
 	}
 
 	@Override
-	public ResourceLocation getUid()
+	public Identifier getUid()
 	{
 		return UID;
 	}

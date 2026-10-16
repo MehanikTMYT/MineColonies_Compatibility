@@ -7,7 +7,7 @@ import com.minecolonies.api.util.constant.WindowConstants;
 import com.minecolonies.core.client.gui.AbstractModuleWindow;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.api.common.building.module.IRestrictableModuleView;
 import steve_gall.minecolonies_compatibility.core.common.network.message.RestrictGiveToolMessage;
@@ -16,7 +16,7 @@ public class RestrictableModuleWindow extends AbstractModuleWindow<IRestrictable
 {
 	private final IRestrictableModuleView module;
 
-	public RestrictableModuleWindow(IRestrictableModuleView module, ResourceLocation res)
+	public RestrictableModuleWindow(IRestrictableModuleView module, Identifier res)
 	{
 		super(module, res);
 

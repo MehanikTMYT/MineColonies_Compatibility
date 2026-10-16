@@ -19,7 +19,7 @@ import com.minecolonies.core.client.gui.AbstractModuleWindow;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.gear.gear.material.MaterialInstance;
@@ -51,7 +51,7 @@ public class RepairMaterialListWindow extends AbstractModuleWindow<RepairMateria
 
 	private Button confirmButton;
 
-	public RepairMaterialListWindow(RepairMaterialListModule.View module, ResourceLocation res)
+	public RepairMaterialListWindow(RepairMaterialListModule.View module, Identifier res)
 	{
 		super(module, res);
 
@@ -64,7 +64,7 @@ public class RepairMaterialListWindow extends AbstractModuleWindow<RepairMateria
 		var button = this.inventoryButton = new ButtonImage();
 		button.setID(MineColoniesCompatibility.rl("silent_gear_repair_kit_inventory").toString());
 		button.setColors(0xFF000000, 0xFF000000, 0xFF000000);
-		button.setImage(ResourceLocation.parse("minecolonies:textures/gui/builderhut/builder_button_medium_large.png"));
+		button.setImage(Identifier.parse("minecolonies:textures/gui/builderhut/builder_button_medium_large.png"));
 		button.setText(Component.translatable("minecolonies_compatibility.text.silentgear_repair_kit_inventory"));
 		button.setSize(129, 17);
 		button.setTextSize(129, 17);

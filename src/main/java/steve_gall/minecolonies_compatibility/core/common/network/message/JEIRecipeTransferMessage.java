@@ -58,8 +58,8 @@ public class JEIRecipeTransferMessage<RECIPE, RECIPE_INPUT> extends AbstractMess
 		if (player.containerMenu instanceof IRecipeTransferableMenu menu)
 		{
 			var registryAccess = menu.getInventory().player.registryAccess();
-			var recipe = menu.getRecipeValidator().deserialize(registryAccess, StandardFactoryController.getInstance(), this.tag.getCompound(RECIPE_TRANSFER_TAG_RECIPE));
-			var payload = this.tag.getCompound(RECIPE_TRANSFER_TAG_PAYLOAD);
+			var recipe = menu.getRecipeValidator().deserialize(registryAccess, StandardFactoryController.getInstance(), this.tag.getCompoundOrEmpty(RECIPE_TRANSFER_TAG_RECIPE));
+			var payload = this.tag.getCompoundOrEmpty(RECIPE_TRANSFER_TAG_PAYLOAD);
 			menu.onRecipeTransfer(recipe, payload);
 		}
 

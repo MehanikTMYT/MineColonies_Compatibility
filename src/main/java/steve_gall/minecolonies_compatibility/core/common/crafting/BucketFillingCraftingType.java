@@ -11,7 +11,7 @@ import com.minecolonies.api.crafting.registry.CraftingType;
 import com.minecolonies.api.items.ModItems;
 
 import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -24,7 +24,7 @@ import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 public class BucketFillingCraftingType extends CraftingType
 {
-	public BucketFillingCraftingType(@NotNull ResourceLocation id)
+	public BucketFillingCraftingType(@NotNull Identifier id)
 	{
 		super(id);
 	}

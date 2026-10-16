@@ -8,7 +8,7 @@ import com.minecolonies.api.colony.requestsystem.factory.IFactoryController;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +41,7 @@ public abstract class MenuRecipeValidatorRecipe<RECIPE extends Recipe<RECIPE_INP
 
 			if (this.test(recipeHolder, container, player))
 			{
-				return recipe.isSpecial() || !this.level.getGameRules().getBoolean(GameRules.RULE_LIMITED_CRAFTING) || player.getRecipeBook().contains(recipeHolder) || player.isCreative();
+				return recipe.isSpecial() || !this.level.getGameRules().getBooleanOr(GameRules.RULE_LIMITED_CRAFTING, false) || player.getRecipeBook().contains(recipeHolder) || player.isCreative();
 			}
 
 			return false;
@@ -78,7 +78,7 @@ public abstract class MenuRecipeValidatorRecipe<RECIPE extends Recipe<RECIPE_INP
 	@Override
 	public RecipeHolder<RECIPE> deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var recipeId = ResourceLocation.parse(tag.getString(TAG_ID));
+		var recipeId = Identifier.parse(tag.getStringOr(TAG_ID, ""));
 		return (RecipeHolder<RECIPE>) this.level.getRecipeManager().byKey(recipeId).orElse(null);
 	}
 
@@ -89,7 +89,7 @@ public abstract class MenuRecipeValidatorRecipe<RECIPE extends Recipe<RECIPE_INP
 	}
 
 	@Override
-	public ResourceLocation getRecipeId(RecipeHolder<RECIPE> recipe)
+	public Identifier getRecipeId(RecipeHolder<RECIPE> recipe)
 	{
 		return recipe.id();
 	}

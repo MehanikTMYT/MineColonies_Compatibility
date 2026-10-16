@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import com.google.common.collect.ImmutableList;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
@@ -23,7 +23,7 @@ public class SimpleContainerGenericRecipe extends SimpleGenericRecipe
 		this.container = ImmutableList.copyOf(container);
 	}
 
-	public SimpleContainerGenericRecipe(ResourceLocation recipeId, List<List<ItemStack>> ingredients, List<ItemStack> container, ItemStack output)
+	public SimpleContainerGenericRecipe(Identifier recipeId, List<List<ItemStack>> ingredients, List<ItemStack> container, ItemStack output)
 	{
 		super(recipeId, ingredients, output);
 

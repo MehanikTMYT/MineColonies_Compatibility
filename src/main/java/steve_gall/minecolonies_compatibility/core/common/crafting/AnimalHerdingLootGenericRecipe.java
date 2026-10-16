@@ -16,7 +16,7 @@ import com.minecolonies.api.util.OptionalPredicate;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +26,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 public class AnimalHerdingLootGenericRecipe implements IGenericRecipe
 {
 	private final EntityType<?> entityType;
-	private final ResourceLocation entityTypeKey;
+	private final Identifier entityTypeKey;
 	private final ResourceKey<LootTable> lootTable;
 	private final List<List<ItemStack>> breedingItems;
 	private final EquipmentTypeEntry toolType;
@@ -47,7 +47,7 @@ public class AnimalHerdingLootGenericRecipe implements IGenericRecipe
 	}
 
 	@Override
-	public @Nullable ResourceLocation getRecipeId()
+	public @Nullable Identifier getRecipeId()
 	{
 		return this.entityTypeKey;
 	}

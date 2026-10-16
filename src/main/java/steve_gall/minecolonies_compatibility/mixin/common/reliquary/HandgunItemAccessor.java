@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import reliquary.item.HandgunItem;
 import reliquary.item.HandgunItem.IShotFactory;
 
@@ -15,5 +15,5 @@ import reliquary.item.HandgunItem.IShotFactory;
 public interface HandgunItemAccessor
 {
 	@Accessor(value = "magazineShotFactories", remap = false)
-	Map<ResourceLocation, IShotFactory> getMagazineShotFactories();
+	Map<Identifier, IShotFactory> getMagazineShotFactories();
 }

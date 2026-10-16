@@ -17,7 +17,7 @@ import com.minecolonies.api.util.constant.TranslationConstants;
 
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -31,7 +31,7 @@ import steve_gall.minecolonies_compatibility.core.common.init.ModTags;
 
 public class SmithingCraftingType extends CraftingType
 {
-	public SmithingCraftingType(@NotNull ResourceLocation id)
+	public SmithingCraftingType(@NotNull Identifier id)
 	{
 		super(id);
 	}

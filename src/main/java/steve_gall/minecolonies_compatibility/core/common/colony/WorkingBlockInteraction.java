@@ -103,9 +103,9 @@ public class WorkingBlockInteraction extends ServerCitizenInteraction
 		var controller = StandardFactoryController.getInstance();
 		super.deserializeNBT(provider, tag);
 
-		this.modulePos = new ModulePos(tag.getCompound("modulePos"));
-		this.recipeId = controller.deserializeTag(provider, tag.getCompound("recipeId"));
-		this.requestId = controller.deserializeTag(provider, tag.getCompound("requestId"));
+		this.modulePos = new ModulePos(tag.getCompoundOrEmpty("modulePos"));
+		this.recipeId = controller.deserializeTag(provider, tag.getCompoundOrEmpty("recipeId"));
+		this.requestId = controller.deserializeTag(provider, tag.getCompoundOrEmpty("requestId"));
 	}
 
 	@Override

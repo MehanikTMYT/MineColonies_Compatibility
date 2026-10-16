@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import com.minecolonies.api.equipment.ModEquipmentTypes;
 import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
@@ -19,8 +19,8 @@ import net.minecraft.world.item.crafting.RecipeManager;
 
 public abstract class CustomizedFruit
 {
-	private static final Map<ResourceLocation, CustomizedFruit> REGISTRY = new HashMap<>();
-	private static final Map<ResourceLocation, CustomizedFruit> VOLATILE = new HashMap<>();
+	private static final Map<Identifier, CustomizedFruit> REGISTRY = new HashMap<>();
+	private static final Map<Identifier, CustomizedFruit> VOLATILE = new HashMap<>();
 
 	public static void register(@NotNull CustomizedFruit fruit)
 	{
@@ -39,7 +39,7 @@ public abstract class CustomizedFruit
 		VOLATILE.clear();
 	}
 
-	public static Map<ResourceLocation, CustomizedFruit> getRegistry()
+	public static Map<Identifier, CustomizedFruit> getRegistry()
 	{
 		return Collections.unmodifiableMap(REGISTRY);
 	}
@@ -63,7 +63,7 @@ public abstract class CustomizedFruit
 	}
 
 	@NotNull
-	public abstract ResourceLocation getId();
+	public abstract Identifier getId();
 
 	@NotNull
 	public abstract List<ItemStack> getBlockIcons();

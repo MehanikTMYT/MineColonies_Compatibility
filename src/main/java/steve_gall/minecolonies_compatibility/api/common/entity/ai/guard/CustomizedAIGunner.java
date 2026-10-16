@@ -454,13 +454,13 @@ public abstract class CustomizedAIGunner extends CustomizedAIGuard
 	protected int getReloadTimerElapsed(@NotNull AbstractEntityCitizen user)
 	{
 		var current = user.level().getGameTime();
-		var started = this.getOrEmptyTag(user).getLong("reloadStarted");
+		var started = this.getOrEmptyTag(user).getLongOr("reloadStarted", 0L);
 		return (int) (current - started);
 	}
 
 	protected boolean isReloadTimerRunning(@NotNull AbstractEntityCitizen user)
 	{
-		return this.getOrEmptyTag(user).getLong("reloadStarted") > 0;
+		return this.getOrEmptyTag(user).getLongOr("reloadStarted", 0L) > 0;
 	}
 
 	protected void startReloadTimer(@NotNull AbstractEntityCitizen user)
@@ -480,7 +480,7 @@ public abstract class CustomizedAIGunner extends CustomizedAIGuard
 	@Override
 	public boolean isNeedPrepare(@NotNull AbstractEntityCitizen user)
 	{
-		return this.getOrEmptyTag(user).getBoolean("needPrepare");
+		return this.getOrEmptyTag(user).getBooleanOr("needPrepare", false);
 	}
 
 	protected void setNeedPrepare(@NotNull AbstractEntityCitizen user, boolean needPrepare)

@@ -12,7 +12,7 @@ import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,7 +24,7 @@ import steve_gall.minecolonies_tweaks.core.common.item.ItemSerializationHelper;
 
 public class StonecutterRecipeStorage implements ICustomizedRecipeStorage
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("stonecutting");
+	public static final Identifier ID = MineColoniesCompatibility.rl("stonecutting");
 	public static final String TAG_RECIPE_ID = "recipeId";
 	public static final String TAG_INGREDIENT = "ingredient";
 	public static final String TAG_RESULT = "result";
@@ -38,19 +38,19 @@ public class StonecutterRecipeStorage implements ICustomizedRecipeStorage
 
 	public static StonecutterRecipeStorage deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var recipeId = ResourceLocation.parse(tag.getString(TAG_RECIPE_ID));
-		ItemStorage ingredient = controller.deserializeTag(provider, tag.getCompound(TAG_INGREDIENT));
-		var result = ItemSerializationHelper.deserializeTag(provider, tag.getCompound(TAG_RESULT));
+		var recipeId = Identifier.parse(tag.getStringOr(TAG_RECIPE_ID, ""));
+		ItemStorage ingredient = controller.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_INGREDIENT));
+		var result = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_RESULT));
 		return new StonecutterRecipeStorage(recipeId, ingredient, result);
 	}
 
-	private final ResourceLocation recipeId;
+	private final Identifier recipeId;
 	private final ItemStorage ingredient;
 	private final ItemStack result;
 
 	private final List<ItemStorage> input;
 
-	public StonecutterRecipeStorage(ResourceLocation recipeId, ItemStorage ingredient, ItemStack result)
+	public StonecutterRecipeStorage(Identifier recipeId, ItemStorage ingredient, ItemStack result)
 	{
 		this.recipeId = recipeId;
 		this.ingredient = ingredient;
@@ -83,12 +83,12 @@ public class StonecutterRecipeStorage implements ICustomizedRecipeStorage
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}
 
-	public ResourceLocation getRecipeId()
+	public Identifier getRecipeId()
 	{
 		return this.recipeId;
 	}
@@ -135,13 +135,13 @@ public class StonecutterRecipeStorage implements ICustomizedRecipeStorage
 	}
 
 	@Override
-	public ResourceLocation getRecipeSource()
+	public Identifier getRecipeSource()
 	{
 		return null;
 	}
 
 	@Override
-	public ResourceLocation getRecipeType()
+	public Identifier getRecipeType()
 	{
 		return null;
 	}

@@ -13,7 +13,7 @@ import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +28,7 @@ import steve_gall.minecolonies_tweaks.core.common.util.SerializationHelper;
 
 public class SmithingTemplateRecipeStorage implements ICustomizedRecipeStorage
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("smithing_template");
+	public static final Identifier ID = MineColoniesCompatibility.rl("smithing_template");
 	public static final String TAG_GRID_SIZE = "gridSize";
 	public static final String TAG_INPUT = "input";
 	public static final String TAG_INPUT_TEMPLATE_COUNT = "inputTemplateCount";
@@ -46,10 +46,10 @@ public class SmithingTemplateRecipeStorage implements ICustomizedRecipeStorage
 
 	public static SmithingTemplateRecipeStorage deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var gridSize = tag.getInt(TAG_GRID_SIZE);
+		var gridSize = tag.getIntOr(TAG_GRID_SIZE, 0);
 		List<ItemStorage> input = NBTUtils2.deserializeList(tag, TAG_INPUT, SerializationHelper.deserializerTag(provider));
-		var inputTemplateCount = tag.getInt(TAG_INPUT_TEMPLATE_COUNT);
-		var primaryOutput = ItemSerializationHelper.deserializeTag(provider, tag.getCompound(TAG_PRIMARY_OUTPUT));
+		var inputTemplateCount = tag.getIntOr(TAG_INPUT_TEMPLATE_COUNT, 0);
+		var primaryOutput = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_PRIMARY_OUTPUT));
 		var secondaryOutputs = NBTUtils2.deserializeList(tag, TAG_SECONDARY_OUTPUTS, ItemSerializationHelper.deserializerTag(provider));
 		return new SmithingTemplateRecipeStorage(gridSize, input, inputTemplateCount, primaryOutput, secondaryOutputs);
 	}
@@ -125,7 +125,7 @@ public class SmithingTemplateRecipeStorage implements ICustomizedRecipeStorage
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}
@@ -172,13 +172,13 @@ public class SmithingTemplateRecipeStorage implements ICustomizedRecipeStorage
 	}
 
 	@Override
-	public ResourceLocation getRecipeSource()
+	public Identifier getRecipeSource()
 	{
 		return null;
 	}
 
 	@Override
-	public ResourceLocation getRecipeType()
+	public Identifier getRecipeType()
 	{
 		return null;
 	}

@@ -4,7 +4,7 @@ import com.minecolonies.api.client.render.modeltype.ModModelTypes;
 import com.minecolonies.api.colony.ICitizenData;
 import com.minecolonies.core.colony.jobs.AbstractJobGuard;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import steve_gall.minecolonies_compatibility.core.common.entity.ai.guard.EntityAIGunner;
 
 public class JobGunner extends AbstractJobGuard<JobGunner>
@@ -21,7 +21,7 @@ public class JobGunner extends AbstractJobGuard<JobGunner>
 	}
 
 	@Override
-	public ResourceLocation getModel()
+	public Identifier getModel()
 	{
 		return ModModelTypes.ARCHER_GUARD_ID;
 	}

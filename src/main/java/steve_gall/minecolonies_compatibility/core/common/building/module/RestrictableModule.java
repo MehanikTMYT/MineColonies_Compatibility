@@ -64,7 +64,7 @@ public abstract class RestrictableModule extends AbstractBuildingModule implemen
 	@Override
 	public void deserializeNBT(HolderLookup.Provider provider, CompoundTag compound)
 	{
-		this.restrictEnabled = compound.getBoolean(TAG_RESTRICT_ENABLED);
+		this.restrictEnabled = compound.getBooleanOr(TAG_RESTRICT_ENABLED, false);
 
 		if (compound.contains(TAG_RESTRICT_POS_1))
 		{

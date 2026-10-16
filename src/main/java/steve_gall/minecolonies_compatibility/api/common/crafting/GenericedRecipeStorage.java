@@ -9,7 +9,7 @@ import com.minecolonies.api.crafting.IGenericRecipe;
 import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -51,13 +51,13 @@ public abstract class GenericedRecipeStorage<GENERIC extends IGenericRecipe> imp
 	}
 
 	@Override
-	public ResourceLocation getRecipeSource()
+	public Identifier getRecipeSource()
 	{
 		return null;
 	}
 
 	@Override
-	public ResourceLocation getRecipeType()
+	public Identifier getRecipeType()
 	{
 		return null;
 	}

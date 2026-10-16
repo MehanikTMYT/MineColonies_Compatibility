@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.minecolonies.api.crafting.ItemStorage;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -21,7 +21,7 @@ import steve_gall.minecolonies_compatibility.module.common.silentgear.network.Re
 
 public class RepairMaterialTeachScreen extends TeachRecipeScreen<RepairMaterialTeachMenu, ItemStack>
 {
-	public static final ResourceLocation TEXTURE = MineColoniesCompatibility.rl("textures/gui/silentgear_repair_material_teach.png");
+	public static final Identifier TEXTURE = MineColoniesCompatibility.rl("textures/gui/silentgear_repair_material_teach.png");
 	public static final MutableComponent TEXT_TIER_PREFIX = Component.translatable("minecolonies_compatibility.text.silentgear_teach_repair_material.tier");
 	public static final MutableComponent TEXT_MATERIAL_PREFIX = Component.translatable("minecolonies_compatibility.text.silentgear_teach_repair_material.material");
 
@@ -44,7 +44,7 @@ public class RepairMaterialTeachScreen extends TeachRecipeScreen<RepairMaterialT
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY)
 	{
 		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
@@ -76,7 +76,7 @@ public class RepairMaterialTeachScreen extends TeachRecipeScreen<RepairMaterialT
 	}
 
 	@Override
-	public ResourceLocation getTexture()
+	public Identifier getTexture()
 	{
 		return TEXTURE;
 	}

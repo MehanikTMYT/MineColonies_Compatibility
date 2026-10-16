@@ -11,7 +11,7 @@ import com.minecolonies.core.entity.ai.workers.crafting.EntityAIWorkBlacksmith;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import steve_gall.minecolonies_compatibility.api.common.repair.ToolSystemBrokenItem;
 import steve_gall.minecolonies_compatibility.api.common.tool.CustomizedToolSystem;
@@ -20,7 +20,7 @@ import steve_gall.minecolonies_compatibility.module.common.silentgear.init.Modul
 
 public class BrokenItem extends ToolSystemBrokenItem
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("silentgear_broken_item");
+	public static final Identifier ID = MineColoniesCompatibility.rl("silentgear_broken_item");
 	public static final Component SHORT_DISPLAY_STRING = Component.translatable(MineColoniesCompatibility.tl("silentgear_broken_item"));
 	public static final Component LONG_DISPLAY_STRING = Component.translatable(MineColoniesCompatibility.tl("silentgear_broken_item.desc"));
 
@@ -33,7 +33,7 @@ public class BrokenItem extends ToolSystemBrokenItem
 
 	@Override
 	@NotNull
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}

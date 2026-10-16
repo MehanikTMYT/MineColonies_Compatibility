@@ -13,7 +13,7 @@ import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -25,7 +25,7 @@ import steve_gall.minecolonies_tweaks.core.common.item.ItemSerializationHelper;
 
 public class SmithingRecipeStorage implements ICustomizedRecipeStorage
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("smithing");
+	public static final Identifier ID = MineColoniesCompatibility.rl("smithing");
 	public static final String TAG_RECIPE_ID = "recipeId";
 	public static final String TAG_TAMPLATE = "template";
 	public static final String TAG_BASE = "base";
@@ -43,15 +43,15 @@ public class SmithingRecipeStorage implements ICustomizedRecipeStorage
 
 	public static SmithingRecipeStorage deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var recipeId = ResourceLocation.parse(tag.getString(TAG_RECIPE_ID));
-		ItemStorage template = controller.deserializeTag(provider, tag.getCompound(TAG_TAMPLATE));
-		ItemStorage base = controller.deserializeTag(provider, tag.getCompound(TAG_BASE));
-		ItemStorage addition = controller.deserializeTag(provider, tag.getCompound(TAG_ADDITION));
-		var result = ItemSerializationHelper.deserializeTag(provider, tag.getCompound(TAG_RESULT));
+		var recipeId = Identifier.parse(tag.getStringOr(TAG_RECIPE_ID, ""));
+		ItemStorage template = controller.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_TAMPLATE));
+		ItemStorage base = controller.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_BASE));
+		ItemStorage addition = controller.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_ADDITION));
+		var result = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_RESULT));
 		return new SmithingRecipeStorage(recipeId, template, base, addition, result);
 	}
 
-	private final ResourceLocation recipeId;
+	private final Identifier recipeId;
 	private final ItemStorage template;
 	private final ItemStorage base;
 	private final ItemStorage addition;
@@ -60,7 +60,7 @@ public class SmithingRecipeStorage implements ICustomizedRecipeStorage
 	private final List<ItemStorage> input;
 	private final List<ItemStack> secondaryOutputs;
 
-	public SmithingRecipeStorage(ResourceLocation recipeId, ItemStorage template, ItemStorage base, ItemStorage addition, ItemStack result)
+	public SmithingRecipeStorage(Identifier recipeId, ItemStorage template, ItemStorage base, ItemStorage addition, ItemStack result)
 	{
 		this.recipeId = recipeId;
 		this.template = template;
@@ -98,12 +98,12 @@ public class SmithingRecipeStorage implements ICustomizedRecipeStorage
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}
 
-	public ResourceLocation getRecipeId()
+	public Identifier getRecipeId()
 	{
 		return this.recipeId;
 	}
@@ -155,13 +155,13 @@ public class SmithingRecipeStorage implements ICustomizedRecipeStorage
 	}
 
 	@Override
-	public ResourceLocation getRecipeSource()
+	public Identifier getRecipeSource()
 	{
 		return null;
 	}
 
 	@Override
-	public ResourceLocation getRecipeType()
+	public Identifier getRecipeType()
 	{
 		return null;
 	}

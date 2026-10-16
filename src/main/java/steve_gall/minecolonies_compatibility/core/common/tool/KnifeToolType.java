@@ -4,14 +4,14 @@ import org.jetbrains.annotations.NotNull;
 
 import com.minecolonies.api.equipment.ModEquipmentTypes;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.common.ItemAbility;
 import steve_gall.minecolonies_tweaks.api.common.tool.CustomToolType;
 
 public class KnifeToolType extends CustomToolType
 {
-	public KnifeToolType(@NotNull ResourceLocation name)
+	public KnifeToolType(@NotNull Identifier name)
 	{
 		super(name);
 	}

@@ -12,7 +12,7 @@ import com.minecolonies.api.crafting.IGenericRecipe;
 import com.minecolonies.api.crafting.RecipeCraftingType;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
@@ -27,7 +27,7 @@ public class SimpleCraftingType<RECIPE_INPUT extends RecipeInput, RECIPE extends
 	@NotNull
 	private final BiFunction<RecipeHolder<RECIPE>, HolderLookup.Provider, GENERIC_RECIPE> genericRecipeFunc;
 
-	public SimpleCraftingType(@NotNull ResourceLocation id, @NotNull Supplier<RecipeType<RECIPE>> recipeType, @NotNull BiFunction<RecipeHolder<RECIPE>, HolderLookup.Provider, GENERIC_RECIPE> genericRecipeFunc)
+	public SimpleCraftingType(@NotNull Identifier id, @NotNull Supplier<RecipeType<RECIPE>> recipeType, @NotNull BiFunction<RecipeHolder<RECIPE>, HolderLookup.Provider, GENERIC_RECIPE> genericRecipeFunc)
 	{
 		super(id, null, null);
 

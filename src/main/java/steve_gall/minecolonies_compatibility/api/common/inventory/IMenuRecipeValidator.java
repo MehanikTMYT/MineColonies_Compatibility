@@ -9,7 +9,7 @@ import com.minecolonies.api.colony.requestsystem.factory.IFactoryController;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,7 @@ public interface IMenuRecipeValidator<RECIPE, RECIPE_INPUT>
 	}
 
 	@Nullable
-	default ResourceLocation getRecipeId(@NotNull RECIPE recipe)
+	default Identifier getRecipeId(@NotNull RECIPE recipe)
 	{
 		return null;
 	}

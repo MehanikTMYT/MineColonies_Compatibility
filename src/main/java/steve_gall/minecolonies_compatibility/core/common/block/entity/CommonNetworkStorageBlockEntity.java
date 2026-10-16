@@ -65,7 +65,7 @@ public class CommonNetworkStorageBlockEntity extends BlockEntity implements INet
 	{
 		super.loadAdditional(compound, provider);
 
-		this.view.readLink(provider, compound.getCompound("view"));
+		this.view.readLink(provider, compound.getCompoundOrEmpty("view"));
 		this.accessDirection = AccessDirection.deserialize(compound.get("accessDirection"));
 	}
 

@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.gear.api.item.GearWeapon;
 import net.silentchaos512.gear.setup.gear.GearProperties;
@@ -18,7 +18,7 @@ public class SilentGearToolSystem extends CustomizedToolSystem
 	public static final SilentGearToolSystem INSTANCE = new SilentGearToolSystem();
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return MineColoniesCompatibility.rl("silentgear");
 	}

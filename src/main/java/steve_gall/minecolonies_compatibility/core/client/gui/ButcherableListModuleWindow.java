@@ -23,7 +23,7 @@ import com.minecolonies.core.client.gui.AbstractModuleWindow;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import steve_gall.minecolonies_compatibility.api.common.butcher.ButcherableIconCache;
 import steve_gall.minecolonies_compatibility.api.common.butcher.CustomizedButcherable;
@@ -48,7 +48,7 @@ public class ButcherableListModuleWindow extends AbstractModuleWindow<Butcherabl
 	private int tickCounter = 0;
 	private List<ButcherableIconCache> currentDisplayedList;
 
-	public ButcherableListModuleWindow(ButcherableListModuleView module, ResourceLocation res)
+	public ButcherableListModuleWindow(ButcherableListModuleView module, Identifier res)
 	{
 		super(module, res);
 

@@ -13,7 +13,7 @@ import com.minecolonies.api.util.Tuple;
 import com.minecolonies.api.util.constant.TypeConstants;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.gear.gear.material.MaterialInstance;
 import net.silentchaos512.gear.gear.part.RepairContext;
@@ -31,9 +31,9 @@ import steve_gall.minecolonies_tweaks.api.common.requestsystem.CustomizableDeliv
 public class SilentGearRepair extends CustomizedRepair
 {
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
-		return ResourceLocation.fromNamespaceAndPath(ModuleManager.SILENTGEAR.getModId(), "repair_kit");
+		return Identifier.fromNamespaceAndPath(ModuleManager.SILENTGEAR.getModId(), "repair_kit");
 	}
 
 	@Override

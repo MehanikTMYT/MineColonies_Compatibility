@@ -9,11 +9,11 @@ import com.simibubi.create.foundation.utility.CreateLang;
 
 import net.createmod.catnip.gui.widget.AbstractSimiWidget;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.client.gui.NetworkStorageViewScreenUtils;
@@ -23,7 +23,7 @@ import steve_gall.minecolonies_compatibility.module.common.create.CitizenStockKe
 
 public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenStockKeeperMenu>
 {
-	private static final ResourceLocation TEXTURE = MineColoniesCompatibility.rl("textures/gui/citizen_stock_keeper.png");
+	private static final Identifier TEXTURE = MineColoniesCompatibility.rl("textures/gui/citizen_stock_keeper.png");
 
 	private EditBox addressBox;
 	private String address;
@@ -70,7 +70,7 @@ public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenSto
 	}
 
 	@Override
-	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks)
+	public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
 		super.render(guiGraphics, mouseX, mouseY, partialTicks);
 
@@ -81,13 +81,13 @@ public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenSto
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics guiGraphics, float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(GuiGraphicsExtractor guiGraphics, float partialTicks, int mouseX, int mouseY)
 	{
 		guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
 
 	@Override
-	protected void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY)
+	protected void renderTooltip(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY)
 	{
 		super.renderTooltip(guiGraphics, mouseX, mouseY);
 

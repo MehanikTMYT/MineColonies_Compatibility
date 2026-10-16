@@ -10,7 +10,7 @@ import com.minecolonies.api.colony.requestsystem.factory.IFactoryController;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import steve_gall.minecolonies_compatibility.api.common.butcher.CustomizedButcherable;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
@@ -19,7 +19,7 @@ import steve_gall.minecolonies_tweaks.api.common.requestsystem.IDeliverableObjec
 
 public class Butcherable implements IDeliverableObject
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("butcherable");
+	public static final Identifier ID = MineColoniesCompatibility.rl("butcherable");
 	public static final Component SHORT_DISPLAY_STRING = Component.translatable(MineColoniesCompatibility.tl("butcherable"));
 	public static final Component LONG_DISPLAY_STRING = Component.translatable(MineColoniesCompatibility.tl("butcherable.desc"));
 
@@ -36,14 +36,14 @@ public class Butcherable implements IDeliverableObject
 
 	@Override
 	@NotNull
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}
 
 	public static Butcherable deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var minCount = tag.getInt("minCount");
+		var minCount = tag.getIntOr("minCount", 0);
 		return new Butcherable(minCount, null);
 	}
 

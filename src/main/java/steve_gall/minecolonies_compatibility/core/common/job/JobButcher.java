@@ -9,7 +9,7 @@ import com.minecolonies.core.colony.jobs.AbstractJob;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import steve_gall.minecolonies_compatibility.api.common.butcher.CustomizedButcherable;
 import steve_gall.minecolonies_compatibility.core.common.entity.ai.butcher.EntityAIWorkButcher;
 
@@ -55,7 +55,7 @@ public class JobButcher extends AbstractJob<EntityAIWorkButcher, JobButcher>
 
 		if (compound.contains(TAG_TABLE_NEEDED, Tag.TAG_STRING))
 		{
-			this.tableNeeded = CustomizedButcherable.getRegistry().get(ResourceLocation.parse(compound.getString(TAG_TABLE_NEEDED)));
+			this.tableNeeded = CustomizedButcherable.getRegistry().get(Identifier.parse(compound.getStringOr(TAG_TABLE_NEEDED, "")));
 		}
 
 	}
@@ -67,7 +67,7 @@ public class JobButcher extends AbstractJob<EntityAIWorkButcher, JobButcher>
 	}
 
 	@Override
-	public ResourceLocation getModel()
+	public Identifier getModel()
 	{
 		return ModModelTypes.COOK_ID;
 	}

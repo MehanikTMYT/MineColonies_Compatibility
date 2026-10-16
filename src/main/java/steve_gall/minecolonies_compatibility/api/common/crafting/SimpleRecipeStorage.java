@@ -10,7 +10,7 @@ import com.minecolonies.api.crafting.ItemStorage;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import steve_gall.minecolonies_compatibility.core.common.crafting.ItemStorageHelper;
 import steve_gall.minecolonies_compatibility.core.common.item.ItemStackHelper;
@@ -20,7 +20,7 @@ import steve_gall.minecolonies_tweaks.core.common.util.SerializationHelper;
 
 public abstract class SimpleRecipeStorage<GENERIC_RECIPE extends SimpleGenericRecipe> extends GenericedRecipeStorage<GENERIC_RECIPE>
 {
-	private final ResourceLocation recipeId;
+	private final Identifier recipeId;
 	private final List<ItemStorage> ingredients;
 	private final ItemStack output;
 	private final List<ItemStack> secondaryOutputs;
@@ -29,13 +29,13 @@ public abstract class SimpleRecipeStorage<GENERIC_RECIPE extends SimpleGenericRe
 
 	public SimpleRecipeStorage(@NotNull HolderLookup.Provider provider, @NotNull IFactoryController controller, @NotNull CompoundTag tag)
 	{
-		this.recipeId = ResourceLocation.parse(tag.getString("recipeId"));
+		this.recipeId = Identifier.parse(tag.getStringOr("recipeId", ""));
 		this.ingredients = NBTUtils2.deserializeList(tag, "ingredients", SerializationHelper.deserializerTag(provider));
-		this.output = ItemSerializationHelper.deserializeTag(provider, tag.getCompound("output"));
+		this.output = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty("output"));
 		this.secondaryOutputs = ItemStorageHelper.getCraftingRemainings(this.ingredients);
 	}
 
-	public SimpleRecipeStorage(@NotNull ResourceLocation recipeId, @NotNull List<ItemStorage> ingredients, @NotNull ItemStack output)
+	public SimpleRecipeStorage(@NotNull Identifier recipeId, @NotNull List<ItemStorage> ingredients, @NotNull ItemStack output)
 	{
 		this.recipeId = recipeId;
 		this.ingredients = ItemStorageHelper.filterNotEmpty(ingredients);
@@ -72,7 +72,7 @@ public abstract class SimpleRecipeStorage<GENERIC_RECIPE extends SimpleGenericRe
 	}
 
 	@NotNull
-	public ResourceLocation getRecipeId()
+	public Identifier getRecipeId()
 	{
 		return this.recipeId;
 	}
@@ -115,7 +115,7 @@ public abstract class SimpleRecipeStorage<GENERIC_RECIPE extends SimpleGenericRe
 	public interface GenericRecipeFactory<GENERIC_RECIPE>
 	{
 		@NotNull
-		GENERIC_RECIPE create(@NotNull ResourceLocation recipeId, @NotNull List<List<ItemStack>> ingredients, @NotNull ItemStack output);
+		GENERIC_RECIPE create(@NotNull Identifier recipeId, @NotNull List<List<ItemStack>> ingredients, @NotNull ItemStack output);
 	}
 
 }

@@ -100,7 +100,7 @@ public class SmithingTemplateCraftingModule extends AbstractCraftingBuildingModu
 	{
 		super.deserializeNBT(provider, compound);
 
-		this.inventory.deserializeNBT(provider, compound.getCompound(TAG_INVENTORY));
+		this.inventory.deserializeNBT(provider, compound.getCompoundOrEmpty(TAG_INVENTORY));
 		this.refreshCounter();
 	}
 

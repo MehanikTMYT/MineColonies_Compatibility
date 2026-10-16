@@ -8,7 +8,7 @@ import com.minecolonies.api.util.Utils;
 
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -159,7 +159,7 @@ public class GunnerHandgunAI extends CustomizedAIGunner
 	private void doRangedAttack(AbstractEntityCitizen user, LivingEntity target, HandgunItemAccessor accessor)
 	{
 		String rawMagazineType = this.getMagazineType(user);
-		var magazineType = ResourceLocation.tryParse(rawMagazineType);
+		var magazineType = Identifier.tryParse(rawMagazineType);
 		var magazineShotFactories = accessor.getMagazineShotFactories();
 		HandgunItem.IShotFactory shotfactory = null;
 
@@ -210,7 +210,7 @@ public class GunnerHandgunAI extends CustomizedAIGunner
 
 	public int getBulletCount(@NotNull AbstractEntityCitizen user)
 	{
-		return this.getOrEmptyTag(user).getInt("bulletCount");
+		return this.getOrEmptyTag(user).getIntOr("bulletCount", 0);
 	}
 
 	public void setBulletCount(@NotNull AbstractEntityCitizen user, int count)
@@ -220,7 +220,7 @@ public class GunnerHandgunAI extends CustomizedAIGunner
 
 	public String getMagazineType(@NotNull AbstractEntityCitizen user)
 	{
-		return this.getOrEmptyTag(user).getString("magazineType");
+		return this.getOrEmptyTag(user).getStringOr("magazineType", "");
 	}
 
 	public void setMagazineType(@NotNull AbstractEntityCitizen user, String magazine)
@@ -236,7 +236,7 @@ public class GunnerHandgunAI extends CustomizedAIGunner
 
 	public PotionContents getPotionContents(@NotNull AbstractEntityCitizen user)
 	{
-		var tag = this.getOrEmptyTag(user).getCompound("potionContents");
+		var tag = this.getOrEmptyTag(user).getCompoundOrEmpty("potionContents");
 		var contents = Utils.deserializeCodecMess(PotionContents.CODEC, user.registryAccess(), tag);
 		return contents;
 	}

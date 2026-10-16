@@ -10,7 +10,7 @@ import com.minecolonies.api.colony.requestsystem.factory.IFactoryController;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import reliquary.init.ModItems;
 import reliquary.item.MagazineItem;
@@ -19,7 +19,7 @@ import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibili
 
 public class Magazine implements GunnerAmmo
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("reliquary_magazine");
+	public static final Identifier ID = MineColoniesCompatibility.rl("reliquary_magazine");
 	public static final Component SHORT_DISPLAY_STRING = Component.translatable(MineColoniesCompatibility.tl("reliquary_magazine"));
 	public static final Component LONG_DISPLAY_STRING = Component.translatable(MineColoniesCompatibility.tl("reliquary_magazine.desc"));
 
@@ -34,14 +34,14 @@ public class Magazine implements GunnerAmmo
 
 	@Override
 	@NotNull
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}
 
 	public static Magazine deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var minCount = tag.getInt("minCount");
+		var minCount = tag.getIntOr("minCount", 0);
 		return new Magazine(minCount);
 	}
 

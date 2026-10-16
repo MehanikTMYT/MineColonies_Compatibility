@@ -61,7 +61,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -77,9 +77,9 @@ import steve_gall.minecolonies_compatibility.module.common.ae2.init.ModuleMenuTy
 public class CitizenTerminalPart extends AbstractDisplayPart implements IStorageWatcherNode, ICraftingWatcherNode, IGridTickable, IConfigurableObject, ICraftingRequester
 {
 	@PartModels
-	public static final ResourceLocation MODEL_OFF = MineColoniesCompatibility.rl("part/citizen_terminal_off");
+	public static final Identifier MODEL_OFF = MineColoniesCompatibility.rl("part/citizen_terminal_off");
 	@PartModels
-	public static final ResourceLocation MODEL_ON = MineColoniesCompatibility.rl("part/citizen_terminal_on");
+	public static final Identifier MODEL_ON = MineColoniesCompatibility.rl("part/citizen_terminal_on");
 
 	public static final IPartModel MODELS_OFF = new PartModel(MODEL_BASE, MODEL_OFF, MODEL_STATUS_OFF);
 	public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);
@@ -255,9 +255,9 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 	{
 		super.readFromNBT(data, provider);
 
-		this.view.readLink(provider, data.getCompound(TAG_LINK));
-		this.view.readData(provider, data.getCompound(TAG_DATA));
-		this.config.readFromNBT(data.getCompound("config"), provider);
+		this.view.readLink(provider, data.getCompoundOrEmpty(TAG_LINK));
+		this.view.readData(provider, data.getCompoundOrEmpty(TAG_DATA));
+		this.config.readFromNBT(data.getCompoundOrEmpty("config"), provider);
 	}
 
 	@Override
@@ -321,17 +321,17 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 		{
 			if (tag.contains("craftingLink"))
 			{
-				this.craftingLink = StorageHelper.loadCraftingLink(tag.getCompound("craftingLink"), CitizenTerminalPart.this);
+				this.craftingLink = StorageHelper.loadCraftingLink(tag.getCompoundOrEmpty("craftingLink"), CitizenTerminalPart.this);
 			}
 
 			if (tag.contains("outputKey"))
 			{
-				this.outputKey = AEItemKey.fromTag(provider, tag.getCompound("outputKey"));
+				this.outputKey = AEItemKey.fromTag(provider, tag.getCompoundOrEmpty("outputKey"));
 			}
 
-			this.calculationStartTick = tag.getLong("calculationStartTick");
-			this.lastProgressValue = tag.getLong("lastProgressValue");
-			this.noProgressChecks = tag.getInt("noProgressChecks");
+			this.calculationStartTick = tag.getLongOr("calculationStartTick", 0L);
+			this.lastProgressValue = tag.getLongOr("lastProgressValue", 0L);
+			this.noProgressChecks = tag.getIntOr("noProgressChecks", 0);
 		}
 
 		public CompoundTag write(HolderLookup.Provider provider)
@@ -671,10 +671,10 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 			var factoryController = StandardFactoryController.getInstance();
 			this.tasks.clear();
 
-			for (var taskTag : NBTUtils.streamCompound(tag.getList("tasks", Tag.TAG_COMPOUND)).toList())
+			for (var taskTag : NBTUtils.streamCompound(tag.getListOrEmpty("tasks")).toList())
 			{
-				IToken<?> requestId = factoryController.deserializeTag(provider, taskTag.getCompound("requestId"));
-				var taskHolder = new TaskHolder(taskTag.getCompound("task"), provider);
+				IToken<?> requestId = factoryController.deserializeTag(provider, taskTag.getCompoundOrEmpty("requestId"));
+				var taskHolder = new TaskHolder(taskTag.getCompoundOrEmpty("task"), provider);
 				this.tasks.put(requestId, taskHolder);
 			}
 

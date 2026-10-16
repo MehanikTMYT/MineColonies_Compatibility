@@ -157,10 +157,10 @@ public class SmithingTeachMenu extends TeachRecipeMenu<RecipeHolder<SmithingReci
 	{
 		super.setContainerByTransfer(provider, recipe, payload);
 
-		var input = payload.getList("input", Tag.TAG_COMPOUND);
-		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, input.getCompound(0)));
-		this.inputContainer.setItem(1, ItemSerializationHelper.deserializeTag(provider, input.getCompound(1)));
-		this.inputContainer.setItem(2, ItemSerializationHelper.deserializeTag(provider, input.getCompound(2)));
+		var input = payload.getListOrEmpty("input");
+		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, input.getCompoundOrEmpty(0)));
+		this.inputContainer.setItem(1, ItemSerializationHelper.deserializeTag(provider, input.getCompoundOrEmpty(1)));
+		this.inputContainer.setItem(2, ItemSerializationHelper.deserializeTag(provider, input.getCompoundOrEmpty(2)));
 	}
 
 	@Override

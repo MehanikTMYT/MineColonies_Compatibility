@@ -12,7 +12,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
 import steve_gall.minecolonies_tweaks.api.common.requestsystem.IRequestableObject;
@@ -22,17 +22,17 @@ public class NetworkCrafting implements IRequestableObject
 {
 	private static final Component EMPTY = Component.empty();
 
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("network_crafting");
+	public static final Identifier ID = MineColoniesCompatibility.rl("network_crafting");
 	public static final Component DISPLAY_STRING = Component.translatable("minecolonies_compatibility.request.network_crafting");
-	public static final ResourceLocation ICON = MineColoniesCompatibility.rl("textures/gui/citizen/network_crafting.png");
+	public static final Identifier ICON = MineColoniesCompatibility.rl("textures/gui/citizen/network_crafting.png");
 
 	public static NetworkCrafting deserialize(@NotNull HolderLookup.Provider provider, @NotNull IFactoryController controller, @NotNull CompoundTag tag)
 	{
 		var crafting = new NetworkCrafting();
-		crafting.cycles = tag.getInt("cycles");
-		crafting.item = ItemSerializationHelper.deserializeTag(provider, tag.getCompound("item"));
-		crafting.view = ItemSerializationHelper.deserializeTag(provider, tag.getCompound("view"));
-		crafting.text = Component.Serializer.fromJson(tag.getString("text"), provider);
+		crafting.cycles = tag.getIntOr("cycles", 0);
+		crafting.item = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty("item"));
+		crafting.view = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty("view"));
+		crafting.text = Component.Serializer.fromJson(tag.getStringOr("text", ""), provider);
 		return crafting;
 	}
 
@@ -55,7 +55,7 @@ public class NetworkCrafting implements IRequestableObject
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return ID;
 	}
@@ -101,7 +101,7 @@ public class NetworkCrafting implements IRequestableObject
 	}
 
 	@Override
-	public @NotNull ResourceLocation getDisplayIcon()
+	public @NotNull Identifier getDisplayIcon()
 	{
 		return ICON;
 	}

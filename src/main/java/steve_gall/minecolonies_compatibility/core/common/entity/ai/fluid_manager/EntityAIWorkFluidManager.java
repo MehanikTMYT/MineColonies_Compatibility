@@ -18,7 +18,7 @@ import com.minecolonies.core.network.messages.client.LocalizedParticleEffectMess
 import com.minecolonies.core.util.citizenutils.CitizenItemUtils;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -35,7 +35,7 @@ import steve_gall.minecolonies_compatibility.core.common.job.JobFluidManager;
 
 public class EntityAIWorkFluidManager extends AbstractEntityAICrafting<JobFluidManager, BuildingDeliveryman>
 {
-	public static final VisibleCitizenStatus SEARCH = new VisibleCitizenStatus(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/icons/work/lumberjack_search.png"), "com.minecolonies.gui.visiblestatus.lumberjack_search");
+	public static final VisibleCitizenStatus SEARCH = new VisibleCitizenStatus(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/icons/work/lumberjack_search.png"), "com.minecolonies.gui.visiblestatus.lumberjack_search");
 	public static final double XP_PER_HARVEST = 0.5D;
 
 	@Nullable

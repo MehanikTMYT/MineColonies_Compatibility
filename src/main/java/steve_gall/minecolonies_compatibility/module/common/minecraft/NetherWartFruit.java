@@ -6,7 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -18,7 +18,7 @@ import steve_gall.minecolonies_compatibility.api.common.plant.PlantBlockContext;
 public class NetherWartFruit extends CustomizedFruit
 {
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return BuiltInRegistries.BLOCK.getKey(Blocks.NETHER_WART);
 	}

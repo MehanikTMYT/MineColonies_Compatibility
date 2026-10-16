@@ -10,19 +10,19 @@ import org.jetbrains.annotations.Nullable;
 
 import com.minecolonies.api.util.Tuple;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class CustomizedRepair
 {
-	private static final Map<ResourceLocation, CustomizedRepair> REGISTRY = new HashMap<>();
+	private static final Map<Identifier, CustomizedRepair> REGISTRY = new HashMap<>();
 
 	public static void register(@NotNull CustomizedRepair repair)
 	{
 		REGISTRY.put(repair.getId(), repair);
 	}
 
-	public static Map<ResourceLocation, CustomizedRepair> getRegistry()
+	public static Map<Identifier, CustomizedRepair> getRegistry()
 	{
 		return Collections.unmodifiableMap(REGISTRY);
 	}
@@ -40,7 +40,7 @@ public abstract class CustomizedRepair
 	}
 
 	@NotNull
-	public abstract ResourceLocation getId();
+	public abstract Identifier getId();
 
 	@Nullable
 	public abstract CheckResult check(EntityContext context);

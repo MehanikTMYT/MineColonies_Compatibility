@@ -17,7 +17,7 @@ import com.minecolonies.api.util.OptionalPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -30,7 +30,7 @@ import steve_gall.minecolonies_compatibility.core.common.crafting.IngredientHelp
 public class SimpleGenericRecipe implements IGenericRecipe
 {
 	@NotNull
-	private final ResourceLocation recipeId;
+	private final Identifier recipeId;
 	@NotNull
 	private final List<List<ItemStack>> input;
 	@NotNull
@@ -43,7 +43,7 @@ public class SimpleGenericRecipe implements IGenericRecipe
 		this(recipeHolder.id(), IngredientHelper.getStacksList(IngredientHelper.filterNotEmpty(recipeHolder.value().getIngredients())), recipeHolder.value().getResultItem(provider));
 	}
 
-	public SimpleGenericRecipe(@NotNull ResourceLocation recipeId, @NotNull List<List<ItemStack>> ingredients, @NotNull ItemStack output)
+	public SimpleGenericRecipe(@NotNull Identifier recipeId, @NotNull List<List<ItemStack>> ingredients, @NotNull ItemStack output)
 	{
 		this.recipeId = recipeId;
 		this.input = new ArrayList<>(ingredients);
@@ -63,7 +63,7 @@ public class SimpleGenericRecipe implements IGenericRecipe
 	}
 
 	@Override
-	public @Nullable ResourceLocation getRecipeId()
+	public @Nullable Identifier getRecipeId()
 	{
 		return this.recipeId;
 	}

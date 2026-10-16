@@ -23,7 +23,7 @@ import com.minecolonies.core.client.gui.AbstractModuleWindow;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import steve_gall.minecolonies_compatibility.api.common.plant.CustomizedFruit;
 import steve_gall.minecolonies_compatibility.api.common.plant.FruitIconCache;
@@ -49,7 +49,7 @@ public class FruitListModuleWindow extends AbstractModuleWindow<FruitListModuleV
 	private int tickCounter = 0;
 	private List<FruitIconCache> currentDisplayedList;
 
-	public FruitListModuleWindow(FruitListModuleView module, ResourceLocation res)
+	public FruitListModuleWindow(FruitListModuleView module, Identifier res)
 	{
 		super(module, res);
 

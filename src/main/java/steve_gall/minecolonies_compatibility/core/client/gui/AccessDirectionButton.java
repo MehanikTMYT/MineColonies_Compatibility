@@ -1,15 +1,15 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
 import steve_gall.minecolonies_compatibility.core.common.building.module.AccessDirection;
 
 public class AccessDirectionButton extends Button
 {
-	public static final ResourceLocation WIDGETS_LOCATION = MineColoniesCompatibility.rl("textures/gui/access_direction.png");
+	public static final Identifier WIDGETS_LOCATION = MineColoniesCompatibility.rl("textures/gui/access_direction.png");
 
 	private AccessDirection accessDirection;
 
@@ -19,7 +19,7 @@ public class AccessDirectionButton extends Button
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
+	protected void renderWidget(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
 		super.renderWidget(graphics, mouseX, mouseY, partialTicks);
 

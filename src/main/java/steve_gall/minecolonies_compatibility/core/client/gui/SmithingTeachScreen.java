@@ -6,7 +6,7 @@ import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.crafting.registry.CraftingType;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SmithingRecipe;
@@ -18,7 +18,7 @@ import steve_gall.minecolonies_tweaks.api.common.crafting.ICustomizedRecipeStora
 
 public class SmithingTeachScreen extends TeachCraftingRecipeScreen<SmithingTeachMenu, RecipeHolder<SmithingRecipe>>
 {
-	public static final ResourceLocation TEXTURE = MineColoniesCompatibility.rl("textures/gui/smithing_teach.png");
+	public static final Identifier TEXTURE = MineColoniesCompatibility.rl("textures/gui/smithing_teach.png");
 
 	public SmithingTeachScreen(SmithingTeachMenu menu, Inventory inventory, Component title)
 	{
@@ -29,7 +29,7 @@ public class SmithingTeachScreen extends TeachCraftingRecipeScreen<SmithingTeach
 	}
 
 	@Override
-	public ResourceLocation getTexture()
+	public Identifier getTexture()
 	{
 		return TEXTURE;
 	}

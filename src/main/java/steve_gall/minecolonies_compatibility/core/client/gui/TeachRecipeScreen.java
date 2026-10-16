@@ -7,12 +7,12 @@ import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.util.constant.WindowConstants;
 import com.minecolonies.api.util.constant.translation.BaseGameTranslationConstants;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
@@ -69,7 +69,7 @@ public abstract class TeachRecipeScreen<MENU extends TeachRecipeMenu<RECIPE, ?>,
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
+	public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
 		super.render(graphics, mouseX, mouseY, partialTicks);
 
@@ -86,15 +86,15 @@ public abstract class TeachRecipeScreen<MENU extends TeachRecipeMenu<RECIPE, ?>,
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY)
 	{
 		graphics.blit(this.getTexture(), this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
 
-	public abstract ResourceLocation getTexture();
+	public abstract Identifier getTexture();
 
 	@Override
-	protected void renderTooltip(GuiGraphics graphics, int mouseX, int mouseY)
+	protected void renderTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
 	{
 		if (this.hoveredSlot != null)
 		{
@@ -118,7 +118,7 @@ public abstract class TeachRecipeScreen<MENU extends TeachRecipeMenu<RECIPE, ?>,
 
 	}
 
-	protected void renderSlotTooltip(GuiGraphics graphics, int mouseX, int mouseY, Slot slot)
+	protected void renderSlotTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Slot slot)
 	{
 		graphics.renderTooltip(this.font, slot.getItem(), mouseX, mouseY);
 	}

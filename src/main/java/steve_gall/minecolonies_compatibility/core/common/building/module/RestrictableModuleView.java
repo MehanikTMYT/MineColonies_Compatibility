@@ -9,8 +9,6 @@ import com.minecolonies.api.colony.buildings.modules.AbstractBuildingModuleView;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.api.common.building.module.IRestrictableModuleView;
 import steve_gall.minecolonies_compatibility.core.client.gui.RestrictableModuleWindow;
@@ -38,7 +36,6 @@ public class RestrictableModuleView extends AbstractBuildingModuleView implement
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public BOWindow getWindow()
 	{
 		return new RestrictableModuleWindow(this, MineColoniesCompatibility.rl("gui/layouthuts/layoutrestrictable.xml"));

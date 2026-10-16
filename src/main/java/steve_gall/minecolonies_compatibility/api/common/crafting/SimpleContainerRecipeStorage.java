@@ -12,7 +12,7 @@ import com.minecolonies.api.crafting.ItemStorage;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class SimpleContainerRecipeStorage<GENERIC_RECIPE extends SimpleContainerGenericRecipe> extends SimpleRecipeStorage<GENERIC_RECIPE>
@@ -23,10 +23,10 @@ public abstract class SimpleContainerRecipeStorage<GENERIC_RECIPE extends Simple
 	{
 		super(provider, controller, tag);
 
-		this.container = controller.deserializeTag(provider, tag.getCompound("container"));
+		this.container = controller.deserializeTag(provider, tag.getCompoundOrEmpty("container"));
 	}
 
-	public SimpleContainerRecipeStorage(ResourceLocation recipeId, List<ItemStorage> ingredients, ItemStorage container, ItemStack output)
+	public SimpleContainerRecipeStorage(Identifier recipeId, List<ItemStorage> ingredients, ItemStorage container, ItemStack output)
 	{
 		super(recipeId, ingredients, output);
 
@@ -85,7 +85,7 @@ public abstract class SimpleContainerRecipeStorage<GENERIC_RECIPE extends Simple
 
 	public interface ContainerGenericRecipeFactory<GENERIC_RECIPE>
 	{
-		GENERIC_RECIPE create(ResourceLocation recipeId, List<List<ItemStack>> ingredients, List<ItemStack> container, ItemStack output);
+		GENERIC_RECIPE create(Identifier recipeId, List<List<ItemStack>> ingredients, List<ItemStack> container, ItemStack output);
 	}
 
 }

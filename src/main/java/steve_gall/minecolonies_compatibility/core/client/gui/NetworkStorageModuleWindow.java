@@ -16,7 +16,7 @@ import com.minecolonies.core.client.gui.AbstractModuleWindow;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -39,7 +39,7 @@ public class NetworkStorageModuleWindow extends AbstractModuleWindow<NetworkStor
 	private int revision;
 	private List<ViewCache> currentDisplayedList;
 
-	public NetworkStorageModuleWindow(NetworkStorageModuleView module, ResourceLocation res)
+	public NetworkStorageModuleWindow(NetworkStorageModuleView module, Identifier res)
 	{
 		super(module, res);
 

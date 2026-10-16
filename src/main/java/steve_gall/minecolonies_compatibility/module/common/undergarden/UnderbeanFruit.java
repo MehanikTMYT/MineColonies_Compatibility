@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +20,7 @@ import steve_gall.minecolonies_compatibility.api.common.plant.PlantBlockContext;
 public class UnderbeanFruit extends CustomizedFruit
 {
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return UGBlocks.UNDERBEAN_BUSH.getId();
 	}

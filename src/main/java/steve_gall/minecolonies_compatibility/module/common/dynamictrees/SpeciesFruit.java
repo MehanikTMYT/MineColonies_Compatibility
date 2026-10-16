@@ -11,7 +11,7 @@ import com.dtteam.dynamictrees.block.fruit.FruitBlock;
 import com.dtteam.dynamictrees.item.Seed;
 import com.dtteam.dynamictrees.tree.species.Species;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -36,7 +36,7 @@ public class SpeciesFruit extends CustomizedFruit
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return this.species.getRegistryName();
 	}

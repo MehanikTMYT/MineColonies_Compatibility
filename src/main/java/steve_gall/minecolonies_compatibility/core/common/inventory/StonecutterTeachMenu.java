@@ -80,8 +80,8 @@ public class StonecutterTeachMenu extends TeachRecipeMenu<RecipeHolder<Stonecutt
 	{
 		super.setContainerByTransfer(provider, recipe, payload);
 
-		var input = payload.getList("input", Tag.TAG_COMPOUND);
-		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, input.getCompound(0)));
+		var input = payload.getListOrEmpty("input");
+		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, input.getCompoundOrEmpty(0)));
 	}
 
 	@Override

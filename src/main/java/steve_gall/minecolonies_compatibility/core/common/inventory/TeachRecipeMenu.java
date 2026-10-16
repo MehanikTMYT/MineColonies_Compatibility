@@ -14,7 +14,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -356,7 +356,7 @@ public abstract class TeachRecipeMenu<RECIPE, RECIPE_INPUT> extends ModuleMenu i
 
 	}
 
-	public int findRecipeIndex(ResourceLocation recipeId)
+	public int findRecipeIndex(Identifier recipeId)
 	{
 		if (recipeId != null)
 		{

@@ -7,7 +7,7 @@ import com.ldtteam.blockui.controls.ButtonImage;
 import com.minecolonies.core.client.gui.modules.building.WindowListRecipes;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
 import steve_gall.minecolonies_compatibility.core.common.building.module.SmithingTemplateCraftingModuleView;
@@ -27,7 +27,7 @@ public class WindowListSmithingTemplateRecipes extends WindowListRecipes
 		var button = this.inventoryButton = new ButtonImage();
 		button.setID(MineColoniesCompatibility.rl("smithing_template_inventory").toString());
 		button.setColors(0xFF000000, 0xFF000000, 0xFF000000);
-		button.setImage(ResourceLocation.parse("minecolonies:textures/gui/builderhut/builder_button_medium_large.png"));
+		button.setImage(Identifier.parse("minecolonies:textures/gui/builderhut/builder_button_medium_large.png"));
 		button.setText(Component.translatable("minecolonies_compatibility.text.smithing_template_inventory"));
 		button.setSize(129, 17);
 		button.setTextSize(129, 17);

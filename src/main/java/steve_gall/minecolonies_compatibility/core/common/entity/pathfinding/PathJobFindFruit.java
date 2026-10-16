@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -21,7 +21,7 @@ public class PathJobFindFruit extends SimplePathJob<FruitPathResult>
 	public int vertialRange = 10;
 	public boolean canBoneMeal = true;
 	public boolean needMaxHarvest = true;
-	public final Set<ResourceLocation> exceptFruits = new HashSet<>();
+	public final Set<Identifier> exceptFruits = new HashSet<>();
 
 	public PathJobFindFruit(@NotNull Level level, @NotNull BlockPos start, @NotNull BlockPos home, int range, @Nullable Mob entity)
 	{

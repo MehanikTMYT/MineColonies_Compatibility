@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.core.common.item;
 
+import java.util.function.Consumer;
+import net.minecraft.world.item.component.TooltipDisplay;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,17 +76,17 @@ public class RestrictToolItem extends Item implements IBlockOverlayItem
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag)
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> tooltip, TooltipFlag flag)
 	{
-		super.appendHoverText(stack, context, tooltip, flag);
+		super.appendHoverText(stack, context, display, tooltip, flag);
 
 		var modulePos = this.getModulePos(stack);
 
 		if (modulePos != null)
 		{
 			var pos = modulePos.getBuildingId();
-			tooltip.add(Component.translatable("item.minecolonies_compatibility.restrict_tool.name", Component.translatable(stack.getOrDefault(ModDataComponents.BUILDING_NAME, ""))));
-			tooltip.add(Component.translatable("item.minecolonies_compatibility.restrict_tool.pos", pos.getX(), pos.getY(), pos.getZ()));
+			tooltip.accept(Component.translatable("item.minecolonies_compatibility.restrict_tool.name", Component.translatable(stack.getOrDefault(ModDataComponents.BUILDING_NAME, ""))));
+			tooltip.accept(Component.translatable("item.minecolonies_compatibility.restrict_tool.pos", pos.getX(), pos.getY(), pos.getZ()));
 		}
 
 	}

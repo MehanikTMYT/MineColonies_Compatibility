@@ -22,12 +22,12 @@ public class NBTUtils2
 
 	public static <T, COLLECTION extends Collection<T>> COLLECTION deserializeList(@NotNull CompoundTag tag, @NotNull String key, IntFunction<COLLECTION> collectionFunc, Function<CompoundTag, T> elementFunc)
 	{
-		var listTag = tag.getList(key, Tag.TAG_COMPOUND);
+		var listTag = tag.getListOrEmpty(key);
 		var collection = collectionFunc.apply(listTag.size());
 
 		for (var i = 0; i < listTag.size(); i++)
 		{
-			collection.add(elementFunc.apply(listTag.getCompound(i)));
+			collection.add(elementFunc.apply(listTag.getCompoundOrEmpty(i)));
 		}
 
 		return collection;
@@ -52,7 +52,7 @@ public class NBTUtils2
 		{
 			if (tag.contains(key, Tag.TAG_COMPOUND))
 			{
-				return tag.getCompound(key);
+				return tag.getCompoundOrEmpty(key);
 			}
 
 		}
@@ -66,7 +66,7 @@ public class NBTUtils2
 		{
 			if (tag.contains(key, Tag.TAG_COMPOUND))
 			{
-				return tag.getCompound(key);
+				return tag.getCompoundOrEmpty(key);
 			}
 
 			var child = new CompoundTag();

@@ -4,7 +4,7 @@ import com.minecolonies.api.inventory.container.ContainerCrafting;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -18,9 +18,9 @@ public class TeachRecipeMenuSelectMessage extends AbstractMessage
 {
 	public static final CustomPacketPayload.Type<TeachRecipeMenuSelectMessage> TYPE = new CustomPacketPayload.Type<>(MineColoniesCompatibility.rl("teach_recipe_menu_select"));
 
-	private final ResourceLocation recipeId;
+	private final Identifier recipeId;
 
-	public TeachRecipeMenuSelectMessage(ResourceLocation recipeId)
+	public TeachRecipeMenuSelectMessage(Identifier recipeId)
 	{
 		super();
 
@@ -82,7 +82,7 @@ public class TeachRecipeMenuSelectMessage extends AbstractMessage
 		return TYPE;
 	}
 
-	public ResourceLocation getRecipeId()
+	public Identifier getRecipeId()
 	{
 		return this.recipeId;
 	}

@@ -110,7 +110,7 @@ public abstract class AbstractNetworkStorageView implements INetworkStorageView
 		var colonyId = this.colonyId;
 		var warehousePos = this.warehousePos;
 
-		this.colonyId = tag.getInt(TAG_COLONY_ID);
+		this.colonyId = tag.getIntOr(TAG_COLONY_ID, 0);
 		this.warehousePos = tag.contains(TAG_WAREHOUSE_POS) ? Optional.of(BlockPosUtil.read(tag, TAG_WAREHOUSE_POS)) : Optional.empty();
 
 		return this.colonyId != colonyId || !this.warehousePos.equals(warehousePos);

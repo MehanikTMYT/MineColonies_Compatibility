@@ -4,8 +4,6 @@ import com.ldtteam.blockui.views.BOWindow;
 import com.minecolonies.core.colony.buildings.moduleviews.CraftingModuleView;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import steve_gall.minecolonies_compatibility.core.client.gui.WindowListSmithingTemplateRecipes;
 import steve_gall.minecolonies_compatibility.core.common.item.ItemStackCounter;
 
@@ -27,7 +25,6 @@ public class SmithingTemplateCraftingModuleView extends CraftingModuleView
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public BOWindow getWindow()
 	{
 		return new WindowListSmithingTemplateRecipes(this);

@@ -127,7 +127,7 @@ public class RepairMaterialListModule extends AbstractBuildingModule implements 
 			return 0.0F;
 		}
 
-		return this.materialStorages.getFloat(material);
+		return this.materialStorages.getFloatOr(material, 0F);
 	}
 
 	public void setMaterialStorage(MaterialInstance material, float amount)
@@ -171,10 +171,10 @@ public class RepairMaterialListModule extends AbstractBuildingModule implements 
 		for (var tag : NBTUtils2.deserializeList(compound, TAG_MATERIAL_STORAGES, t -> t))
 		{
 			var material = Utils.deserializeCodecMess(MaterialInstance.CODEC, provider, tag.get("material"));
-			this.materialStorages.put(material, tag.getFloat("amount"));
+			this.materialStorages.put(material, tag.getFloatOr("amount", 0F));
 		}
 
-		this.repairKitInventory.deserializeNBT(provider, compound.getCompound(TAG_INVENTORY));
+		this.repairKitInventory.deserializeNBT(provider, compound.getCompoundOrEmpty(TAG_INVENTORY));
 	}
 
 	@Override

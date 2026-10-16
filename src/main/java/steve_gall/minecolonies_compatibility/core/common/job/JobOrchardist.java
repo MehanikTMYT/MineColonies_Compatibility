@@ -12,7 +12,7 @@ import com.minecolonies.core.util.AttributeModifierUtils;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import steve_gall.minecolonies_compatibility.core.common.config.MineColoniesCompatibilityConfigServer;
@@ -82,7 +82,7 @@ public class JobOrchardist extends AbstractJob<EntityAIWorkOrchardist, JobOrchar
 
 		if (compound.contains(TAG_FRUIT))
 		{
-			this.fruit = Fruit.deserialize(compound.getCompound(TAG_FRUIT));
+			this.fruit = Fruit.deserialize(compound.getCompoundOrEmpty(TAG_FRUIT));
 		}
 
 	}
@@ -94,7 +94,7 @@ public class JobOrchardist extends AbstractJob<EntityAIWorkOrchardist, JobOrchar
 	}
 
 	@Override
-	public ResourceLocation getModel()
+	public Identifier getModel()
 	{
 		return ModModelTypes.LUMBERJACK_ID;
 	}

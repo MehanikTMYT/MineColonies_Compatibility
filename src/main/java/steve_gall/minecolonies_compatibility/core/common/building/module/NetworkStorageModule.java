@@ -229,14 +229,14 @@ public class NetworkStorageModule extends AbstractModuleWithExternalWorkingBlock
 	{
 		super.deserializeNBT(provider, compound);
 
-		var directionsTag = compound.getList(TAG_POSTION_DIRECTIONS, Tag.TAG_COMPOUND);
+		var directionsTag = compound.getListOrEmpty(TAG_POSTION_DIRECTIONS);
 		this.directions.clear();
 
 		for (var i = 0; i < directionsTag.size(); i++)
 		{
-			var entryTag = directionsTag.getCompound(i);
+			var entryTag = directionsTag.getCompoundOrEmpty(i);
 			var pos = NBTUtils.readBlockPos(entryTag, "pos");
-			var direction = entryTag.getString("direction");
+			var direction = entryTag.getStringOr("direction", "");
 			this.directions.put(pos, Direction.byName(direction));
 		}
 

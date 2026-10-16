@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -19,7 +19,7 @@ import steve_gall.minecolonies_tweaks.api.common.pathfinding.SimplePathJob;
 public class PathJobFindButcherPosition extends SimplePathJob<ButcherPositionsPathResult>
 {
 	public int vertialRange = 0;
-	public final Set<ResourceLocation> exceptButcherables = new HashSet<>();
+	public final Set<Identifier> exceptButcherables = new HashSet<>();
 	public final Set<BlockPos> positions = new HashSet<>();
 	public final Set<CustomizedButcherable> blocks = new HashSet<>();
 	public final Set<CustomizedButcherable> tables = new HashSet<>();

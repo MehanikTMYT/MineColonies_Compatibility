@@ -27,8 +27,8 @@ public class ItemStackCounter
 	{
 		this.replace(NBTUtils2.deserializeList(tag, "counter", t ->
 		{
-			var stack = ItemSerializationHelper.deserializeTag(provider, t.getCompound("item"));
-			var count = t.getLong("count");
+			var stack = ItemSerializationHelper.deserializeTag(provider, t.getCompoundOrEmpty("item"));
+			var count = t.getLongOr("count", 0L);
 			return new BasicEntry<>(new ItemStackKey(stack), count);
 		}));
 	}

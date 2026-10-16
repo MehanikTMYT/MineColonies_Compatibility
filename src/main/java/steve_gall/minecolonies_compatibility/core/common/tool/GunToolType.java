@@ -6,7 +6,7 @@ import java.util.function.Predicate;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import steve_gall.minecolonies_tweaks.api.common.tool.CustomToolType;
@@ -17,7 +17,7 @@ public class GunToolType extends CustomToolType
 	private final Set<Item> items = new HashSet<>();
 	private final Set<Item> tested = new HashSet<>();
 
-	public GunToolType(@NotNull ResourceLocation name)
+	public GunToolType(@NotNull Identifier name)
 	{
 		super(name);
 	}

@@ -31,7 +31,7 @@ public abstract class NeutralShotMixin extends ShotBase
 
 		if (tag.contains(GunnerHandgunAI.TAG_DAMAGE))
 		{
-			cir.setReturnValue(tag.getInt(GunnerHandgunAI.TAG_DAMAGE));
+			cir.setReturnValue(tag.getIntOr(GunnerHandgunAI.TAG_DAMAGE, 0));
 		}
 
 	}

@@ -34,7 +34,7 @@ import com.minecolonies.core.entity.pathfinding.navigation.MinecoloniesAdvancedP
 import com.minecolonies.core.network.messages.client.CompostParticleMessage;
 import com.minecolonies.core.util.citizenutils.CitizenItemUtils;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -54,7 +54,7 @@ import steve_gall.minecolonies_compatibility.core.common.job.JobOrchardist;
 
 public class EntityAIWorkOrchardist extends AbstractEntityAIInteract<JobOrchardist, BuildingLumberjack>
 {
-	public static final VisibleCitizenStatus SEARCH = new VisibleCitizenStatus(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/icons/work/lumberjack_search.png"), "com.minecolonies.gui.visiblestatus.lumberjack_search");
+	public static final VisibleCitizenStatus SEARCH = new VisibleCitizenStatus(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/icons/work/lumberjack_search.png"), "com.minecolonies.gui.visiblestatus.lumberjack_search");
 
 	public static final double XP_PER_HARVEST = 0.5D;
 	public static final ISettingKey<BoolSetting> FERTILIZE = BuildingFarmer.FERTILIZE;

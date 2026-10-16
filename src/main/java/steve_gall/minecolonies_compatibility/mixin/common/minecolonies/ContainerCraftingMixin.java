@@ -39,7 +39,7 @@ public abstract class ContainerCraftingMixin extends AbstractContainerMenu
 	@Inject(method = "slotsChanged", remap = true, at = @At(value = "TAIL"), cancellable = true)
 	private void slotsChanged(Container inventoryIn, CallbackInfo ci)
 	{
-		if (!this.world.isClientSide && ModuleManager.POLYMORPH.isLoaded())
+		if (!this.world.isClientSide() && ModuleManager.POLYMORPH.isLoaded())
 		{
 			PolymorphModule.sendRecipesList((ServerPlayer) this.inv.player, this.craftMatrix.asCraftInput(), this.craftResultSlot.getItem());
 		}

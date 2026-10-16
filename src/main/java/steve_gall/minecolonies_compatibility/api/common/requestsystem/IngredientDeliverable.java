@@ -9,7 +9,7 @@ import com.minecolonies.api.colony.requestsystem.factory.IFactoryController;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
@@ -18,14 +18,14 @@ import steve_gall.minecolonies_tweaks.api.common.requestsystem.IDeliverableObjec
 
 public class IngredientDeliverable implements IDeliverableObject
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("ingredient");
+	public static final Identifier ID = MineColoniesCompatibility.rl("ingredient");
 
 	public static IngredientDeliverable deserialize(@NotNull HolderLookup.Provider provider, @NotNull IFactoryController controller, @NotNull CompoundTag tag)
 	{
-		var ingredient = IngredientHelper.fromJson(tag.getString("ingredient"));
-		var description = tag.getString("description");
-		var count = tag.getInt("count");
-		var minCount = tag.getInt("minCount");
+		var ingredient = IngredientHelper.fromJson(tag.getStringOr("ingredient", ""));
+		var description = tag.getStringOr("description", "");
+		var count = tag.getIntOr("count", 0);
+		var minCount = tag.getIntOr("minCount", 0);
 		return new IngredientDeliverable(ingredient, description, count, minCount);
 	}
 
@@ -60,7 +60,7 @@ public class IngredientDeliverable implements IDeliverableObject
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return ID;
 	}

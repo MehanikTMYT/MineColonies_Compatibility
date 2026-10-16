@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -22,8 +22,8 @@ import steve_gall.minecolonies_compatibility.core.common.util.InteractionMessage
 
 public abstract class CustomizedButcherable
 {
-	private static final Map<ResourceLocation, CustomizedButcherable> REGISTRY = new HashMap<>();
-	private static final Map<ResourceLocation, CustomizedButcherable> VOLATILE = new HashMap<>();
+	private static final Map<Identifier, CustomizedButcherable> REGISTRY = new HashMap<>();
+	private static final Map<Identifier, CustomizedButcherable> VOLATILE = new HashMap<>();
 
 	public static void register(@NotNull CustomizedButcherable butcherable)
 	{
@@ -42,7 +42,7 @@ public abstract class CustomizedButcherable
 		VOLATILE.clear();
 	}
 
-	public static Map<ResourceLocation, CustomizedButcherable> getRegistry()
+	public static Map<Identifier, CustomizedButcherable> getRegistry()
 	{
 		return Collections.unmodifiableMap(REGISTRY);
 	}
@@ -78,7 +78,7 @@ public abstract class CustomizedButcherable
 	}
 
 	@NotNull
-	public abstract ResourceLocation getId();
+	public abstract Identifier getId();
 
 	@NotNull
 	public abstract List<ItemStack> getItemIcons();

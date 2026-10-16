@@ -17,7 +17,7 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -50,7 +50,7 @@ public class BucketFillingGenericRecipe implements IGenericRecipe
 	}
 
 	@Override
-	public @Nullable ResourceLocation getRecipeId()
+	public @Nullable Identifier getRecipeId()
 	{
 		return MineColoniesCompatibility.rl("bucket_filling."//
 				+ this.getSegment(BuiltInRegistries.ITEM.getKey(this.emptyBucket.getItem())) + "."//
@@ -84,7 +84,7 @@ public class BucketFillingGenericRecipe implements IGenericRecipe
 		return this.filledBucket;
 	}
 
-	protected String getSegment(ResourceLocation id)
+	protected String getSegment(Identifier id)
 	{
 		return id.getNamespace() + "_" + id.getPath();
 	}

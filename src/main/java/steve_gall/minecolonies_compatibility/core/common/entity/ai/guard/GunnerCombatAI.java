@@ -22,7 +22,7 @@ import com.minecolonies.core.entity.pathfinding.pathjobs.PathJobMoveAwayFromLoca
 import com.minecolonies.core.entity.pathfinding.pathjobs.PathJobMoveToLocation;
 import com.minecolonies.core.entity.pathfinding.pathresults.PathResult;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import steve_gall.minecolonies_compatibility.api.common.entity.ai.ICustomizableEntityAI;
@@ -33,7 +33,7 @@ public class GunnerCombatAI<T extends AbstractEntityAIGuard<J, B> & ICustomizabl
 {
 	public static final int FLEE_CHANCE = 3;
 
-	private final static VisibleCitizenStatus ARCHER_COMBAT = new VisibleCitizenStatus(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "textures/icons/work/archer_combat.png"), "com.minecolonies.gui.visiblestatus.archer_combat");
+	private final static VisibleCitizenStatus ARCHER_COMBAT = new VisibleCitizenStatus(Identifier.fromNamespaceAndPath(Constants.MOD_ID, "textures/icons/work/archer_combat.png"), "com.minecolonies.gui.visiblestatus.archer_combat");
 
 	private final PathingOptions combatPathingOptions;
 

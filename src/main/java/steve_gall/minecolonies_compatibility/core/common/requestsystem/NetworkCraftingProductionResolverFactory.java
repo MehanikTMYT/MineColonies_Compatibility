@@ -48,8 +48,8 @@ public class NetworkCraftingProductionResolverFactory implements IRequestResolve
 	@Override
 	public NetworkCraftingProductionResolver deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		IToken<?> token = controller.deserializeTag(provider, tag.getCompound(NBT_TOKEN));
-		ILocation location = controller.deserializeTag(provider, tag.getCompound(NBT_LOCATION));
+		IToken<?> token = controller.deserializeTag(provider, tag.getCompoundOrEmpty(NBT_TOKEN));
+		ILocation location = controller.deserializeTag(provider, tag.getCompoundOrEmpty(NBT_LOCATION));
 		return new NetworkCraftingProductionResolver(location, token);
 	}
 

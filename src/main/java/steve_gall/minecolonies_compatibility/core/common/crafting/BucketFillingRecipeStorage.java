@@ -14,7 +14,7 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -25,7 +25,7 @@ import steve_gall.minecolonies_tweaks.core.common.item.ItemSerializationHelper;
 
 public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFillingGenericRecipe>
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("bucket_filling");
+	public static final Identifier ID = MineColoniesCompatibility.rl("bucket_filling");
 	public static String TAG_EMPTY_BUCKET = "emptyBucket";
 	public static String TAG_FLUID = "fluid";
 	public static String TAG_FLUID_AMOUNT = "fluidAmount";
@@ -43,12 +43,12 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 
 	public static BucketFillingRecipeStorage deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var emptyBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompound(TAG_EMPTY_BUCKET));
-		var fluidId = ResourceLocation.parse(tag.getString(TAG_FLUID));
+		var emptyBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_EMPTY_BUCKET));
+		var fluidId = Identifier.parse(tag.getStringOr(TAG_FLUID, ""));
 		var fluid = BuiltInRegistries.FLUID.get(fluidId);
-		var fluidAmount = tag.contains(TAG_FLUID_AMOUNT) ? tag.getInt(TAG_FLUID_AMOUNT) : FluidType.BUCKET_VOLUME;
-		var dataComponentPatch = DataComponentPatch.CODEC.decode(NbtOps.INSTANCE, tag.getCompound(TAG_DATA_COMPONENT_PATCH)).getOrThrow().getFirst();
-		var filledBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompound(TAG_FILLED_BUCKET));
+		var fluidAmount = tag.contains(TAG_FLUID_AMOUNT) ? tag.getIntOr(TAG_FLUID_AMOUNT, 0) : FluidType.BUCKET_VOLUME;
+		var dataComponentPatch = DataComponentPatch.CODEC.decode(NbtOps.INSTANCE, tag.getCompoundOrEmpty(TAG_DATA_COMPONENT_PATCH)).getOrThrow().getFirst();
+		var filledBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_FILLED_BUCKET));
 		return new BucketFillingRecipeStorage(emptyBucket, fluid, fluidAmount, dataComponentPatch, filledBucket);
 	}
 
@@ -105,7 +105,7 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}

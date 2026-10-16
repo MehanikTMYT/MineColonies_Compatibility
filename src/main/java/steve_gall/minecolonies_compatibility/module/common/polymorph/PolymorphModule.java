@@ -13,7 +13,7 @@ import com.minecolonies.api.util.Tuple;
 import com.minecolonies.core.client.gui.containers.WindowCrafting;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -54,7 +54,7 @@ public class PolymorphModule extends AbstractModule
 							}
 
 							@Override
-							public void selectRecipe(ResourceLocation id)
+							public void selectRecipe(Identifier id)
 							{
 								PacketDistributor.sendToServer(new TeachRecipeMenuSelectMessage(id));
 							}
@@ -72,7 +72,7 @@ public class PolymorphModule extends AbstractModule
 							}
 
 							@Override
-							public void selectRecipe(ResourceLocation id)
+							public void selectRecipe(Identifier id)
 							{
 								PacketDistributor.sendToServer(new TeachRecipeMenuSelectMessage(id));
 							}
@@ -103,13 +103,13 @@ public class PolymorphModule extends AbstractModule
 	{
 		var level = player.level();
 		var registryAccess = level.registryAccess();
-		var notlimited = !level.getGameRules().getBoolean(GameRules.RULE_LIMITED_CRAFTING);
+		var notlimited = !level.getGameRules().getBooleanOr(GameRules.RULE_LIMITED_CRAFTING, false);
 		var tuples = level.getRecipeManager().getRecipesFor(RecipeType.CRAFTING, input, level).stream().filter(//
 				holder -> holder.value().isSpecial() || (notlimited || player.getRecipeBook().contains(holder) || player.isCreative())//
 		).map(holder -> new Tuple<>(holder, holder.value().assemble(input, registryAccess))).toList();
 
 		var pairs = new TreeSet<IRecipePair>();
-		ResourceLocation selected = null;
+		Identifier selected = null;
 
 		for (var tuple : tuples)
 		{
@@ -137,7 +137,7 @@ public class PolymorphModule extends AbstractModule
 	{
 		var recipeValidator = menu.getRecipeValidator();
 		var pairs = new TreeSet<IRecipePair>();
-		ResourceLocation selected = null;
+		Identifier selected = null;
 		var recipes = menu.getRecipes();
 		var registryAccess = menu.getInventory().player.level().registryAccess();
 

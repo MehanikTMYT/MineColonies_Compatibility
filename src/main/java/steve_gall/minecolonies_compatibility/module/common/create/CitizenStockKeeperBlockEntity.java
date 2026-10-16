@@ -167,17 +167,17 @@ public class CitizenStockKeeperBlockEntity extends BlockEntity implements INetwo
 
 		if (tag.contains(TAG_LINK))
 		{
-			this.view.readLink(provider, tag.getCompound(TAG_LINK));
+			this.view.readLink(provider, tag.getCompoundOrEmpty(TAG_LINK));
 		}
 
 		if (tag.contains(TAG_DATA))
 		{
-			this.view.readData(provider, tag.getCompound(TAG_DATA));
+			this.view.readData(provider, tag.getCompoundOrEmpty(TAG_DATA));
 		}
 
 		if (tag.contains(TAG_ADDRESS))
 		{
-			this.address = tag.getString(TAG_ADDRESS);
+			this.address = tag.getStringOr(TAG_ADDRESS, "");
 		}
 
 	}
@@ -565,10 +565,10 @@ public class CitizenStockKeeperBlockEntity extends BlockEntity implements INetwo
 			var factoryController = StandardFactoryController.getInstance();
 			this.tasks.clear();
 
-			for (var taskTag : NBTUtils.streamCompound(tag.getList("tasks", Tag.TAG_COMPOUND)).toList())
+			for (var taskTag : NBTUtils.streamCompound(tag.getListOrEmpty("tasks")).toList())
 			{
-				IToken<?> requestId = factoryController.deserializeTag(provider, taskTag.getCompound("requestId"));
-				var holder = new TaskHolder(provider, taskTag.getCompound("value"));
+				IToken<?> requestId = factoryController.deserializeTag(provider, taskTag.getCompoundOrEmpty("requestId"));
+				var holder = new TaskHolder(provider, taskTag.getCompoundOrEmpty("value"));
 				this.tasks.put(requestId, holder);
 			}
 
@@ -607,9 +607,9 @@ public class CitizenStockKeeperBlockEntity extends BlockEntity implements INetwo
 
 		public TaskHolder(HolderLookup.Provider provider, CompoundTag tag)
 		{
-			this.requested = CatnipCodecUtils.decode(InventorySummary.CODEC, tag.getCompound("requested")).orElseThrow();
-			this.requestCount = tag.getInt("requestCount");
-			this.insertedCount = tag.getInt("insertedCount");
+			this.requested = CatnipCodecUtils.decode(InventorySummary.CODEC, tag.getCompoundOrEmpty("requested")).orElseThrow();
+			this.requestCount = tag.getIntOr("requestCount", 0);
+			this.insertedCount = tag.getIntOr("insertedCount", 0);
 		}
 
 		public CompoundTag serializeTag(HolderLookup.Provider provider)

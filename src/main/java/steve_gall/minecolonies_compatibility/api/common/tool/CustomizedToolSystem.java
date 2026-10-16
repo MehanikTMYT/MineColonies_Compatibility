@@ -12,12 +12,12 @@ import org.jetbrains.annotations.Nullable;
 import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 import com.minecolonies.api.util.constant.BuildingConstants;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 public abstract class CustomizedToolSystem
 {
-	private static final Map<ResourceLocation, CustomizedToolSystem> REGISTRY = new HashMap<>();
+	private static final Map<Identifier, CustomizedToolSystem> REGISTRY = new HashMap<>();
 	private static final Set<EquipmentTypeEntry> DURABILITY_BASED_LEVEL_TOOL_TYPES = new HashSet<>();
 
 	public static void register(@NotNull CustomizedToolSystem toolSystem)
@@ -25,7 +25,7 @@ public abstract class CustomizedToolSystem
 		REGISTRY.put(toolSystem.getId(), toolSystem);
 	}
 
-	public static Map<ResourceLocation, CustomizedToolSystem> getRegistry()
+	public static Map<Identifier, CustomizedToolSystem> getRegistry()
 	{
 		return Collections.unmodifiableMap(REGISTRY);
 	}
@@ -53,7 +53,7 @@ public abstract class CustomizedToolSystem
 	}
 
 	@NotNull
-	public abstract ResourceLocation getId();
+	public abstract Identifier getId();
 
 	public abstract boolean isTool(@NotNull ItemStack stack);
 

@@ -9,9 +9,8 @@ import com.minecolonies.api.creativetab.ModCreativeTabs;
 import com.minecolonies.api.equipment.ModEquipmentTypes;
 import com.minecolonies.core.colony.buildings.modules.BuildingModules;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeManager;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
@@ -223,9 +222,9 @@ public class MineColoniesCompatibility
 		ModMessagesRegistrar.register(registry);
 	}
 
-	public static ResourceLocation rl(String path)
+	public static Identifier rl(String path)
 	{
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 
 	public static String tl(String path)

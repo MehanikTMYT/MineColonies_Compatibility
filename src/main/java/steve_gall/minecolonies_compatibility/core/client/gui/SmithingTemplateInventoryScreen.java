@@ -1,10 +1,10 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
 import steve_gall.minecolonies_compatibility.core.common.inventory.SmithingTemplateInventoryMenu;
@@ -12,7 +12,7 @@ import steve_gall.minecolonies_tweaks.core.client.gui.CloseableContainerScreenEx
 
 public class SmithingTemplateInventoryScreen extends AbstractContainerScreen<SmithingTemplateInventoryMenu> implements CloseableContainerScreenExtension
 {
-	public static final ResourceLocation TEXTURE = MineColoniesCompatibility.rl("textures/gui/smithing_template_inventory.png");
+	public static final Identifier TEXTURE = MineColoniesCompatibility.rl("textures/gui/smithing_template_inventory.png");
 
 	private Screen parent;
 
@@ -40,7 +40,7 @@ public class SmithingTemplateInventoryScreen extends AbstractContainerScreen<Smi
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks)
+	public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
 		super.render(graphics, mouseX, mouseY, partialTicks);
 
@@ -48,7 +48,7 @@ public class SmithingTemplateInventoryScreen extends AbstractContainerScreen<Smi
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY)
+	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY)
 	{
 		graphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}

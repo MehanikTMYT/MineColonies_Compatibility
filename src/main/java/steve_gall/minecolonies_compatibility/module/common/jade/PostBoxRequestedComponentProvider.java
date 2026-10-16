@@ -3,7 +3,7 @@ package steve_gall.minecolonies_compatibility.module.common.jade;
 import com.minecolonies.core.tileentities.TileEntityColonyBuilding;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.ITooltip;
@@ -12,7 +12,7 @@ import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibili
 
 public class PostBoxRequestedComponentProvider implements IBlockComponentProvider
 {
-	public static final ResourceLocation UID = MineColoniesCompatibility.rl("postbox.requested");
+	public static final Identifier UID = MineColoniesCompatibility.rl("postbox.requested");
 	public static final PostBoxRequestedComponentProvider INSTANCE = new PostBoxRequestedComponentProvider();
 
 	private PostBoxRequestedComponentProvider()
@@ -21,7 +21,7 @@ public class PostBoxRequestedComponentProvider implements IBlockComponentProvide
 	}
 
 	@Override
-	public ResourceLocation getUid()
+	public Identifier getUid()
 	{
 		return UID;
 	}
