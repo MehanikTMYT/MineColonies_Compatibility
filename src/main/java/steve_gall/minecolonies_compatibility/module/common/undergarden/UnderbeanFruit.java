@@ -63,7 +63,7 @@ public class UnderbeanFruit extends CustomizedFruit
 			var state = context.getState();
 			var i = state.getValue(UnderbeanBushBlock.AGE);
 			var flag = i == 3;
-			var j = 1 + level.random.nextInt(2);
+			var j = 1 + level.getRandom().nextInt(2);
 
 			var newState = state.setValue(UnderbeanBushBlock.AGE, 1);
 			level.setBlock(context.getPosition(), newState, Block.UPDATE_CLIENTS);

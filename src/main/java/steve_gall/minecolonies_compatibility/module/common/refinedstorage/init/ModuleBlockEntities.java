@@ -11,7 +11,7 @@ public class ModuleBlockEntities
 {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, MineColoniesCompatibility.MOD_ID);
 
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CitizenGridBlockEntity>> CITIZEN_GRID = REGISTER.register("citizen_grid", () -> BlockEntityType.Builder.of(CitizenGridBlockEntity::new, ModuleBlocks.CITIZEN_GRID.get()).build(null));
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CitizenGridBlockEntity>> CITIZEN_GRID = REGISTER.register("citizen_grid", () -> new BlockEntityType<>(CitizenGridBlockEntity::new, ModuleBlocks.CITIZEN_GRID.get()));
 
 	private ModuleBlockEntities()
 	{

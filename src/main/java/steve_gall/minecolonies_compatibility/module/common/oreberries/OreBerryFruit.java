@@ -73,7 +73,7 @@ public class OreBerryFruit extends CustomizedFruit
 			var block = (OreBerryBushBlock) state.getBlock();
 			level.setBlock(context.getPosition(), block.withAge(block.getMaxAge() - 1), Block.UPDATE_ALL);
 
-			var drop = new ItemStack(((OreBerryBushBlockAccessor) block).invokeGetBerryItem(), level.random.nextInt(3) + 1);
+			var drop = new ItemStack(((OreBerryBushBlockAccessor) block).invokeGetBerryItem(), level.getRandom().nextInt(3) + 1);
 			return Collections.singletonList(drop);
 		}
 

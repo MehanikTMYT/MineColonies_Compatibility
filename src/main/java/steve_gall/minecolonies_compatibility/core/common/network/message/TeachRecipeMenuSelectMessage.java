@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.common.network.message;
 
+import steve_gall.minecolonies_compatibility.core.common.crafting.RecipeLookup;
 import com.minecolonies.api.inventory.container.ContainerCrafting;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -31,7 +32,7 @@ public class TeachRecipeMenuSelectMessage extends AbstractMessage
 	{
 		super(buffer);
 
-		this.recipeId = buffer.readResourceLocation();
+		this.recipeId = buffer.readIdentifier();
 	}
 
 	@Override
@@ -39,7 +40,7 @@ public class TeachRecipeMenuSelectMessage extends AbstractMessage
 	{
 		super.encode(buffer);
 
-		buffer.writeResourceLocation(this.recipeId);
+		buffer.writeIdentifier(this.recipeId);
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class TeachRecipeMenuSelectMessage extends AbstractMessage
 
 		if (player.containerMenu instanceof ContainerCrafting menu)
 		{
-			var holder = player.level().getRecipeManager().byKey(this.recipeId).orElse(null);
+			var holder = RecipeLookup.byKey(player.level(), this.recipeId).orElse(null);
 
 			if (holder == null)
 			{
@@ -60,7 +61,7 @@ public class TeachRecipeMenuSelectMessage extends AbstractMessage
 			}
 
 			var input = menu.craftMatrix.asCraftInput();
-			var output = ((CraftingRecipe) holder.value()).assemble(input, registryAccess);
+			var output = ((CraftingRecipe) holder.value()).assemble(input);
 			menu.craftResult.setItem(0, output);
 
 			if (ModuleManager.POLYMORPH.isLoaded())

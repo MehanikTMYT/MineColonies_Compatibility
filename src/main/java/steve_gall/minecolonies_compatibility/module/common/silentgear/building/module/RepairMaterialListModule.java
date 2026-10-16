@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.module.common.silentgear.building.module;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -22,7 +23,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.gear.gear.material.MaterialInstance;
 import net.silentchaos512.gear.item.RepairKitItem;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
@@ -127,7 +127,7 @@ public class RepairMaterialListModule extends AbstractBuildingModule implements 
 			return 0.0F;
 		}
 
-		return this.materialStorages.getFloatOr(material, 0F);
+		return this.materialStorages.getOrDefault(material, 0F);
 	}
 
 	public void setMaterialStorage(MaterialInstance material, float amount)
@@ -174,7 +174,7 @@ public class RepairMaterialListModule extends AbstractBuildingModule implements 
 			this.materialStorages.put(material, tag.getFloatOr("amount", 0F));
 		}
 
-		this.repairKitInventory.deserializeNBT(provider, compound.getCompoundOrEmpty(TAG_INVENTORY));
+		NBTUtils2.load(provider, compound.getCompoundOrEmpty(TAG_INVENTORY), this.repairKitInventory);
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class RepairMaterialListModule extends AbstractBuildingModule implements 
 			return tag;
 		});
 
-		compound.put(TAG_INVENTORY, this.repairKitInventory.serializeNBT(provider));
+		compound.put(TAG_INVENTORY, NBTUtils2.save(provider, this.repairKitInventory));
 	}
 
 	@Override
@@ -264,7 +264,7 @@ public class RepairMaterialListModule extends AbstractBuildingModule implements 
 				this.repairMaterials.put(material, item.copyWithCount(1));
 			}
 
-			PacketDistributor.sendToServer(RepairMaterialMaterialMessage.add(this, item));
+			ClientPacketDistributor.sendToServer(RepairMaterialMaterialMessage.add(this, item));
 			this.updateCounter++;
 		}
 
@@ -277,7 +277,7 @@ public class RepairMaterialListModule extends AbstractBuildingModule implements 
 				this.repairMaterials.remove(material);
 			}
 
-			PacketDistributor.sendToServer(RepairMaterialMaterialMessage.remove(this, item));
+			ClientPacketDistributor.sendToServer(RepairMaterialMaterialMessage.remove(this, item));
 			this.updateCounter++;
 		}
 

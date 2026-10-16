@@ -1,13 +1,16 @@
 package steve_gall.minecolonies_compatibility.module.client.create;
 
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.KeyEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.minecraft.client.renderer.RenderPipelines;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import com.simibubi.create.foundation.utility.CreateLang;
 
-import net.createmod.catnip.gui.widget.AbstractSimiWidget;
+import net.createmod.catnip.api.client.gui.widget.AbstractSimiWidget;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
@@ -15,7 +18,6 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.client.gui.NetworkStorageViewScreenUtils;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
 import steve_gall.minecolonies_compatibility.module.common.create.AddressMessage;
@@ -30,10 +32,8 @@ public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenSto
 
 	public CitizenStockKeeperScreen(CitizenStockKeeperMenu menu, Inventory inventory, Component title)
 	{
-		super(menu, inventory, title);
+		super(menu, inventory, title, 176, 147);
 
-		this.imageWidth = 176;
-		this.imageHeight = 147;
 		this.titleLabelX = 7;
 		this.titleLabelY = 7;
 		this.inventoryLabelX = 7;
@@ -64,46 +64,47 @@ public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenSto
 		if (!this.address.equals(newAddress))
 		{
 			this.address = newAddress;
-			PacketDistributor.sendToServer(new AddressMessage(this.getMenu().getBlockEntity(), newAddress));
+			ClientPacketDistributor.sendToServer(new AddressMessage(this.getMenu().getBlockEntity(), newAddress));
 		}
 
 	}
 
 	@Override
-	public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks)
+	public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
+		super.extractRenderState(guiGraphics, mouseX, mouseY, partialTicks);
 
 		var blockEntity = this.getMenu().getBlockEntity();
-		guiGraphics.drawString(this.font, NetworkStorageViewScreenUtils.getModuleText(blockEntity.getNetworkStorageView().getLinkedPos()), this.leftPos + 14, this.topPos + 21, 0xFF404040, false);
+		guiGraphics.text(this.font, NetworkStorageViewScreenUtils.getModuleText(blockEntity.getNetworkStorageView().getLinkedPos()), this.leftPos + 14, this.topPos + 21, 0xFF404040, false);
 
-		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphicsExtractor guiGraphics, float partialTicks, int mouseX, int mouseY)
+	public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
 	}
 
 	@Override
-	protected void renderTooltip(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY)
+	protected void extractTooltip(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY)
 	{
-		super.renderTooltip(guiGraphics, mouseX, mouseY);
+		super.extractTooltip(guiGraphics, mouseX, mouseY);
 
 		if (!this.addressBox.isFocused() && this.addressBox.isHovered())
 		{
-			guiGraphics.renderComponentTooltip(this.font, List.of(CreateLang.translate("gui.factory_panel.restocker_address").color(AbstractSimiWidget.HEADER_RGB).component(), CreateLang.translate("gui.schedule.lmb_edit").style(ChatFormatting.DARK_GRAY).style(ChatFormatting.ITALIC).component()), mouseX, mouseY);
+			guiGraphics.setComponentTooltipForNextFrame(this.font, List.of(CreateLang.translate("gui.factory_panel.restocker_address").color(AbstractSimiWidget.HEADER_RGB).component(), CreateLang.translate("gui.schedule.lmb_edit").style(ChatFormatting.DARK_GRAY).style(ChatFormatting.ITALIC).component()), mouseX, mouseY);
 		}
 
 	}
 
 	@Override
-	public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers)
+	public boolean keyPressed(KeyEvent event)
 	{
+		var pKeyCode = event.key();
+
 		if (this.getFocused() == this.addressBox && this.addressBox.isFocused())
 		{
-			if (this.minecraft.options.keyInventory.isActiveAndMatches(InputConstants.getKey(pKeyCode, pScanCode)))
+			if (this.minecraft.options.keyInventory.matches(event))
 			{
 				return true;
 			}
@@ -115,13 +116,15 @@ public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenSto
 
 		}
 
-		return super.keyPressed(pKeyCode, pScanCode, pModifiers);
+		return super.keyPressed(event);
 	}
 
 	@Override
-	public boolean mouseClicked(double pMouseX, double pMouseY, int pButton)
+	public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick)
 	{
-		boolean rmb = pButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT;
+		var pMouseX = event.x();
+		var pMouseY = event.y();
+		boolean rmb = event.button() == GLFW.GLFW_MOUSE_BUTTON_RIGHT;
 
 		if (rmb && this.addressBox.isMouseOver(pMouseX, pMouseY))
 		{
@@ -131,7 +134,7 @@ public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenSto
 
 		if (this.addressBox.isFocused())
 		{
-			boolean result = this.addressBox.mouseClicked(pMouseX, pMouseY, pButton);
+			boolean result = this.addressBox.mouseClicked(event, doubleClick);
 			if (this.addressBox.isHovered() || result)
 			{
 				return result;
@@ -140,7 +143,7 @@ public class CitizenStockKeeperScreen extends AbstractContainerScreen<CitizenSto
 			this.addressBox.setFocused(false);
 		}
 
-		return super.mouseClicked(pMouseX, pMouseY, pButton);
+		return super.mouseClicked(event, doubleClick);
 	}
 
 }

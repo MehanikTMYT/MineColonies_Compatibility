@@ -1,5 +1,8 @@
 package steve_gall.minecolonies_compatibility.module.common.refinedstorage;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.core.UUIDUtil;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -96,35 +99,25 @@ public class CitizenGridBlockEntity extends AbstractBaseNetworkNodeContainerBloc
 	}
 
 	@Override
-	public void writeConfiguration(CompoundTag tag, Provider provider)
+	public void writeConfiguration(ValueOutput output)
 	{
-		super.writeConfiguration(tag, provider);
+		super.writeConfiguration(output);
 
-		tag.put(TAG_LINK, this.view.writeLink(provider));
-		tag.put(TAG_DATA, this.view.writeData(provider));
-		tag.putInt(TAG_ACCESS_MODE, AccessModeSettings.getAccessMode(this.accessMode));
+		var provider = this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
+		output.store(TAG_LINK, CompoundTag.CODEC, this.view.writeLink(provider));
+		output.store(TAG_DATA, CompoundTag.CODEC, this.view.writeData(provider));
+		output.putInt(TAG_ACCESS_MODE, AccessModeSettings.getAccessMode(this.accessMode));
 	}
 
 	@Override
-	public void readConfiguration(CompoundTag tag, Provider provider)
+	public void readConfiguration(ValueInput input)
 	{
-		super.readConfiguration(tag, provider);
+		super.readConfiguration(input);
 
-		if (tag.contains(TAG_LINK))
-		{
-			this.view.readLink(provider, tag.getCompoundOrEmpty(TAG_LINK));
-		}
-
-		if (tag.contains(TAG_DATA))
-		{
-			this.view.readData(provider, tag.getCompoundOrEmpty(TAG_DATA));
-		}
-
-		if (tag.contains(TAG_ACCESS_MODE))
-		{
-			this.accessMode = AccessModeSettings.getAccessMode(tag.getIntOr(TAG_ACCESS_MODE, 0));
-		}
-
+		var provider = input.lookup();
+		input.read(TAG_LINK, CompoundTag.CODEC).ifPresent(link -> this.view.readLink(provider, link));
+		input.read(TAG_DATA, CompoundTag.CODEC).ifPresent(data -> this.view.readData(provider, data));
+		input.getInt(TAG_ACCESS_MODE).ifPresent(mode -> this.accessMode = AccessModeSettings.getAccessMode(mode));
 	}
 
 	public AccessMode getAccessMode()

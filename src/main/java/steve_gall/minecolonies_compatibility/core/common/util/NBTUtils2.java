@@ -1,5 +1,10 @@
 package steve_gall.minecolonies_compatibility.core.common.util;
 
+import net.neoforged.neoforge.common.util.ValueIOSerializable;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.core.HolderLookup;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -50,7 +55,7 @@ public class NBTUtils2
 	{
 		if (tag != null)
 		{
-			if (tag.contains(key, Tag.TAG_COMPOUND))
+			if (tag.contains(key))
 			{
 				return tag.getCompoundOrEmpty(key);
 			}
@@ -64,7 +69,7 @@ public class NBTUtils2
 	{
 		if (tag != null)
 		{
-			if (tag.contains(key, Tag.TAG_COMPOUND))
+			if (tag.contains(key))
 			{
 				return tag.getCompoundOrEmpty(key);
 			}
@@ -80,6 +85,19 @@ public class NBTUtils2
 	private NBTUtils2()
 	{
 
+	}
+
+	/** fleet 26.1.2: NBT bridge for ValueIOSerializable objects (ItemStackHandler, ...). */
+	public static CompoundTag save(HolderLookup.Provider provider, ValueIOSerializable serializable)
+	{
+		var output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, provider);
+		serializable.serialize(output);
+		return output.buildResult();
+	}
+
+	public static void load(HolderLookup.Provider provider, CompoundTag tag, ValueIOSerializable serializable)
+	{
+		serializable.deserialize(TagValueInput.create(ProblemReporter.DISCARDING, provider, tag));
 	}
 
 }

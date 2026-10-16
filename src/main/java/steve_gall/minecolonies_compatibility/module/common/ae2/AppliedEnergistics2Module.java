@@ -3,7 +3,7 @@ package steve_gall.minecolonies_compatibility.module.common.ae2;
 import com.minecolonies.api.creativetab.ModCreativeTabs;
 
 import appeng.blockentity.networking.CableBusBlockEntity;
-import appeng.init.client.InitScreens;
+import appeng.client.InitScreens;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;

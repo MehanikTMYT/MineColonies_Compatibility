@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
@@ -19,11 +20,11 @@ public class AccessDirectionButton extends Button
 	}
 
 	@Override
-	protected void renderWidget(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
+	protected void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderWidget(graphics, mouseX, mouseY, partialTicks);
+		this.extractDefaultSprite(graphics);
 
-		graphics.blit(WIDGETS_LOCATION, this.getX(), this.getY(), this.getU(), 0, this.width, this.height);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, WIDGETS_LOCATION, this.getX(), this.getY(), this.getU(), 0, this.width, this.height, 256, 256);
 	}
 
 	protected int getU()

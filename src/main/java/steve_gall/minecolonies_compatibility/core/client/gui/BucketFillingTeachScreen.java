@@ -22,8 +22,6 @@ public class BucketFillingTeachScreen extends TeachCraftingRecipeScreen<BucketFi
 	{
 		super(menu, inventory, title);
 
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override

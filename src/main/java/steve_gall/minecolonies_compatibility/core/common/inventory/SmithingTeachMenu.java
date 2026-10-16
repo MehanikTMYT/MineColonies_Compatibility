@@ -168,7 +168,7 @@ public class SmithingTeachMenu extends TeachRecipeMenu<RecipeHolder<SmithingReci
 	{
 		if (this.recipe != null)
 		{
-			this.resultContainer.setItem(0, this.recipe.value().assemble(input, provider));
+			this.resultContainer.setItem(0, this.recipe.value().assemble(input));
 		}
 		else
 		{

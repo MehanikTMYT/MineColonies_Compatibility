@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.common.building.module;
 
+import steve_gall.minecolonies_compatibility.core.common.util.NBTUtils2;
 import org.jetbrains.annotations.NotNull;
 
 import com.minecolonies.api.IMinecoloniesAPI;
@@ -100,7 +101,7 @@ public class SmithingTemplateCraftingModule extends AbstractCraftingBuildingModu
 	{
 		super.deserializeNBT(provider, compound);
 
-		this.inventory.deserializeNBT(provider, compound.getCompoundOrEmpty(TAG_INVENTORY));
+		NBTUtils2.load(provider, compound.getCompoundOrEmpty(TAG_INVENTORY), this.inventory);
 		this.refreshCounter();
 	}
 
@@ -109,7 +110,7 @@ public class SmithingTemplateCraftingModule extends AbstractCraftingBuildingModu
 	{
 		super.serializeNBT(provider, compound);
 
-		compound.put(TAG_INVENTORY, this.inventory.serializeNBT(provider));
+		compound.put(TAG_INVENTORY, NBTUtils2.save(provider, this.inventory));
 	}
 
 	@Override

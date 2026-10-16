@@ -286,12 +286,12 @@ public class EntityAIWorkOrchardist extends AbstractEntityAIInteract<JobOrchardi
 
 				worker.swing(hand);
 
-				if (block.isBonemealSuccess(level, level.random, position, state))
+				if (block.isBonemealSuccess(level, level.getRandom(), position, state))
 				{
 					if (level instanceof ServerLevel serverLevel)
 					{
 						new CompostParticleMessage(position.above()).sendToTargetPoint(serverLevel, null, position.getX(), position.getY(), position.getZ(), CitizenConstants.BLOCK_BREAK_SOUND_RANGE);
-						block.performBonemeal(serverLevel, serverLevel.random, position, state);
+						block.performBonemeal(serverLevel, serverLevel.getRandom(), position, state);
 					}
 
 				}
@@ -307,7 +307,7 @@ public class EntityAIWorkOrchardist extends AbstractEntityAIInteract<JobOrchardi
 
 		var harvester = new HarvesterContext(worker, inventory.getHeldItem(hand));
 		var drops = fruit.harvest(harvester);
-		level.playSound(null, position, fruit.getSound(), SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
+		level.playSound(null, position, fruit.getSound(), SoundSource.BLOCKS, 1.0F, 0.8F + level.getRandom().nextFloat() * 0.4F);
 
 		for (var stack : drops)
 		{

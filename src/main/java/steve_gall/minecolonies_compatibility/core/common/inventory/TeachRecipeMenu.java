@@ -19,7 +19,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -223,7 +223,7 @@ public abstract class TeachRecipeMenu<RECIPE, RECIPE_INPUT> extends ModuleMenu i
 	}
 
 	@Override
-	public void clicked(int slotNumber, int clickedButton, ClickType mode, Player player)
+	public void clicked(int slotNumber, int clickedButton, ContainerInput mode, Player player)
 	{
 		if (0 <= slotNumber && slotNumber < this.slots.size())
 		{
@@ -231,7 +231,7 @@ public abstract class TeachRecipeMenu<RECIPE, RECIPE_INPUT> extends ModuleMenu i
 
 			if (slot.container == this.inputContainer || slot.container == this.catalystContainer)
 			{
-				if (mode == ClickType.PICKUP || mode == ClickType.PICKUP_ALL || mode == ClickType.SWAP)
+				if (mode == ContainerInput.PICKUP || mode == ContainerInput.PICKUP_ALL || mode == ContainerInput.SWAP)
 				{
 					this.handleSlotClick(slot, this.getCarried());
 				}
@@ -239,7 +239,7 @@ public abstract class TeachRecipeMenu<RECIPE, RECIPE_INPUT> extends ModuleMenu i
 				return;
 			}
 
-			if (mode == ClickType.QUICK_MOVE)
+			if (mode == ContainerInput.QUICK_MOVE)
 			{
 				return;
 			}

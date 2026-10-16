@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.api.common.crafting;
 
+import net.minecraft.world.item.crafting.RecipeMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -16,7 +17,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
@@ -36,12 +36,12 @@ public class SimpleCraftingType<RECIPE_INPUT extends RecipeInput, RECIPE extends
 	}
 
 	@Override
-	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeManager recipeManager, @Nullable Level world)
+	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeMap recipeMap, @Nullable Level world)
 	{
 		var recipes = new ArrayList<IGenericRecipe>();
 		var registryAccess = world.registryAccess();
 
-		for (var recipe : recipeManager.getAllRecipesFor(this.getRecipeType()))
+		for (var recipe : recipeMap.byType(this.getRecipeType()))
 		{
 			if (this.testRecipe(recipe.value(), registryAccess))
 			{

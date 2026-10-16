@@ -1,5 +1,11 @@
 package steve_gall.minecolonies_compatibility.module.common.ae2;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +45,6 @@ import appeng.api.networking.ticking.IGridTickable;
 import appeng.api.networking.ticking.TickRateModulation;
 import appeng.api.networking.ticking.TickingRequest;
 import appeng.api.parts.IPartItem;
-import appeng.api.parts.IPartModel;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
@@ -47,10 +52,8 @@ import appeng.api.storage.AEKeyFilter;
 import appeng.api.storage.StorageHelper;
 import appeng.api.util.IConfigManager;
 import appeng.api.util.IConfigurableObject;
-import appeng.items.parts.PartModels;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.MenuLocators;
-import appeng.parts.PartModel;
 import appeng.parts.reporting.AbstractDisplayPart;
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import net.minecraft.core.BlockPos;
@@ -76,14 +79,7 @@ import steve_gall.minecolonies_compatibility.module.common.ae2.init.ModuleMenuTy
 
 public class CitizenTerminalPart extends AbstractDisplayPart implements IStorageWatcherNode, ICraftingWatcherNode, IGridTickable, IConfigurableObject, ICraftingRequester
 {
-	@PartModels
-	public static final Identifier MODEL_OFF = MineColoniesCompatibility.rl("part/citizen_terminal_off");
-	@PartModels
-	public static final Identifier MODEL_ON = MineColoniesCompatibility.rl("part/citizen_terminal_on");
-
-	public static final IPartModel MODELS_OFF = new PartModel(MODEL_BASE, MODEL_OFF, MODEL_STATUS_OFF);
-	public static final IPartModel MODELS_ON = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_ON);
-	public static final IPartModel MODELS_HAS_CHANNEL = new PartModel(MODEL_BASE, MODEL_ON, MODEL_STATUS_HAS_CHANNEL);
+	// fleet 26.1.2: AE2 part models are data-driven (assets/minecolonies_compatibility/ae2/parts/citizen_terminal.json)
 
 	private static final String TAG_LINK = "link";
 	private static final String TAG_DATA = "data";
@@ -155,12 +151,6 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 		}
 
 		return true;
-	}
-
-	@Override
-	public IPartModel getStaticModels()
-	{
-		return this.selectModel(MODELS_OFF, MODELS_ON, MODELS_HAS_CHANNEL);
 	}
 
 	@Override
@@ -251,26 +241,25 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 	}
 
 	@Override
-	public void readFromNBT(CompoundTag data, Provider provider)
+	public void readFromNBT(ValueInput input)
 	{
-		super.readFromNBT(data, provider);
+		super.readFromNBT(input);
 
-		this.view.readLink(provider, data.getCompoundOrEmpty(TAG_LINK));
-		this.view.readData(provider, data.getCompoundOrEmpty(TAG_DATA));
-		this.config.readFromNBT(data.getCompoundOrEmpty("config"), provider);
+		var provider = input.lookup();
+		this.view.readLink(provider, input.read(TAG_LINK, CompoundTag.CODEC).orElseGet(CompoundTag::new));
+		this.view.readData(provider, input.read(TAG_DATA, CompoundTag.CODEC).orElseGet(CompoundTag::new));
+		this.config.readFromNBT(input.childOrEmpty("config"));
 	}
 
 	@Override
-	public void writeToNBT(CompoundTag data, Provider provider)
+	public void writeToNBT(ValueOutput output)
 	{
-		super.writeToNBT(data, provider);
+		super.writeToNBT(output);
 
-		data.put(TAG_LINK, this.view.writeLink(provider));
-		data.put(TAG_DATA, this.view.writeData(provider));
-
-		var configTag = new CompoundTag();
-		this.config.writeToNBT(configTag, provider);
-		data.put("config", configTag);
+		var provider = this.getLevel() != null ? this.getLevel().registryAccess() : RegistryAccess.EMPTY;
+		output.store(TAG_LINK, CompoundTag.CODEC, this.view.writeLink(provider));
+		output.store(TAG_DATA, CompoundTag.CODEC, this.view.writeData(provider));
+		this.config.writeToNBT(output.child("config"));
 	}
 
 	@Override
@@ -321,12 +310,12 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 		{
 			if (tag.contains("craftingLink"))
 			{
-				this.craftingLink = StorageHelper.loadCraftingLink(tag.getCompoundOrEmpty("craftingLink"), CitizenTerminalPart.this);
+				this.craftingLink = StorageHelper.loadCraftingLink(TagValueInput.create(ProblemReporter.DISCARDING, provider, tag.getCompoundOrEmpty("craftingLink")), CitizenTerminalPart.this);
 			}
 
 			if (tag.contains("outputKey"))
 			{
-				this.outputKey = AEItemKey.fromTag(provider, tag.getCompoundOrEmpty("outputKey"));
+				this.outputKey = AEItemKey.fromTag(TagValueInput.create(ProblemReporter.DISCARDING, provider, tag.getCompoundOrEmpty("outputKey")));
 			}
 
 			this.calculationStartTick = tag.getLongOr("calculationStartTick", 0L);
@@ -340,14 +329,16 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 
 			if (this.craftingLink != null)
 			{
-				var craftingLinkTag = new CompoundTag();
-				this.craftingLink.writeToNBT(craftingLinkTag);
-				tag.put("craftingLink", craftingLinkTag);
+				var craftingLinkOutput = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, provider);
+				this.craftingLink.writeToNBT(craftingLinkOutput);
+				tag.put("craftingLink", craftingLinkOutput.buildResult());
 			}
 
 			if (this.outputKey != null)
 			{
-				tag.put("outputKey", this.outputKey.toTag(provider));
+				var outputKeyOutput = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, provider);
+				this.outputKey.toTag(outputKeyOutput);
+				tag.put("outputKey", outputKeyOutput.buildResult());
 			}
 
 			tag.putLong("calculationStartTick", this.calculationStartTick);
@@ -542,7 +533,7 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 
 			var key = AEItemKey.of(stack);
 			var network = grid.getStorageService().getInventory();
-			var extractingCount = (int) network.extract(key, stack.getCount(), Actionable.ofSimulate(simulate), action);
+			var extractingCount = (int) network.extract(key, stack.getCount(), (simulate ? Actionable.SIMULATE : Actionable.MODULATE), action);
 
 			if (extractingCount == 0)
 			{
@@ -564,7 +555,7 @@ public class CitizenTerminalPart extends AbstractDisplayPart implements IStorage
 
 			var key = AEItemKey.of(stack);
 			var network = grid.getStorageService().getInventory();
-			var insertedCount = (int) network.insert(key, stack.getCount(), Actionable.ofSimulate(simulate), action);
+			var insertedCount = (int) network.insert(key, stack.getCount(), (simulate ? Actionable.SIMULATE : Actionable.MODULATE), action);
 
 			if (insertedCount == 0)
 			{

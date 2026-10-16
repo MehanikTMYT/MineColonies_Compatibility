@@ -9,7 +9,7 @@ public class RecipeHelper
 {
 	public static boolean matchesIngredientCount(Recipe<?> recipe, Container container)
 	{
-		var ingredientsSize = recipe.getIngredients().size();
+		var ingredientsSize = recipe.placementInfo().ingredients().size();
 		var inputsSize = ItemStackHelper.filterNotEmpty(ContainerHelper.getItemStacks(container)).size();
 		return ingredientsSize == inputsSize;
 	}

@@ -1,12 +1,13 @@
 package steve_gall.minecolonies_compatibility.module.common.refinedstorage;
 
-import com.refinedmods.refinedstorage.common.content.BlockConstants;
+import net.minecraft.resources.Identifier;
+import com.refinedmods.refinedstorage.common.content.BlockProperties;
 import com.refinedmods.refinedstorage.common.support.AbstractBlockEntityTicker;
 import com.refinedmods.refinedstorage.common.support.AbstractDirectionalBlock;
 import com.refinedmods.refinedstorage.common.support.BaseBlockItem;
 import com.refinedmods.refinedstorage.common.support.BlockItemProvider;
-import com.refinedmods.refinedstorage.common.support.direction.BiDirection;
-import com.refinedmods.refinedstorage.common.support.direction.BiDirectionType;
+import com.refinedmods.refinedstorage.common.support.direction.OrientedDirection;
+import com.refinedmods.refinedstorage.common.support.direction.OrientedDirectionType;
 import com.refinedmods.refinedstorage.common.support.direction.DirectionType;
 import com.refinedmods.refinedstorage.common.support.network.NetworkNodeBlockEntityTicker;
 
@@ -22,15 +23,18 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import steve_gall.minecolonies_compatibility.module.common.refinedstorage.init.ModuleBlockEntities;
 
-public class CitizenGridBlock extends AbstractDirectionalBlock<BiDirection> implements BlockItemProvider<BaseBlockItem>, EntityBlock
+public class CitizenGridBlock extends AbstractDirectionalBlock<OrientedDirection> implements BlockItemProvider<BaseBlockItem>, EntityBlock
 {
 	public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
 
 	private static final AbstractBlockEntityTicker<CitizenGridBlockEntity> TICKER = new NetworkNodeBlockEntityTicker<>(ModuleBlockEntities.CITIZEN_GRID::get, ACTIVE);
 
-	public CitizenGridBlock()
+	private final Identifier id;
+
+	public CitizenGridBlock(Identifier id)
 	{
-		super(BlockConstants.PROPERTIES);
+		super(BlockProperties.stone(id));
+		this.id = id;
 	}
 
 	@Override
@@ -49,13 +53,13 @@ public class CitizenGridBlock extends AbstractDirectionalBlock<BiDirection> impl
 	@Override
 	public BaseBlockItem createBlockItem()
 	{
-		return new BaseBlockItem(this);
+		return new BaseBlockItem(this.id, this);
 	}
 
 	@Override
-	protected DirectionType<BiDirection> getDirectionType()
+	protected DirectionType<OrientedDirection> getDirectionType()
 	{
-		return BiDirectionType.INSTANCE;
+		return OrientedDirectionType.INSTANCE;
 	}
 
 	@Override

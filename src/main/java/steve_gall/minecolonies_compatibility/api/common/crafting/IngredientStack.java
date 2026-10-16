@@ -3,13 +3,15 @@ package steve_gall.minecolonies_compatibility.api.common.crafting;
 import java.util.Objects;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class IngredientStack
 {
-	public static final IngredientStack EMPTY = of(Ingredient.EMPTY, 0);
+	// fleet 26.1.2: Ingredient.EMPTY no longer exists (ingredients cannot be empty) -> null ingredient = empty stack
+	public static final IngredientStack EMPTY = new IngredientStack(null, 0);
 
 	public static @NotNull IngredientStack of(@NotNull Ingredient ingredient)
 	{
@@ -21,27 +23,27 @@ public class IngredientStack
 		return new IngredientStack(ingredient, count);
 	}
 
-	@NotNull
+	@Nullable
 	private final Ingredient ingredient;
 	private final int count;
 	private final boolean isEmpty;
 
-	public IngredientStack(@NotNull Ingredient ingredient, int count)
+	public IngredientStack(@Nullable Ingredient ingredient, int count)
 	{
 		this.ingredient = ingredient;
-		this.count = ingredient.isEmpty() ? 0 : Math.max(count, 0);
-		this.isEmpty = ingredient.isEmpty() || count <= 0;
+		this.count = ingredient == null || ingredient.isEmpty() ? 0 : Math.max(count, 0);
+		this.isEmpty = this.count <= 0;
 	}
 
 	public boolean testType(@NotNull ItemStack item)
 	{
-		return this.ingredient.test(item);
+		return this.ingredient != null && this.ingredient.test(item);
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(this.ingredient.getStackingIds().hashCode(), this.count);
+		return Objects.hash(this.ingredient, this.count);
 	}
 
 	@Override
@@ -49,7 +51,7 @@ public class IngredientStack
 	{
 		if (object instanceof IngredientStack other)
 		{
-			return this.ingredient.getStackingIds().equals(other.ingredient.getStackingIds()) && this.count == other.count;
+			return Objects.equals(this.ingredient, other.ingredient) && this.count == other.count;
 		}
 
 		return false;
@@ -60,7 +62,8 @@ public class IngredientStack
 		return this.isEmpty;
 	}
 
-	public @NotNull Ingredient ingredient()
+	/** Null for {@link #EMPTY}. */
+	public @Nullable Ingredient ingredient()
 	{
 		return this.ingredient;
 	}

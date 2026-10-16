@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.core.common;
 
+import net.neoforged.api.distmarker.Dist;
+import steve_gall.minecolonies_compatibility.core.common.crafting.RecipeLookup;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,14 +12,13 @@ import com.minecolonies.api.equipment.ModEquipmentTypes;
 import com.minecolonies.core.colony.buildings.modules.BuildingModules;
 
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeMap;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.javafmlmod.FMLModContainer;
-import net.neoforged.neoforge.client.event.RecipesUpdatedEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -90,8 +91,8 @@ public class MineColoniesCompatibility
 
 		var forge_bus = NeoForge.EVENT_BUS;
 		forge_bus.addListener(this::onInjectBuildingSettingsModule);
-		forge_bus.addListener(EventPriority.HIGHEST, this::onRecipesUpdated);
 		forge_bus.addListener(EventPriority.HIGHEST, this::onOnDatapackSync);
+		forge_bus.addListener(RecipeLookup::onDatapackSync);
 
 		ModuleManager.initialize();
 
@@ -192,27 +193,23 @@ public class MineColoniesCompatibility
 
 	}
 
-	private void onRecipesUpdated(RecipesUpdatedEvent e)
-	{
-		this.reloadRecipeBaseds(e.getRecipeManager());
-	}
-
 	private void onOnDatapackSync(OnDatapackSyncEvent e)
 	{
 		if (e.getPlayer() == null)
 		{
-			this.reloadRecipeBaseds(e.getPlayerList().getServer().getRecipeManager());
+			reloadRecipeBaseds(e.getPlayerList().getServer().getRecipeManager().recipeMap());
 		}
 
 	}
 
-	private void reloadRecipeBaseds(RecipeManager recipeManager)
+	/** Server: datapack sync; client: RecipesReceivedEvent (MineColoniesCompatibilityClient). */
+	public static void reloadRecipeBaseds(RecipeMap recipes)
 	{
-		CustomizedButcherable.reload(recipeManager);
-		CustomizedFruit.reload(recipeManager);
+		CustomizedButcherable.reload(recipes);
+		CustomizedFruit.reload(recipes);
 		Butcherable.reload();
 
-		ModuleManager.LOADED_MODULES.forEach(m -> m.onRecipeReloaded(recipeManager));
+		ModuleManager.LOADED_MODULES.forEach(m -> m.onRecipeReloaded(recipes));
 	}
 
 	private void onRegisterPayloadHandlers(RegisterPayloadHandlersEvent event)

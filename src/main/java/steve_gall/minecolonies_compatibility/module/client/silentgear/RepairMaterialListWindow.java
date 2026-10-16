@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.module.client.silentgear;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +22,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.gear.gear.material.MaterialInstance;
 import net.silentchaos512.gear.setup.gear.PartTypes;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
@@ -121,11 +121,11 @@ public class RepairMaterialListWindow extends AbstractModuleWindow<RepairMateria
 
 		if (button.getID().equals("crafting"))
 		{
-			PacketDistributor.sendToServer(new RepairMaterialOpenTeachMessage(this.moduleView));
+			ClientPacketDistributor.sendToServer(new RepairMaterialOpenTeachMessage(this.moduleView));
 		}
 		else if (button == this.inventoryButton)
 		{
-			PacketDistributor.sendToServer(new RepairKitOpenInventoryMessage(this.moduleView));
+			ClientPacketDistributor.sendToServer(new RepairKitOpenInventoryMessage(this.moduleView));
 		}
 
 		var idx = this.resourceList.getListElementIndexByPane(button);

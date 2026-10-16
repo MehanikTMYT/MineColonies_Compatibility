@@ -1,8 +1,8 @@
 package steve_gall.minecolonies_compatibility.module.common.dynamictrees;
 
+import net.minecraft.world.item.crafting.RecipeMap;
 import com.dtteam.dynamictrees.tree.species.Species;
 
-import net.minecraft.world.item.crafting.RecipeManager;
 import steve_gall.minecolonies_compatibility.api.common.plant.CustomizedFruit;
 import steve_gall.minecolonies_compatibility.module.common.AbstractModule;
 
@@ -15,9 +15,9 @@ public class DynamicTreesModule extends AbstractModule
 	}
 
 	@Override
-	protected void onRecipeReloaded(RecipeManager recipeManager)
+	protected void onRecipeReloaded(RecipeMap recipes)
 	{
-		super.onRecipeReloaded(recipeManager);
+		super.onRecipeReloaded(recipes);
 
 		for (var species : Species.REGISTRY)
 		{

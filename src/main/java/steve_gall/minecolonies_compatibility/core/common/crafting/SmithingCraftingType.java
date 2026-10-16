@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.common.crafting;
 
+import net.minecraft.world.item.crafting.RecipeMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,7 +22,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.minecraft.world.item.crafting.SmithingRecipeInput;
@@ -37,13 +37,13 @@ public class SmithingCraftingType extends CraftingType
 	}
 
 	@Override
-	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeManager recipeManager, @Nullable Level level)
+	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeMap recipeMap, @Nullable Level level)
 	{
 		var list = new ArrayList<IGenericRecipe>();
 		var tags = ModTags.Items.SMITHING_REQUIRED_LEVEL;
 		var registryAccess = level.registryAccess();
 
-		for (var holder : level.getRecipeManager().getAllRecipesFor(RecipeType.SMITHING))
+		for (var holder : recipeMap.byType(RecipeType.SMITHING))
 		{
 			if (holder.value() instanceof SmithingRecipeAccessor accesor)
 			{
@@ -131,7 +131,7 @@ public class SmithingCraftingType extends CraftingType
 		input.add(addition);
 		var allResults = getAllResults(recipe, registryAccess, template, base, addition);
 		return GenericRecipe.builder()//
-				.withRecipeId(recipe.id())//
+				.withRecipeId(recipe.id().identifier())//
 				.withOutputs(ItemStack.EMPTY, allResults)//
 				.withAdditionalOutputs(Arrays.asList())//
 				.withInputs(input)//
@@ -155,7 +155,7 @@ public class SmithingCraftingType extends CraftingType
 			{
 				try
 				{
-					list.add(recipe.value().assemble(new SmithingRecipeInput(template, base, addition), registryAccess));
+					list.add(recipe.value().assemble(new SmithingRecipeInput(template, base, addition)));
 				}
 				catch (Exception e)
 				{

@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.module.common.silentgear;
 
+import steve_gall.minecolonies_compatibility.core.common.crafting.RecipeLookup;
 import java.util.Arrays;
 
 import net.minecraft.world.item.ItemStack;
@@ -26,12 +27,12 @@ public class SilentGearToolHelper
 
 	public static ItemStack fill(ItemStack repairKit, ItemStack material, Level level)
 	{
-		var recipe = (CraftingRecipe) level.getRecipeManager().byKey(Const.FILL_REPAIR_KIT).orElse(null).value();
+		var recipe = (CraftingRecipe) RecipeLookup.byKey(level, Const.FILL_REPAIR_KIT).orElse(null).value();
 		var container = CraftingInput.of(2, 1, Arrays.asList(repairKit, material));
 
 		if (recipe.matches(container, level))
 		{
-			return recipe.assemble(container, level.registryAccess());
+			return recipe.assemble(container);
 		}
 		else
 		{
@@ -42,12 +43,12 @@ public class SilentGearToolHelper
 
 	public static RepairResult repair(ItemStack tool, ItemStack repairKit, Level level)
 	{
-		var recipe = (CraftingRecipe) level.getRecipeManager().byKey(Const.QUICK_REPAIR).orElse(null).value();
+		var recipe = (CraftingRecipe) RecipeLookup.byKey(level, Const.QUICK_REPAIR).orElse(null).value();
 		var container = CraftingInput.of(2, 1, Arrays.asList(tool, repairKit));
 
 		if (recipe.matches(container, level))
 		{
-			var repaired = recipe.assemble(container, level.registryAccess());
+			var repaired = recipe.assemble(container);
 			var remainingItems = recipe.getRemainingItems(container);
 			return new RepairResult(true, repaired, remainingItems.get(1));
 		}

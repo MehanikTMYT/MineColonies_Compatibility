@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.minecraft.client.Minecraft;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -150,7 +151,7 @@ public class FruitListModuleWindow extends AbstractModuleWindow<FruitListModuleV
 			this.updateResources();
 		}
 
-		if (!Screen.hasShiftDown())
+		if (!Minecraft.getInstance().hasShiftDown())
 		{
 			this.tickCounter++;
 		}
@@ -159,7 +160,7 @@ public class FruitListModuleWindow extends AbstractModuleWindow<FruitListModuleV
 
 	private boolean testFilter(ItemStack stack, String lowerCaseFilter)
 	{
-		return this.descriptionCache.computeIfAbsent(stack, s -> s.getDescriptionId().toLowerCase(Locale.US)).contains(lowerCaseFilter) || //
+		return this.descriptionCache.computeIfAbsent(stack, s -> s.getItem().getDescriptionId().toLowerCase(Locale.US)).contains(lowerCaseFilter) || //
 				this.hoverNameCache.computeIfAbsent(stack, s -> s.getHoverName().getString().toLowerCase(Locale.US)).contains(lowerCaseFilter);
 	}
 

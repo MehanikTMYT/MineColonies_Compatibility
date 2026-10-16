@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.common.crafting;
 
+import net.minecraft.world.item.crafting.RecipeMap;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.NeoForgeMod;
@@ -30,7 +30,7 @@ public class BucketFillingCraftingType extends CraftingType
 	}
 
 	@Override
-	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeManager recipeManager, @Nullable Level world)
+	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeMap recipeMap, @Nullable Level world)
 	{
 		return Collections.emptyList();
 	}

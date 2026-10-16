@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.core.common.building.module;
 
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +31,6 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import steve_gall.minecolonies_compatibility.api.common.building.module.AbstractCraftingModuleWithExternalWorkingBlocks;
 import steve_gall.minecolonies_compatibility.api.common.building.module.ICraftingResultListenerModule;
 import steve_gall.minecolonies_compatibility.core.common.crafting.BucketFillingCraftingType;
@@ -57,7 +58,7 @@ public class BucketFillingCraftingModule extends AbstractCraftingModuleWithExter
 
 		if (blockEntity != null)
 		{
-			var fluidHandler = blockEntity.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, null);
+			var fluidHandler = blockEntity.getLevel().getCapability(Capabilities.Fluid.BLOCK, pos, state, blockEntity, null);
 
 			if (fluidHandler != null)
 			{
@@ -149,13 +150,30 @@ public class BucketFillingCraftingModule extends AbstractCraftingModuleWithExter
 		{
 			for (var direction : Direction.values())
 			{
-				var fluidHandler = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, direction);
+				var fluidHandler = level.getCapability(Capabilities.Fluid.BLOCK, pos, direction);
 
 				if (fluidHandler != null)
 				{
+					// fleet 26.1.2: transfer API (ResourceHandler<FluidResource> + transaction) instead of IFluidHandler#drain
 					var stack = recipe.getFluidStack();
-					var drained = fluidHandler.drain(stack, simulate ? FluidAction.SIMULATE : FluidAction.EXECUTE);
-					return drained.getAmount() >= stack.getAmount();
+
+					try (var transaction = Transaction.openRoot())
+					{
+						var drained = fluidHandler.extract(FluidResource.of(stack), stack.getAmount(), transaction);
+
+						if (drained >= stack.getAmount())
+						{
+							if (!simulate)
+							{
+								transaction.commit();
+							}
+
+							return true;
+						}
+
+						return false;
+					}
+
 				}
 
 			}

@@ -53,7 +53,7 @@ public class JobButcher extends AbstractJob<EntityAIWorkButcher, JobButcher>
 	{
 		super.deserializeNBT(provider, compound);
 
-		if (compound.contains(TAG_TABLE_NEEDED, Tag.TAG_STRING))
+		if (compound.contains(TAG_TABLE_NEEDED))
 		{
 			this.tableNeeded = CustomizedButcherable.getRegistry().get(Identifier.parse(compound.getStringOr(TAG_TABLE_NEEDED, "")));
 		}

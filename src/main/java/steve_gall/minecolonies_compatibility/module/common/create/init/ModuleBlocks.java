@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.module.common.create.init;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import com.simibubi.create.foundation.data.SharedProperties;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -14,7 +16,7 @@ public class ModuleBlocks
 {
 	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK, MineColoniesCompatibility.MOD_ID);
 
-	public static final DeferredHolder<Block, CitizenStockKeeperBlock> CITIZEN_STOCK_KEEPER = REGISTER.register("citizen_stock_keeper", () -> new CitizenStockKeeperBlock(BlockBehaviour.Properties.ofFullCopy(SharedProperties.softMetal())));
+	public static final DeferredHolder<Block, CitizenStockKeeperBlock> CITIZEN_STOCK_KEEPER = REGISTER.register("citizen_stock_keeper", id -> new CitizenStockKeeperBlock(BlockBehaviour.Properties.ofFullCopy(SharedProperties.softMetal())));
 
 	private ModuleBlocks()
 	{

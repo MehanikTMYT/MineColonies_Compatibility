@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.api.common.butcher;
 
+import net.minecraft.world.item.crafting.RecipeMap;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.block.state.BlockState;
 import steve_gall.minecolonies_compatibility.api.common.crafting.ToolOrIngredientStack;
 import steve_gall.minecolonies_compatibility.core.common.init.ModToolTypes;
@@ -36,7 +36,7 @@ public abstract class CustomizedButcherable
 		VOLATILE.put(butcherable.getId(), butcherable);
 	}
 
-	public static void reload(@NotNull RecipeManager recipeManager)
+	public static void reload(@NotNull RecipeMap recipes)
 	{
 		VOLATILE.keySet().forEach(REGISTRY::remove);
 		VOLATILE.clear();

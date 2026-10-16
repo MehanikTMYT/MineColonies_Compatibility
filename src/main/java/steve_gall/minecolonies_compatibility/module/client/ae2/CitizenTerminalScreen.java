@@ -23,7 +23,7 @@ public class CitizenTerminalScreen extends AEBaseScreen<CitizenTerminalMenu>
 		super(menu, playerInventory, title, style);
 
 		var part = (CitizenTerminalPart) menu.getTarget();
-		this.setTextContent(TEXT_ID_DIALOG_TITLE, part.getPartItem().asItem().getDescription());
+		this.setTextContent(TEXT_ID_DIALOG_TITLE, part.getPartItem().asItem().getName(part.getPartItem().asItem().getDefaultInstance()));
 
 		this.accessButton = new ServerSettingToggleButton<>(Settings.ACCESS, AccessRestriction.READ_WRITE);
 		this.addToLeftToolbar(this.accessButton);

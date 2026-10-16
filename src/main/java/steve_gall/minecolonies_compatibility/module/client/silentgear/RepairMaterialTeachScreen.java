@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.module.client.silentgear;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import java.util.List;
 
 import com.minecolonies.api.crafting.ItemStorage;
@@ -10,7 +11,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.silentchaos512.gear.gear.material.MaterialInstance;
 import net.silentchaos512.gear.setup.gear.PartTypes;
 import steve_gall.minecolonies_compatibility.core.client.gui.TeachRecipeScreen;
@@ -33,20 +33,18 @@ public class RepairMaterialTeachScreen extends TeachRecipeScreen<RepairMaterialT
 	{
 		super(menu, inventory, title);
 
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override
 	protected void onDone(ItemStack item, List<ItemStorage> input)
 	{
-		PacketDistributor.sendToServer(new RepairMaterialMaterialMessage(this.menu.getModulePos().getModuleView(), true, item));
+		ClientPacketDistributor.sendToServer(new RepairMaterialMaterialMessage(this.menu.getModulePos().getModuleView(), true, item));
 	}
 
 	@Override
-	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY)
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBg(graphics, partialTicks, mouseX, mouseY);
+		super.extractBackground(graphics, mouseX, mouseY, partialTicks);
 
 		var recipe = this.menu.getRecipe();
 
@@ -67,9 +65,9 @@ public class RepairMaterialTeachScreen extends TeachRecipeScreen<RepairMaterialT
 		{
 			var x = this.leftPos + 46;
 			var y = this.topPos + 36;
-			graphics.drawString(this.font, this.materialText, x, y, 0xFFFFFFFF);
+			graphics.text(this.font, this.materialText, x, y, 0xFFFFFFFF);
 			y += this.font.lineHeight;
-			graphics.drawString(this.font, this.tierText, x, y, 0xFFFFFFFF);
+			graphics.text(this.font, this.tierText, x, y, 0xFFFFFFFF);
 			y += this.font.lineHeight;
 		}
 

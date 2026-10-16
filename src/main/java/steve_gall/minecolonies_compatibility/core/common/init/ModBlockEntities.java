@@ -10,7 +10,7 @@ import steve_gall.minecolonies_compatibility.core.common.block.entity.CommonNetw
 public class ModBlockEntities
 {
 	public static final DeferredRegister<BlockEntityType<?>> REGISTER = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, MineColoniesCompatibility.MOD_ID);
-	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CommonNetworkStorageBlockEntity>> COMMON_NETWORK_STORAGE = REGISTER.register("common_network_storage", () -> BlockEntityType.Builder.of(CommonNetworkStorageBlockEntity::new, ModBlocks.COMMON_NETWORK_STORAGE.get()).build(null));
+	public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CommonNetworkStorageBlockEntity>> COMMON_NETWORK_STORAGE = REGISTER.register("common_network_storage", () -> new BlockEntityType<>(CommonNetworkStorageBlockEntity::new, ModBlocks.COMMON_NETWORK_STORAGE.get()));
 
 	private ModBlockEntities()
 	{

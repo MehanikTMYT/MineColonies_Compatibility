@@ -12,7 +12,7 @@ import steve_gall.minecolonies_tweaks.api.common.tool.CustomToolType;
 
 public class ToolOrIngredientStack
 {
-	public static final ToolOrIngredientStack EMPTY = of(Ingredient.EMPTY);
+	public static final ToolOrIngredientStack EMPTY = new ToolOrIngredientStack(false, ModEquipmentTypes.none.get(), IngredientStack.EMPTY);
 
 	private final boolean isToolType;
 	@NotNull

@@ -13,7 +13,7 @@ import net.minecraft.world.level.LevelWriter;
 import net.minecraft.world.level.block.Block;
 import net.regions_unexplored.registry.RUBlocks;
 import net.regions_unexplored.registry.RUItems;
-import net.regions_unexplored.world.level.block.plant.food.SalmonBerryBushBlock;
+import net.regions_unexplored.block.type.food.SalmonBerryBushBlock;
 import steve_gall.minecolonies_compatibility.api.common.plant.CustomizedFruit;
 import steve_gall.minecolonies_compatibility.api.common.plant.HarvesterContext;
 import steve_gall.minecolonies_compatibility.api.common.plant.PlantBlockContext;

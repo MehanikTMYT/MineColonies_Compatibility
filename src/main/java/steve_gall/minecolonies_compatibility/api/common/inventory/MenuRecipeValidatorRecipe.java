@@ -16,7 +16,9 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
+import com.minecolonies.api.crafting.VanillaRecipeUtils;
+import steve_gall.minecolonies_compatibility.core.common.crafting.RecipeLookup;
 import net.minecraft.world.level.Level;
 import steve_gall.minecolonies_compatibility.core.common.item.ItemStackHelper;
 
@@ -35,13 +37,13 @@ public abstract class MenuRecipeValidatorRecipe<RECIPE extends Recipe<RECIPE_INP
 	@Override
 	public List<RecipeHolder<RECIPE>> findAll(Container container, ServerPlayer player)
 	{
-		return this.level.getRecipeManager().getAllRecipesFor(this.getRecipeType()).stream().filter(recipeHolder ->
+		return RecipeLookup.byType(this.level, this.getRecipeType()).stream().filter(recipeHolder ->
 		{
 			var recipe = recipeHolder.value();
 
 			if (this.test(recipeHolder, container, player))
 			{
-				return recipe.isSpecial() || !this.level.getGameRules().getBooleanOr(GameRules.RULE_LIMITED_CRAFTING, false) || player.getRecipeBook().contains(recipeHolder) || player.isCreative();
+				return recipe.isSpecial() || !player.level().getGameRules().get(GameRules.LIMITED_CRAFTING) || player.getRecipeBook().contains(recipeHolder.id()) || player.isCreative();
 			}
 
 			return false;
@@ -61,7 +63,7 @@ public abstract class MenuRecipeValidatorRecipe<RECIPE extends Recipe<RECIPE_INP
 			return false;
 		}
 
-		var ingredientsSize = recipe.getIngredients().size();
+		var ingredientsSize = recipe.placementInfo().ingredients().size();
 		var inputsSize = ItemStackHelper.filterNotEmpty(RecipeInputHelper.getItemStacks(input)).size();
 		return ingredientsSize == inputsSize;
 	}
@@ -70,7 +72,7 @@ public abstract class MenuRecipeValidatorRecipe<RECIPE extends Recipe<RECIPE_INP
 	public CompoundTag serialize(HolderLookup.Provider provider, IFactoryController controller, RecipeHolder<RECIPE> recipeHolder)
 	{
 		var tag = new CompoundTag();
-		tag.putString(TAG_ID, recipeHolder.id().toString());
+		tag.putString(TAG_ID, recipeHolder.id().identifier().toString());
 		return tag;
 	}
 
@@ -79,19 +81,19 @@ public abstract class MenuRecipeValidatorRecipe<RECIPE extends Recipe<RECIPE_INP
 	public RecipeHolder<RECIPE> deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
 		var recipeId = Identifier.parse(tag.getStringOr(TAG_ID, ""));
-		return (RecipeHolder<RECIPE>) this.level.getRecipeManager().byKey(recipeId).orElse(null);
+		return (RecipeHolder<RECIPE>) RecipeLookup.byKey(this.level, recipeId).orElse(null);
 	}
 
 	@Override
 	public ItemStack getResultItem(RecipeHolder<RECIPE> recipe, HolderLookup.Provider provider)
 	{
-		return recipe.value().getResultItem(provider);
+		return VanillaRecipeUtils.getResultItem(recipe.value(), this.level);
 	}
 
 	@Override
 	public Identifier getRecipeId(RecipeHolder<RECIPE> recipe)
 	{
-		return recipe.id();
+		return recipe.id().identifier();
 	}
 
 	public abstract RecipeType<RECIPE> getRecipeType();

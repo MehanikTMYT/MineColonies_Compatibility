@@ -1,8 +1,8 @@
 package steve_gall.minecolonies_compatibility.module.common;
 
+import net.minecraft.world.item.crafting.RecipeMap;
 import java.util.function.Supplier;
 
-import net.minecraft.world.item.crafting.RecipeManager;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.ModLoadingContext;
 import steve_gall.minecolonies_tweaks.api.common.building.module.ModuleRegisterEvent;
@@ -65,9 +65,9 @@ public class OptionalModule<MODULE extends AbstractModule>
 		this.module.onRegisterNetwork(channel);
 	}
 
-	public void onRecipeReloaded(RecipeManager recipeManager)
+	public void onRecipeReloaded(RecipeMap recipes)
 	{
-		this.module.onRecipeReloaded(recipeManager);
+		this.module.onRecipeReloaded(recipes);
 	}
 
 	public boolean isLoaded()

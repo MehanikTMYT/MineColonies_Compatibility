@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.common.crafting;
 
+import steve_gall.minecolonies_compatibility.core.common.item.ItemStackHelper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -10,7 +11,7 @@ public class GenericRecipeHelper
 {
 	public static List<ItemStack> getAdditionalOutputs(List<List<ItemStack>> inputs)
 	{
-		return getAdditionalOutputs(inputs, ItemStack::getCraftingRemainingItem);
+		return getAdditionalOutputs(inputs, ItemStackHelper::getCraftingRemainder);
 	}
 
 	public static List<ItemStack> getAdditionalOutputs(List<List<ItemStack>> inputs, Function<ItemStack, ItemStack> getCraftingRemainingStack)

@@ -86,9 +86,7 @@ public abstract class AbstractEntityAIHerderMixin<J extends AbstractJob<?, J>, B
 	@WrapOperation(method = "butcherSwing", remap = false, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Animal;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", remap = true))
 	private boolean butcherSwing_hurt(Animal animal, DamageSource source, float damage, Operation<Boolean> operation)
 	{
-		var damageType = this.worker.level().registryAccess().registry(Registries.DAMAGE_TYPE).get().get(DamageTypes.PLAYER_ATTACK);
-
-		if (source.type() == damageType && source.getEntity() instanceof FakePlayer player)
+		if (source.is(DamageTypes.PLAYER_ATTACK) && source.getEntity() instanceof FakePlayer player)
 		{
 			// fleet 26.1.2: Butchercraft slaughter hook removed with the disabled butchercraft module
 

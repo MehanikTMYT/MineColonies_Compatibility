@@ -1,5 +1,8 @@
 package steve_gall.minecolonies_compatibility.core.common.requestsystem;
 
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
+import net.minecraft.network.chat.ComponentSerialization;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,8 +35,19 @@ public class NetworkCrafting implements IRequestableObject
 		crafting.cycles = tag.getIntOr("cycles", 0);
 		crafting.item = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty("item"));
 		crafting.view = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty("view"));
-		crafting.text = Component.Serializer.fromJson(tag.getStringOr("text", ""), provider);
+		crafting.text = textFromJson(provider, tag.getStringOr("text", ""));
 		return crafting;
+	}
+
+	/** fleet 26.1.2: Component.Serializer is gone; same JSON text format through the component codec. */
+	private static Component textFromJson(HolderLookup.Provider provider, String json)
+	{
+		if (json.isEmpty())
+		{
+			return Component.empty();
+		}
+
+		return ComponentSerialization.CODEC.parse(provider.createSerializationContext(JsonOps.INSTANCE), JsonParser.parseString(json)).result().orElse(Component.empty());
 	}
 
 	public static void serialize(@NotNull HolderLookup.Provider provider, @NotNull IFactoryController controller, @NotNull CompoundTag tag, @NotNull NetworkCrafting request)
@@ -41,7 +55,7 @@ public class NetworkCrafting implements IRequestableObject
 		tag.putInt("cycles", request.cycles);
 		tag.put("item", ItemSerializationHelper.serializeTag(provider, request.item));
 		tag.put("view", ItemSerializationHelper.serializeTag(provider, request.view));
-		tag.putString("text", Component.Serializer.toJson(request.text, provider));
+		tag.putString("text", ComponentSerialization.CODEC.encodeStart(provider.createSerializationContext(JsonOps.INSTANCE), request.text).result().map(Object::toString).orElse("\"\""));
 	}
 
 	private int cycles;

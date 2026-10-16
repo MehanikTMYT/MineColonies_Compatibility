@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.api.common.plant;
 
+import net.minecraft.world.item.crafting.RecipeMap;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeManager;
 
 public abstract class CustomizedFruit
 {
@@ -33,7 +33,7 @@ public abstract class CustomizedFruit
 		VOLATILE.put(fruit.getId(), fruit);
 	}
 
-	public static void reload(@NotNull RecipeManager recipeManager)
+	public static void reload(@NotNull RecipeMap recipes)
 	{
 		VOLATILE.keySet().forEach(REGISTRY::remove);
 		VOLATILE.clear();

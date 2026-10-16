@@ -45,7 +45,7 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 	{
 		var emptyBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_EMPTY_BUCKET));
 		var fluidId = Identifier.parse(tag.getStringOr(TAG_FLUID, ""));
-		var fluid = BuiltInRegistries.FLUID.get(fluidId);
+		var fluid = BuiltInRegistries.FLUID.getValue(fluidId);
 		var fluidAmount = tag.contains(TAG_FLUID_AMOUNT) ? tag.getIntOr(TAG_FLUID_AMOUNT, 0) : FluidType.BUCKET_VOLUME;
 		var dataComponentPatch = DataComponentPatch.CODEC.decode(NbtOps.INSTANCE, tag.getCompoundOrEmpty(TAG_DATA_COMPONENT_PATCH)).getOrThrow().getFirst();
 		var filledBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_FILLED_BUCKET));

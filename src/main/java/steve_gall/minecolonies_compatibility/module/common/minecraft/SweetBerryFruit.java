@@ -64,7 +64,7 @@ public class SweetBerryFruit extends CustomizedFruit
 		{
 			var state = context.getState();
 			var age = state.getValue(SweetBerryBushBlock.AGE);
-			var count = 1 + level.random.nextInt(2) + (age == SweetBerryBushBlock.MAX_AGE ? 1 : 0);
+			var count = 1 + level.getRandom().nextInt(2) + (age == SweetBerryBushBlock.MAX_AGE ? 1 : 0);
 			level.setBlock(context.getPosition(), state.setValue(SweetBerryBushBlock.AGE, 1), Block.UPDATE_CLIENTS);
 
 			return Collections.singletonList(new ItemStack(Items.SWEET_BERRIES, count));

@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.api.common.building.module.INetworkStorageView;
 import steve_gall.minecolonies_compatibility.api.common.building.module.NetworkStorageViewRegistry;
 import steve_gall.minecolonies_compatibility.core.common.building.module.NetworkStorageModuleView;
@@ -66,7 +66,7 @@ public class NetworkStorageModuleWindow extends AbstractModuleWindow<NetworkStor
 
 			if (this.refreshTicks % 20 == 0)
 			{
-				PacketDistributor.sendToServer(new NetworkStorageRefreshMessage(this.module));
+				ClientPacketDistributor.sendToServer(new NetworkStorageRefreshMessage(this.module));
 			}
 
 			if (this.refreshTicks == 0)
@@ -92,7 +92,7 @@ public class NetworkStorageModuleWindow extends AbstractModuleWindow<NetworkStor
 
 		if (button.getID().equals(BUTTON_REFRESH))
 		{
-			PacketDistributor.sendToServer(new NetworkStorageRefreshMessage(this.module));
+			ClientPacketDistributor.sendToServer(new NetworkStorageRefreshMessage(this.module));
 
 			button.setEnabled(false);
 			button.setText(TEXT_REFRESHING);

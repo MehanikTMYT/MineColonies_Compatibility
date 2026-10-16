@@ -1,5 +1,8 @@
 package steve_gall.minecolonies_compatibility.core.common.block.entity;
 
+import net.minecraft.nbt.IntTag;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -57,25 +60,28 @@ public class CommonNetworkStorageBlockEntity extends BlockEntity implements INet
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider provider)
 	{
-		return this.saveWithId(provider);
+		return this.saveCustomOnly(provider);
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag compound, HolderLookup.Provider provider)
+	protected void loadAdditional(ValueInput input)
 	{
-		super.loadAdditional(compound, provider);
+		super.loadAdditional(input);
 
-		this.view.readLink(provider, compound.getCompoundOrEmpty("view"));
-		this.accessDirection = AccessDirection.deserialize(compound.get("accessDirection"));
+		this.view.readLink(input.lookup(), input.read("view", CompoundTag.CODEC).orElseGet(CompoundTag::new));
+		this.accessDirection = AccessDirection.deserialize(input.getInt("accessDirection").map(IntTag::valueOf).orElse(null));
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag compound, HolderLookup.Provider provider)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(compound, provider);
+		super.saveAdditional(output);
 
-		compound.put("view", this.view.writeLink(provider));
-		compound.put("accessDirection", this.accessDirection.serialize());
+		output.store("view", CompoundTag.CODEC, this.view.writeLink(this.level != null ? this.level.registryAccess() : net.minecraft.core.RegistryAccess.EMPTY));
+		if (this.accessDirection.serialize() instanceof net.minecraft.nbt.NumericTag numeric)
+		{
+			output.putInt("accessDirection", numeric.intValue());
+		}
 	}
 
 	@Override

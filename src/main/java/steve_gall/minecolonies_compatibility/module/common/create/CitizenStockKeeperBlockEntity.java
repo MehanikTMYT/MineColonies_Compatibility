@@ -1,5 +1,8 @@
 package steve_gall.minecolonies_compatibility.module.common.create;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,7 +25,7 @@ import com.simibubi.create.content.logistics.packagerLink.LogisticallyLinkedBeha
 import com.simibubi.create.content.logistics.stockTicker.PackageOrderWithCrafts;
 import com.simibubi.create.content.logistics.stockTicker.StockTickerBlockEntity;
 
-import net.createmod.catnip.codecs.CatnipCodecUtils;
+import net.createmod.catnip.api.data.codec.CatnipCodecUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -161,35 +164,25 @@ public class CitizenStockKeeperBlockEntity extends BlockEntity implements INetwo
 	}
 
 	@Override
-	public void loadAdditional(CompoundTag tag, HolderLookup.Provider provider)
+	public void loadAdditional(ValueInput input)
 	{
-		super.loadAdditional(tag, provider);
+		super.loadAdditional(input);
 
-		if (tag.contains(TAG_LINK))
-		{
-			this.view.readLink(provider, tag.getCompoundOrEmpty(TAG_LINK));
-		}
-
-		if (tag.contains(TAG_DATA))
-		{
-			this.view.readData(provider, tag.getCompoundOrEmpty(TAG_DATA));
-		}
-
-		if (tag.contains(TAG_ADDRESS))
-		{
-			this.address = tag.getStringOr(TAG_ADDRESS, "");
-		}
-
+		var provider = input.lookup();
+		input.read(TAG_LINK, CompoundTag.CODEC).ifPresent(link -> this.view.readLink(provider, link));
+		input.read(TAG_DATA, CompoundTag.CODEC).ifPresent(data -> this.view.readData(provider, data));
+		input.getString(TAG_ADDRESS).ifPresent(address -> this.address = address);
 	}
 
 	@Override
-	protected void saveAdditional(CompoundTag tag, HolderLookup.Provider provider)
+	protected void saveAdditional(ValueOutput output)
 	{
-		super.saveAdditional(tag, provider);
+		super.saveAdditional(output);
 
-		tag.put(TAG_LINK, this.view.writeLink(provider));
-		tag.put(TAG_DATA, this.view.writeData(provider));
-		tag.putString(TAG_ADDRESS, this.address);
+		var provider = this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
+		output.store(TAG_LINK, CompoundTag.CODEC, this.view.writeLink(provider));
+		output.store(TAG_DATA, CompoundTag.CODEC, this.view.writeData(provider));
+		output.putString(TAG_ADDRESS, this.address);
 	}
 
 	@Override
@@ -607,7 +600,7 @@ public class CitizenStockKeeperBlockEntity extends BlockEntity implements INetwo
 
 		public TaskHolder(HolderLookup.Provider provider, CompoundTag tag)
 		{
-			this.requested = CatnipCodecUtils.decode(InventorySummary.CODEC, tag.getCompoundOrEmpty("requested")).orElseThrow();
+			this.requested = CatnipCodecUtils.decode(InventorySummary.CODEC, provider, tag.getCompoundOrEmpty("requested")).orElseThrow();
 			this.requestCount = tag.getIntOr("requestCount", 0);
 			this.insertedCount = tag.getIntOr("insertedCount", 0);
 		}
@@ -615,7 +608,7 @@ public class CitizenStockKeeperBlockEntity extends BlockEntity implements INetwo
 		public CompoundTag serializeTag(HolderLookup.Provider provider)
 		{
 			var tag = new CompoundTag();
-			tag.put("requested", CatnipCodecUtils.encode(InventorySummary.CODEC, this.requested).orElseThrow());
+			tag.put("requested", CatnipCodecUtils.encode(InventorySummary.CODEC, provider, this.requested).orElseThrow());
 			tag.putInt("requestCount", this.requestCount);
 			tag.putInt("insertedCount", this.insertedCount);
 

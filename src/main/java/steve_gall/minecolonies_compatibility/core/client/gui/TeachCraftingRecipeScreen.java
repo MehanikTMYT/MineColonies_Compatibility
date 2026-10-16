@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import java.util.List;
 
 import com.minecolonies.api.crafting.ItemStorage;
@@ -10,7 +11,6 @@ import com.minecolonies.core.network.messages.server.colony.building.worker.AddR
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.common.inventory.TeachRecipeMenu;
 import steve_gall.minecolonies_tweaks.api.common.crafting.ICustomizedRecipeStorage;
 
@@ -42,7 +42,7 @@ public abstract class TeachCraftingRecipeScreen<MENU extends TeachRecipeMenu<REC
 	protected void onDone(RECIPE recipe, List<ItemStorage> input)
 	{
 		var storage = this.createRecipeStorage(recipe, input).wrap();
-		PacketDistributor.sendToServer(new AddRemoveRecipeMessage(this.module.getBuildingView(), false, storage, this.module.getProducer().getRuntimeID()));
+		ClientPacketDistributor.sendToServer(new AddRemoveRecipeMessage(this.module.getBuildingView(), false, storage, this.module.getProducer().getRuntimeID()));
 	}
 
 	public abstract CraftingType getCraftingType();

@@ -5,7 +5,7 @@ import com.minecolonies.api.util.IItemHandlerCapProvider;
 
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.neoforge.capabilities.Capabilities.ItemHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -57,7 +57,8 @@ public class CreateModule extends AbstractModule
 
 	private void onRegisterCapabilities(RegisterCapabilitiesEvent e)
 	{
-		e.registerBlockEntity(ItemHandler.BLOCK, ModuleBlockEntities.CITIZEN_STOCK_KEEPER.get(), IItemHandlerCapProvider::getItemHandlerCap);
+		// fleet 26.1.2: transfer API capability, bridged by MineColonies' IItemHandlerCapProvider
+		e.registerBlockEntity(Capabilities.Item.BLOCK, ModuleBlockEntities.CITIZEN_STOCK_KEEPER.get(), IItemHandlerCapProvider::getItemResourceHandlerCap);
 	}
 
 	private void onBuildCreativeModeTabContents(BuildCreativeModeTabContentsEvent e)

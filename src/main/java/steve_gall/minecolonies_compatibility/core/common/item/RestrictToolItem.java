@@ -40,8 +40,13 @@ public class RestrictToolItem extends Item implements IBlockOverlayItem
 	}
 
 	@Override
-	public boolean canAttackBlock(BlockState state, Level level, BlockPos pos, Player player)
+	public boolean canDestroyBlock(ItemStack itemStack, BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.LivingEntity user)
 	{
+		if (!(user instanceof Player player))
+		{
+			return super.canDestroyBlock(itemStack, state, level, pos, user);
+		}
+
 		if (!level.isClientSide())
 		{
 			var stack = player.getMainHandItem();

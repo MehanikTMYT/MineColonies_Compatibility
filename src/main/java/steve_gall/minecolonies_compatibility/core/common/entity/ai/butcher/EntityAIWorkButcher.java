@@ -516,7 +516,7 @@ public class EntityAIWorkButcher extends AbstractEntityAIInteract<JobButcher, Ab
 		{
 			if (customizable.getObject() instanceof IngredientDeliverable other)
 			{
-				return other.getIngredient().getStackingIds().equals(deliverable2.getIngredient().getStackingIds());
+				return java.util.Objects.equals(other.getIngredient(), deliverable2.getIngredient());
 			}
 
 		}

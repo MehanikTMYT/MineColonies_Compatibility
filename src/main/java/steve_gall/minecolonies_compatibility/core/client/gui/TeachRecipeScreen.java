@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.minecraft.client.renderer.RenderPipelines;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,7 +18,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.common.inventory.TeachRecipeMenu;
 import steve_gall.minecolonies_compatibility.core.common.item.ItemHandlerHelper2;
 import steve_gall.minecolonies_compatibility.core.common.network.message.TeachRecipeMenuSwitchingMessage;
@@ -52,7 +53,7 @@ public abstract class TeachRecipeScreen<MENU extends TeachRecipeMenu<RECIPE, ?>,
 
 		this.switchButton = new ImageButton(this.leftPos + this.getSwitchButtonX(), this.topPos + this.getSwitchButtonY(), SWITCH_WIDTH, SWITCH_HEIGHT, WindowConstants.CRAFTING_SWITCH, btn ->
 		{
-			PacketDistributor.sendToServer(new TeachRecipeMenuSwitchingMessage());
+			ClientPacketDistributor.sendToServer(new TeachRecipeMenuSwitchingMessage());
 		});
 		this.switchButton.visible = false;
 		this.addRenderableWidget(this.switchButton);
@@ -69,32 +70,31 @@ public abstract class TeachRecipeScreen<MENU extends TeachRecipeMenu<RECIPE, ?>,
 	}
 
 	@Override
-	public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.render(graphics, mouseX, mouseY, partialTicks);
+		super.extractRenderState(graphics, mouseX, mouseY, partialTicks);
 
 		if (this.lastError != null)
 		{
 			var x = this.doneButton.getX() + (this.doneButton.getWidth() - this.minecraft.font.width(this.lastError)) / 2;
 			var y = this.doneButton.getY() + this.doneButton.getHeight() + 2;
-			graphics.drawString(this.minecraft.font, this.lastError, x, y, 0xFFFF0000, true);
+			graphics.text(this.minecraft.font, this.lastError, x, y, 0xFFFF0000, true);
 		}
 
 		this.switchButton.visible = !ModuleManager.POLYMORPH.isLoaded() && this.menu.getRecipes().size() >= 2;
 
-		this.renderTooltip(graphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphicsExtractor graphics, float partialTicks, int mouseX, int mouseY)
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
-		graphics.blit(this.getTexture(), this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+		graphics.blit(RenderPipelines.GUI_TEXTURED, this.getTexture(), this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
 	}
 
 	public abstract Identifier getTexture();
 
 	@Override
-	protected void renderTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
+	protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY)
 	{
 		if (this.hoveredSlot != null)
 		{
@@ -111,7 +111,7 @@ public abstract class TeachRecipeScreen<MENU extends TeachRecipeMenu<RECIPE, ?>,
 					return;
 				}
 
-				graphics.renderComponentTooltip(this.font, tooltip, mouseX, mouseY);
+				graphics.setComponentTooltipForNextFrame(this.font, tooltip, mouseX, mouseY);
 			}
 
 		}
@@ -120,7 +120,7 @@ public abstract class TeachRecipeScreen<MENU extends TeachRecipeMenu<RECIPE, ?>,
 
 	protected void renderSlotTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Slot slot)
 	{
-		graphics.renderTooltip(this.font, slot.getItem(), mouseX, mouseY);
+		graphics.setTooltipForNextFrame(this.font, slot.getItem(), mouseX, mouseY);
 	}
 
 	protected List<Component> getEmptySlotTooltip(Slot slot)

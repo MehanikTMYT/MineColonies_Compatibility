@@ -184,7 +184,7 @@ public abstract class EntityAIWorkFarmerMixin extends AbstractEntityAICrafting<J
 				var hand = worker.getUsedItemHand();
 				var harvester = new HarvesterContext(worker, inventory.getHeldItem(hand));
 				var drops = this.increaseBlockDrops(method.harvest(context, harvester));
-				level.playSound(null, position, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.random.nextFloat() * 0.4F);
+				level.playSound(null, position, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + level.getRandom().nextFloat() * 0.4F);
 
 				for (var stack : drops)
 				{

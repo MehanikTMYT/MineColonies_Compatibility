@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import com.ldtteam.blockui.controls.Button;
@@ -8,7 +9,6 @@ import com.minecolonies.core.client.gui.modules.building.WindowListRecipes;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
 import steve_gall.minecolonies_compatibility.core.common.building.module.SmithingTemplateCraftingModuleView;
 import steve_gall.minecolonies_compatibility.core.common.item.ItemStackCounter;
@@ -42,7 +42,7 @@ public class WindowListSmithingTemplateRecipes extends WindowListRecipes
 
 		if (button == this.inventoryButton)
 		{
-			PacketDistributor.sendToServer(new SmithingTemplateOpenInventoryMessage(this.module));
+			ClientPacketDistributor.sendToServer(new SmithingTemplateOpenInventoryMessage(this.module));
 		}
 
 	}

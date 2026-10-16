@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 import com.ldtteam.blockui.controls.Button;
@@ -8,7 +9,6 @@ import com.minecolonies.core.client.gui.AbstractModuleWindow;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.api.common.building.module.IRestrictableModuleView;
 import steve_gall.minecolonies_compatibility.core.common.network.message.RestrictGiveToolMessage;
 
@@ -49,7 +49,7 @@ public class RestrictableModuleWindow extends AbstractModuleWindow<IRestrictable
 		}
 		else if (button.getID().equals("giveTool"))
 		{
-			PacketDistributor.sendToServer(new RestrictGiveToolMessage(this.module, this.module.getDesc()));
+			ClientPacketDistributor.sendToServer(new RestrictGiveToolMessage(this.module, this.module.getDesc()));
 		}
 
 	}

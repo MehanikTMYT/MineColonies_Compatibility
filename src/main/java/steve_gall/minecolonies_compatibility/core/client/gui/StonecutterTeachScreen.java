@@ -24,8 +24,6 @@ public class StonecutterTeachScreen extends TeachCraftingRecipeScreen<Stonecutte
 	{
 		super(menu, inventory, title);
 
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override
@@ -45,7 +43,7 @@ public class StonecutterTeachScreen extends TeachCraftingRecipeScreen<Stonecutte
 	{
 		var ingredient = input.get(0);
 		var result = this.menu.getResultContainer().getItem(0);
-		return new StonecutterRecipeStorage(recipe.id(), ingredient, result);
+		return new StonecutterRecipeStorage(recipe.id().identifier(), ingredient, result);
 	}
 
 }

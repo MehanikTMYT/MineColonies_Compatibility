@@ -24,8 +24,6 @@ public class SmithingTeachScreen extends TeachCraftingRecipeScreen<SmithingTeach
 	{
 		super(menu, inventory, title);
 
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override
@@ -47,7 +45,7 @@ public class SmithingTeachScreen extends TeachCraftingRecipeScreen<SmithingTeach
 		var base = input.get(1);
 		var addition = input.get(2);
 		var result = this.menu.getResultContainer().getItem(0);
-		return new SmithingRecipeStorage(recipe.id(), template, base, addition, result);
+		return new SmithingRecipeStorage(recipe.id().identifier(), template, base, addition, result);
 	}
 
 }

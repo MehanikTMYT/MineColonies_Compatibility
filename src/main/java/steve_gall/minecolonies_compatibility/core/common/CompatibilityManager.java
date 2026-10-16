@@ -29,7 +29,7 @@ public class CompatibilityManager
 		{
 			if (block instanceof StemBlockAccessor stemBlock)
 			{
-				this.grownToStem.put(BuiltInRegistries.BLOCK.get(stemBlock.getFruit()), block);
+				this.grownToStem.put(BuiltInRegistries.BLOCK.getValue(stemBlock.getFruit()), block);
 			}
 
 		}

@@ -11,7 +11,7 @@ public class ModuleBlocks
 {
 	public static final DeferredRegister<Block> REGISTER = DeferredRegister.create(BuiltInRegistries.BLOCK, MineColoniesCompatibility.MOD_ID);
 
-	public static final DeferredHolder<Block, CitizenGridBlock> CITIZEN_GRID = REGISTER.register("citizen_grid", CitizenGridBlock::new);
+	public static final DeferredHolder<Block, CitizenGridBlock> CITIZEN_GRID = REGISTER.register("citizen_grid", CitizenGridBlock::new); // fleet 26.1.2: Function<Identifier, Block> (RS 3 block properties need the id)
 
 	private ModuleBlocks()
 	{

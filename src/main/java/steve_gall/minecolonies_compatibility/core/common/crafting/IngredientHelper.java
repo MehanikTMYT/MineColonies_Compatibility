@@ -28,7 +28,7 @@ public class IngredientHelper
 
 	public static List<ItemStack> getStacks(@NotNull Ingredient ingredient)
 	{
-		return Arrays.asList(ingredient.getItems());
+		return ingredient.items().map(ItemStack::new).toList();
 	}
 
 	public static List<Ingredient> filterNotEmpty(List<Ingredient> ingredients)
@@ -38,7 +38,7 @@ public class IngredientHelper
 
 	public static boolean isTool(@NotNull Ingredient ingredient, @NotNull EquipmentTypeEntry toolType)
 	{
-		return Arrays.stream(ingredient.getItems()).filter(stack -> !ToolTypeTags.isInBlacklist(stack, toolType.getRegistryName())).allMatch(stack -> ItemStackHelper.isTool(stack, toolType));
+		return ingredient.items().map(ItemStack::new).filter(stack -> !ToolTypeTags.isInBlacklist(stack, toolType.getRegistryName())).allMatch(stack -> ItemStackHelper.isTool(stack, toolType));
 	}
 
 	public static @NotNull EquipmentTypeEntry findFirstToolType(@NotNull Ingredient ingredient)
@@ -75,7 +75,7 @@ public class IngredientHelper
 		{
 			return false;
 		}
-		for (var item : ingredient.getItems())
+		for (var item : ingredient.items().map(ItemStack::new).toList())
 		{
 			if (!item.isDamageableItem())
 			{

@@ -1,11 +1,12 @@
 package steve_gall.minecolonies_compatibility.core.client.gui;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
 import steve_gall.minecolonies_compatibility.core.common.inventory.AccessDirectionHolderMenu;
 import steve_gall.minecolonies_compatibility.core.common.network.message.AccessDirectionMessage;
@@ -18,10 +19,8 @@ public class AccessDirectionHolderScreen extends AbstractContainerScreen<AccessD
 
 	public AccessDirectionHolderScreen(AccessDirectionHolderMenu<?> containerMenu, Inventory inventory, Component title)
 	{
-		super(containerMenu, inventory, title);
+		super(containerMenu, inventory, title, 176, 137);
 
-		this.imageWidth = 176;
-		this.imageHeight = 137;
 		this.titleLabelX = 7;
 		this.titleLabelY = 7;
 		this.inventoryLabelX = 7;
@@ -38,19 +37,19 @@ public class AccessDirectionHolderScreen extends AbstractContainerScreen<AccessD
 		{
 			var next = blockEntity.getAccessDirection().next();
 			blockEntity.setAccessDirection(next);
-			PacketDistributor.sendToServer(new AccessDirectionMessage<>(blockEntity, next));
+			ClientPacketDistributor.sendToServer(new AccessDirectionMessage<>(blockEntity, next));
 		}));
 
 		this.accessDirectionButton.setAccessDirection(blockEntity.getAccessDirection());
 	}
 
 	@Override
-	public void render(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks)
+	public void extractRenderState(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.render(guiGraphics, mouseX, mouseY, partialTicks);
+		super.extractRenderState(guiGraphics, mouseX, mouseY, partialTicks);
 
 		var blockEntity = this.getMenu().getBlockEntity();
-		guiGraphics.drawString(this.font, NetworkStorageViewScreenUtils.getModuleText(blockEntity.getNetworkStorageView().getLinkedPos()), this.leftPos + 14, this.topPos + 21, 0xFF404040, false);
+		guiGraphics.text(this.font, NetworkStorageViewScreenUtils.getModuleText(blockEntity.getNetworkStorageView().getLinkedPos()), this.leftPos + 14, this.topPos + 21, 0xFF404040, false);
 
 		if (this.accessDirectionButton != null)
 		{
@@ -59,18 +58,17 @@ public class AccessDirectionHolderScreen extends AbstractContainerScreen<AccessD
 
 			if (this.accessDirectionButton.isMouseOver(mouseX, mouseY))
 			{
-				guiGraphics.renderTooltip(this.font, this.accessDirectionButton.getTooltipText(), mouseX, mouseY);
+				guiGraphics.setTooltipForNextFrame(this.font, this.accessDirectionButton.getTooltipText(), mouseX, mouseY);
 			}
 
 		}
 
-		this.renderTooltip(guiGraphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphicsExtractor guiGraphics, float partialTicks, int mouseX, int mouseY)
+	public void extractBackground(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks)
 	{
-		guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+		guiGraphics.blit(RenderPipelines.GUI_TEXTURED, TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight, 256, 256);
 	}
 
 }

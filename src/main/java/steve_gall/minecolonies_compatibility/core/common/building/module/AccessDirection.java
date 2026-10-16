@@ -22,7 +22,7 @@ public enum AccessDirection
 	{
 		if (tag instanceof NumericTag numeric)
 		{
-			return byId(numeric.getAsInt());
+			return byId(numeric.intValue());
 		}
 		else
 		{

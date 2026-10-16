@@ -1,6 +1,6 @@
 package steve_gall.minecolonies_compatibility.module.common;
 
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeMap;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
@@ -38,7 +38,7 @@ public class AbstractModule
 
 	}
 
-	protected void onRecipeReloaded(RecipeManager recipeManager)
+	protected void onRecipeReloaded(RecipeMap recipes)
 	{
 
 	}

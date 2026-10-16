@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.core.common.network.message;
 
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -48,7 +50,7 @@ public class BlockEntityRequestModelDataUpdateMessage extends AbstractMessage
 
 		if (blockEntity != null)
 		{
-			blockEntity.handleUpdateTag(this.tag, blockEntity.getLevel().registryAccess());
+			blockEntity.handleUpdateTag(TagValueInput.create(ProblemReporter.DISCARDING, blockEntity.getLevel().registryAccess(), this.tag));
 			blockEntity.requestModelDataUpdate();
 		}
 

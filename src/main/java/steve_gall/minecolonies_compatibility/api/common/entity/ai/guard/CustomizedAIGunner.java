@@ -346,7 +346,7 @@ public abstract class CustomizedAIGunner extends CustomizedAIGuard
 
 	public void doMeleeAttack(@NotNull AbstractEntityCitizen user, @NotNull LivingEntity target)
 	{
-		var damageType = user.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageSourceKeys.GUARD);
+		var damageType = user.level().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(DamageSourceKeys.GUARD);
 		var source = new DamageSource(damageType, user);
 
 		var damage = this.getMeleeAttackDamage(user, target);

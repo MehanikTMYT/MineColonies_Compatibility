@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.module.common.polymorph;
 
+import steve_gall.minecolonies_compatibility.core.common.crafting.RecipeLookup;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import java.util.TreeSet;
 
 import com.illusivesoulworks.polymorph.api.PolymorphApi;
@@ -19,9 +21,8 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.core.client.gui.TeachRecipeScreen;
 import steve_gall.minecolonies_compatibility.core.common.inventory.TeachRecipeMenu;
 import steve_gall.minecolonies_compatibility.core.common.item.ItemStackHelper;
@@ -35,7 +36,7 @@ public class PolymorphModule extends AbstractModule
 	{
 		super.onLoad();
 
-		if (FMLEnvironment.dist.isClient())
+		if (FMLEnvironment.getDist().isClient())
 		{
 			PolymorphWidgets.getInstance().registerWidget(new IRecipesWidgetFactory()
 			{
@@ -56,7 +57,7 @@ public class PolymorphModule extends AbstractModule
 							@Override
 							public void selectRecipe(Identifier id)
 							{
-								PacketDistributor.sendToServer(new TeachRecipeMenuSelectMessage(id));
+								ClientPacketDistributor.sendToServer(new TeachRecipeMenuSelectMessage(id));
 							}
 						};
 					}
@@ -74,7 +75,7 @@ public class PolymorphModule extends AbstractModule
 							@Override
 							public void selectRecipe(Identifier id)
 							{
-								PacketDistributor.sendToServer(new TeachRecipeMenuSelectMessage(id));
+								ClientPacketDistributor.sendToServer(new TeachRecipeMenuSelectMessage(id));
 							}
 
 							@Override
@@ -103,17 +104,17 @@ public class PolymorphModule extends AbstractModule
 	{
 		var level = player.level();
 		var registryAccess = level.registryAccess();
-		var notlimited = !level.getGameRules().getBooleanOr(GameRules.RULE_LIMITED_CRAFTING, false);
-		var tuples = level.getRecipeManager().getRecipesFor(RecipeType.CRAFTING, input, level).stream().filter(//
-				holder -> holder.value().isSpecial() || (notlimited || player.getRecipeBook().contains(holder) || player.isCreative())//
-		).map(holder -> new Tuple<>(holder, holder.value().assemble(input, registryAccess))).toList();
+		var notlimited = !level.getGameRules().get(GameRules.LIMITED_CRAFTING);
+		var tuples = RecipeLookup.recipes(level).getRecipesFor(RecipeType.CRAFTING, input, level).filter(//
+				holder -> holder.value().isSpecial() || (notlimited || player.getRecipeBook().contains(holder.id()) || player.isCreative())//
+		).map(holder -> new Tuple<>(holder, holder.value().assemble(input))).toList();
 
 		var pairs = new TreeSet<IRecipePair>();
 		Identifier selected = null;
 
 		for (var tuple : tuples)
 		{
-			var id = tuple.getA().id();
+			var id = tuple.getA().id().identifier();
 			var stack = tuple.getB();
 
 			if (stack.isEmpty())

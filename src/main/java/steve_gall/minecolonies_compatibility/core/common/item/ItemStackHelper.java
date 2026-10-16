@@ -19,7 +19,14 @@ public class ItemStackHelper
 {
 	public static List<ItemStack> getCraftingRemainings(List<ItemStack> list)
 	{
-		return mapAndFilterNotEmpty(list, ItemStack::getCraftingRemainingItem);
+		return mapAndFilterNotEmpty(list, ItemStackHelper::getCraftingRemainder);
+	}
+
+	/** fleet 26.1.2: ItemStack#getCraftingRemainingItem -> nullable ItemStackTemplate getCraftingRemainder(). */
+	public static ItemStack getCraftingRemainder(ItemStack stack)
+	{
+		var remainder = stack.getCraftingRemainder();
+		return remainder != null ? remainder.create() : ItemStack.EMPTY;
 	}
 
 	public static List<ItemStack> mapAndFilterNotEmpty(List<ItemStack> inputs, Function<ItemStack, ItemStack> func)

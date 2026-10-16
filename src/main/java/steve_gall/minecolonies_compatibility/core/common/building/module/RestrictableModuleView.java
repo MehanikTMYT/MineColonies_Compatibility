@@ -1,5 +1,6 @@
 package steve_gall.minecolonies_compatibility.core.common.building.module;
 
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -9,7 +10,6 @@ import com.minecolonies.api.colony.buildings.modules.AbstractBuildingModuleView;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.neoforged.neoforge.network.PacketDistributor;
 import steve_gall.minecolonies_compatibility.api.common.building.module.IRestrictableModuleView;
 import steve_gall.minecolonies_compatibility.core.client.gui.RestrictableModuleWindow;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
@@ -57,7 +57,7 @@ public class RestrictableModuleView extends AbstractBuildingModuleView implement
 	public void setRestrictEnabled(boolean enabled)
 	{
 		this.restrictEnabled = enabled;
-		PacketDistributor.sendToServer(new RestrictSetEnabledMessage(this, enabled));
+		ClientPacketDistributor.sendToServer(new RestrictSetEnabledMessage(this, enabled));
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class RestrictableModuleView extends AbstractBuildingModuleView implement
 	{
 		this.restrictPos1 = pos1;
 		this.restrictPos2 = pos2;
-		PacketDistributor.sendToServer(new RestrictSetAreaMessage(this, pos1, pos2));
+		ClientPacketDistributor.sendToServer(new RestrictSetAreaMessage(this, pos1, pos2));
 	}
 
 	@Override

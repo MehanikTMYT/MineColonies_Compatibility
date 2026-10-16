@@ -20,9 +20,7 @@ public class CitizenGridScreen extends AbstractBaseScreen<CitizenGridContainerMe
 
 	public CitizenGridScreen(CitizenGridContainerMenu containerMenu, Inventory inventory, Component title)
 	{
-		super(containerMenu, inventory, title);
-		this.imageWidth = 176;
-		this.imageHeight = 137;
+		super(containerMenu, inventory, title, 176, 137);
 		this.inventoryLabelY = 43;
 	}
 
@@ -42,11 +40,11 @@ public class CitizenGridScreen extends AbstractBaseScreen<CitizenGridContainerMe
 	}
 
 	@Override
-	public void render(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta)
+	public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta)
 	{
-		super.render(graphics, mouseX, mouseY, delta);
+		super.extractRenderState(graphics, mouseX, mouseY, delta);
 
-		graphics.drawString(this.font, NetworkStorageViewScreenUtils.getModuleText(this.menu.getLinkedPos()).getString(), this.leftPos + 14, this.topPos + 21, 0xFF404040, false);
+		graphics.text(this.font, NetworkStorageViewScreenUtils.getModuleText(this.menu.getLinkedPos()).getString(), this.leftPos + 14, this.topPos + 21, 0xFF404040, false);
 	}
 
 }

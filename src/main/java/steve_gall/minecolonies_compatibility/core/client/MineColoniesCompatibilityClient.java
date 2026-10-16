@@ -8,6 +8,7 @@ import net.neoforged.fml.javafmlmod.FMLModContainer;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.sound.PlaySoundEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import steve_gall.minecolonies_compatibility.core.client.gui.AccessDirectionHolderScreen;
 import steve_gall.minecolonies_compatibility.core.client.gui.BucketFillingTeachScreen;
 import steve_gall.minecolonies_compatibility.core.client.gui.SmithingTeachScreen;
@@ -25,6 +26,7 @@ public class MineColoniesCompatibilityClient
 
 		var forge_bus = NeoForge.EVENT_BUS;
 		forge_bus.addListener(EventPriority.HIGH, this::onPlaySoundEvent);
+		forge_bus.addListener(EventPriority.HIGHEST, this::onRecipesReceived);
 	}
 
 	private void onRegisterMenuScreens(RegisterMenuScreensEvent e)
@@ -43,13 +45,19 @@ public class MineColoniesCompatibilityClient
 			return;
 		}
 
-		var soundLocation = event.getSound().getLocation();
+		var soundLocation = event.getSound().getIdentifier();
 
 		if (!MinecoloniesAPIProxy.getInstance().getConfig().getClient().citizenVoices.get() && soundLocation.getNamespace().equals(MineColoniesCompatibility.MOD_ID) && soundLocation.getPath().startsWith(ModSoundEvents.CITIZEN_SOUND_EVENT_PREFIX))
 		{
 			event.setSound(null);
 		}
 
+	}
+
+	/** fleet 26.1.2: replaces RecipesUpdatedEvent; the map holds only the recipe types the server sends to clients. */
+	private void onRecipesReceived(RecipesReceivedEvent e)
+	{
+		MineColoniesCompatibility.reloadRecipeBaseds(e.getRecipeMap());
 	}
 
 }

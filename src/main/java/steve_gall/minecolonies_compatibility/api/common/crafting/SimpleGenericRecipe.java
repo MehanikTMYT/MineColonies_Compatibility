@@ -1,5 +1,7 @@
 package steve_gall.minecolonies_compatibility.api.common.crafting;
 
+import steve_gall.minecolonies_compatibility.core.common.item.ItemStackHelper;
+import steve_gall.minecolonies_compatibility.core.common.crafting.RecipeLookup;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +42,7 @@ public class SimpleGenericRecipe implements IGenericRecipe
 
 	public SimpleGenericRecipe(@NotNull RecipeHolder<?> recipeHolder, @NotNull HolderLookup.Provider provider)
 	{
-		this(recipeHolder.id(), IngredientHelper.getStacksList(IngredientHelper.filterNotEmpty(recipeHolder.value().getIngredients())), recipeHolder.value().getResultItem(provider));
+		this(recipeHolder.id().identifier(), IngredientHelper.getStacksList(IngredientHelper.filterNotEmpty(RecipeLookup.ingredients(recipeHolder.value()))), RecipeLookup.resultItem(recipeHolder.value(), provider));
 	}
 
 	public SimpleGenericRecipe(@NotNull Identifier recipeId, @NotNull List<List<ItemStack>> ingredients, @NotNull ItemStack output)
@@ -53,7 +55,7 @@ public class SimpleGenericRecipe implements IGenericRecipe
 
 	public ItemStack getCraftingRemainingItem(ItemStack stack)
 	{
-		return stack.getCraftingRemainingItem();
+		return ItemStackHelper.getCraftingRemainder(stack);
 	}
 
 	@Override
