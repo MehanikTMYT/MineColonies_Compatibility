@@ -1,186 +1,73 @@
 plugins {
-    id "net.neoforged.gradle.userdev" version "7.1.20"
+    id 'java-library'
+    id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
 
-apply plugin: "java-library"
-apply plugin: "maven-publish"
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+// fleet 26.1.2 port: NeoGradle userdev 7.1.38 + Java 25, local LDT stack and our ports, EMI only (JEI plugin in
+// src/disabled). Modules for mods without a 26.1.2 NeoForge release are in src/disabled. Original: .fleet-orig/build.gradle.
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 base {
     archivesName = rootProject.archives_base_name
 }
-version = "${rootProject.mc_version}-" + (project.hasProperty("buildWithSource") ? "libs" : "${rootProject.mod_version}")
+version = "${rootProject.mc_version}-${rootProject.mod_version}"
 group = rootProject.maven_group
 
 repositories {
-    maven {
-        name "JEI"
-        url "https://dvs1.progwml6.com/files/maven"
-    }
-    maven {
-        name "ModMaven"
-        url "https://modmaven.dev"
-    }
-    maven {
-        name "CurseForge"
-        url "https://www.cursemaven.com"
-    }
-    maven {
-        name "MineColonies"
-        url "https://ldtteam.jfrog.io/ldtteam/modding"
-    }
-    maven {
-        name "Kotlin for Forge"
-        url "https://thedarkcolour.github.io/KotlinForForge"
-    }
-    maven {
-        name "Create"
-        url "https://maven.createmod.net"
-    }
-    maven {
-        name "Registrate"
-        url "https://maven.ithundxr.dev/snapshots"
-    }
-    maven {
-        name "LocalMaven"
-        url uri("${projectDir}/libs")
-    }
-    flatDir {
-        name "LocalFlatDir"
-        dir "${projectDir}/libs"
-    }
+    mavenLocal()
+    maven { name "MineColonies"; url "https://ldtteam.jfrog.io/ldtteam/modding" }
 }
 
 runs {
     configureEach {
-        systemProperty "forge.logging.markers", "REGISTRIES"
-        systemProperty "forge.logging.console.level", "debug"
-
+        systemProperty "forge.logging.console.level", "info"
         modSource project.sourceSets.main
     }
-
-    client {
-        systemProperty "forge.enabledGameTestNamespaces", project.mod_id
-    }
-
-    server {
-        systemProperty "forge.enabledGameTestNamespaces", project.mod_id
-        programArgument '--nogui'
-    }
-
-    gameTestServer {
-        systemProperty "forge.enabledGameTestNamespaces", project.mod_id
-    }
-
-    data {
-        programArguments.addAll "--mod", project.mod_id, "--all", "--output", file("src/generated/resources/").getAbsolutePath(), "--existing", file("src/main/resources/").getAbsolutePath()
-    }
+    client {}
+    server { argument '--nogui' }
 }
 
 sourceSets.main.resources { srcDir "src/generated/resources" }
 
+def forks = "$rootDir/../.."
+def m2 = "${System.getProperty('user.home')}/.m2/repository"
+
 dependencies {
     implementation "net.neoforged:neoforge:${neoforge_api_version}"
 
-    // Required
-    implementation "com.ldtteam:minecolonies:${minecolonies_version}"
+    // Required — our 26.1.2 ports
+    implementation files("$forks/MineColonies/build/libs/minecolonies-${minecolonies_version}.jar")
     implementation "com.ldtteam:structurize:${structurize_version}"
     implementation "com.ldtteam:multipiston:${multipiston_version}"
     implementation "com.ldtteam:blockui:${blockui_version}"
-    //implementation "com.ldtteam:domum_ornamentum:${domumornamentum_version}"
-    implementation "curse.maven:domum-ornamentum-527361:${domumornamentum_file}"
-    implementation "blank:MineColonies_Tweaks-${mc_version}:libs"
+    implementation "com.ldtteam:domum-ornamentum:${domumornamentum_version}"
+    implementation files("$forks/colonial-addons/MineColonies_Tweaks/build/libs/MineColonies_Tweaks-${mc_version}-${minecolonies_tweaks_version}.jar")
 
-    // Optional
-    implementation "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
-    implementation "curse.maven:architectury-api-419699:${architectury_api_file}"
-    implementation "thedarkcolour:kotlinforforge-neoforge:${kotlin_for_forge_version}"
-    implementation "curse.maven:geckolib-388172:${geckolib_file}"
-    implementation "curse.maven:curios-309927:${curios_file}"
-    implementation "curse.maven:polymorph-388800:${polymorph_file}"
-    implementation "blusunrize.immersiveengineering:ImmersiveEngineering:${mc_version}-${immersive_engineering_version}"
-    implementation "malte0811:DualCodecs:${dualcodecs_version}";
-    implementation "curse.maven:croptopia-415438:${croptopia_file}"
-    implementation "curse.maven:epherolib-885449:${epherolib_file}"
-    implementation "curse.maven:pams-harvestcraft-2-trees-365460:${pamhc2trees_file}"
-    implementation "curse.maven:farmers-delight-398521:${farmers_delight_file})"
-    implementation "curse.maven:ars-nouveau-401955:${ars_nouveau_file}"
-    implementation "curse.maven:regions-unexplored-659110:${regions_unexplored_file}"
-    implementation "curse.maven:terrablender-940057:${terrablender_file}"
-    implementation "curse.maven:cobblemon-687131:${cobblemon_file}"
-    implementation "curse.maven:aether-255308:${aether_file}"
-    implementation "curse.maven:accessories-938917:${accessories_file}"
-    implementation "curse.maven:owo-lib-532610:${owolib_file}"
-    implementation "curse.maven:lets-do-vinery-704465:${lets_do_vinery_file}"
-    implementation "curse.maven:lets-do-meadow-821483:${lets_do_meadow_file}"
-    implementation "curse.maven:the-undergarden-379849:${the_undergarden_file}"
-    implementation "curse.maven:oreberries-replanted-454062:${oreberries_file}"
-    implementation "curse.maven:reliquary-reincarnations-241319:${reliquary_file}"
-    implementation "curse.maven:refined-storage-243076:${refined_storage_file}"
-    implementation "org.appliedenergistics:appliedenergistics2:${appliedenergistics2_version}"
-    implementation "curse.maven:ewewukeks-musket-mod-354562:${ewewukeks_musket_file}"
-    implementation "curse.maven:cloth-config-348521:${cloth_config_file}"
-    implementation "curse.maven:butchercraft-265715:${butchercraft_file}"
-    implementation "curse.maven:blueprint-382216:${blueprint_file}"
-    implementation "curse.maven:atmospheric-362393:${atmospheric_file}"
-    implementation "curse.maven:neapolitan-382016:${neapolitan_file}"
-    implementation "curse.maven:tacz-1-21-1-1353462:${tacz_file}"
-    implementation "curse.maven:jade-324717:${jade_file}"
-    implementation "curse.maven:fruits-delight-943774:${fruitsdelgiht_file}"
-    implementation "curse.maven:cultural-delights-574622:${culturaldelights_file}"
-    implementation ("com.simibubi.create:create-${mc_version}:${create_version}:slim") { transitive = false }
-    implementation "net.createmod.ponder:Ponder-NeoForge-${mc_version}:${ponder_version}"
-    compileOnly "dev.engine-room.flywheel:flywheel-neoforge-api-${mc_version}:${flywheel_version}"
-    runtimeOnly "dev.engine-room.flywheel:flywheel-neoforge-${mc_version}:${flywheel_version}"
-    implementation "com.tterrag.registrate:Registrate:${registrate_version}"
-    implementation "curse.maven:dynamictrees-252818:${dynamictrees_file}"
-    implementation "curse.maven:biolith-852512:${biolith_file}"
-    implementation "curse.maven:lithostitched-936015:${lithostitched_file}"
-    implementation "curse.maven:silent-lib-242998:${silentlib_file}"
-    implementation "curse.maven:silent-gear-297039:${silentgear_file}"
-    implementation "curse.maven:framework-549225:${framework_file}"
-    implementation "curse.maven:scorched-guns-neoforged-1538807:${scguns_file}"
-    implementation "blank:l2harvester:3.0.0"
-
-    // Runtiem Only
-    runtimeOnly "mekanism:Mekanism:${mc_version}-${mekanism_version}"
-    runtimeOnly "curse.maven:configured-457570:${configured_file}"
+    // Optional modules (compile only; each module loads only when its mod is present)
+    compileOnly("dev.emi:emi-neoforge:${emi_version}:api") { transitive = false }
+    compileOnly("org.appliedenergistics:appliedenergistics2:${appliedenergistics2_version}") { transitive = false }
+    compileOnly files("$m2/com/simibubi/create/create-26.1.2/${create_version}/create-26.1.2-${create_version}.jar",
+                      fileTree("$m2/net/createmod") { include "**/*.jar"; exclude "**/*-sources.jar" },
+                      fileTree("$m2/dev/engine-room/flywheel/flywheel-neoforge") { include "**/*-api.jar" },
+                      fileTree("$m2/com/tterrag/registrate") { include "**/*.jar"; exclude "**/*-sources.jar" })
+    compileOnly files("$forks/ae-stack/core/polymorph_plus/neoforge/build/libs/polymorph_plus-neoforge-${polymorph_plus_version}.jar")
+    compileOnly files("$forks/pack-libs/curios-neoforge-15.0.0+26.1.2.jar")
+    compileOnly fileTree("$forks/pack-libs/compat") { include "*.jar" }
 }
 
 tasks.withType(ProcessResources).configureEach {
-    var resourceTargets = ["META-INF/neoforge.mods.toml", "*.json"]
-    var intoTargets = ["$rootDir/out/production/resources/", "$rootDir/out/production/${project.name}.main/", "$rootDir/bin/main/"]
     var replaceProperties = [mc_version: mc_version,
         mod_id: mod_id, mod_version: mod_version, mod_name: mod_name, mod_description: mod_description, mod_license: mod_license, mod_homepage: mod_homepage, mod_source: mod_source, mod_issues: mod_issues,
         neoforge_api_version: neoforge_api_version, neoforge_api_version_range: neoforge_api_version_range, neoforge_loader_version: neoforge_loader_version,
         minecolonies_version: minecolonies_version, minecolonies_tweaks_version: minecolonies_tweaks_version
     ]
     inputs.properties replaceProperties
-
-    filesMatching(resourceTargets) {
+    filesMatching(["META-INF/neoforge.mods.toml", "*.json"]) {
         expand replaceProperties + [project: project]
-    }
-
-    intoTargets.each { target ->
-        if (file(target).exists()) {
-            copy {
-                from(sourceSets.main.resources) {
-                    include resourceTargets
-                    expand replaceProperties
-                }
-                into target
-            }
-        }
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
-}
-
-jar {
-    if (project.hasProperty("buildWithSource")) {
-        from sourceSets.main.java
-    }
+    options.compilerArgs += ["-Xmaxerrs", "5000"]
 }

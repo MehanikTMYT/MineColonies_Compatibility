@@ -24,8 +24,6 @@ import steve_gall.minecolonies_compatibility.core.common.crafting.BucketFillingR
 import steve_gall.minecolonies_compatibility.core.common.crafting.SmithingTemplateRecipeStorage;
 import steve_gall.minecolonies_compatibility.core.common.util.ReflectionUtils;
 import steve_gall.minecolonies_compatibility.module.common.ModuleManager;
-import steve_gall.minecolonies_compatibility.module.common.farmersdelight.FarmersDelightModule;
-import steve_gall.minecolonies_compatibility.module.common.farmersdelight.crafting.CuttingRecipeStorage;
 import steve_gall.minecolonies_tweaks.api.common.crafting.ICustomizableRecipeStorage;
 import steve_gall.minecolonies_tweaks.core.client.view.FluidIcon;
 
@@ -91,17 +89,7 @@ public abstract class WindowListRecipes1Mixin
 				}
 
 			}
-			else if (ModuleManager.FARMERSDELIGHT.isLoaded() && impl instanceof CuttingRecipeStorage cutting)
-			{
-				var results = cutting.getResults();
-
-				if (0 <= outputIndex && outputIndex < results.size())
-				{
-					var chance = results.get(outputIndex).getChance();
-					((ItemIconExtension) icon).minecolonies_compatibility$addTooltip(FarmersDelightModule.getChanceTooltip(chance));
-				}
-
-			}
+			// fleet 26.1.2: Farmer's Delight cutting-chance tooltip removed with the disabled farmersdelight module
 
 		}
 

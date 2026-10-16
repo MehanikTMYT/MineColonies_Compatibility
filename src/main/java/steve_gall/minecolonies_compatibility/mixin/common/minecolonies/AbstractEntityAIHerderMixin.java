@@ -27,7 +27,6 @@ import net.minecraft.world.entity.animal.Animal;
 import net.neoforged.neoforge.common.util.FakePlayer;
 import steve_gall.minecolonies_compatibility.core.common.init.ModToolTypes;
 import steve_gall.minecolonies_compatibility.module.common.ModuleManager;
-import steve_gall.minecolonies_compatibility.module.common.butchercraft.ButchercraftModule;
 
 @Mixin(value = AbstractEntityAIHerder.class, remap = false)
 public abstract class AbstractEntityAIHerderMixin<J extends AbstractJob<?, J>, B extends AbstractBuilding> extends AbstractEntityAIInteract<J, B>
@@ -91,14 +90,7 @@ public abstract class AbstractEntityAIHerderMixin<J extends AbstractJob<?, J>, B
 
 		if (source.type() == damageType && source.getEntity() instanceof FakePlayer player)
 		{
-			if (ModuleManager.BUTCHERCRAFT.isLoaded())
-			{
-				if (ButchercraftModule.slaughter(player, animal, InteractionHand.MAIN_HAND))
-				{
-					return true;
-				}
-
-			}
+			// fleet 26.1.2: Butchercraft slaughter hook removed with the disabled butchercraft module
 
 		}
 

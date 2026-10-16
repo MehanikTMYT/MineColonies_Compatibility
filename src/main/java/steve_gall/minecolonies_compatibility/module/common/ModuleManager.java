@@ -7,33 +7,16 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import steve_gall.minecolonies_compatibility.module.common.ae2.AppliedEnergistics2Module;
-import steve_gall.minecolonies_compatibility.module.common.aether.AetherModule;
-import steve_gall.minecolonies_compatibility.module.common.ars_nouveau.ArsNouveauModule;
-import steve_gall.minecolonies_compatibility.module.common.atmospheric.AtmosphericModule;
-import steve_gall.minecolonies_compatibility.module.common.butchercraft.ButchercraftModule;
-import steve_gall.minecolonies_compatibility.module.common.cobblemon.CobblemonModule;
 import steve_gall.minecolonies_compatibility.module.common.create.CreateModule;
-import steve_gall.minecolonies_compatibility.module.common.croptopia.CroptopiaModule;
-import steve_gall.minecolonies_compatibility.module.common.culturaldelights.CulturalDelightsModule;
 import steve_gall.minecolonies_compatibility.module.common.dynamictrees.DynamicTreesModule;
-import steve_gall.minecolonies_compatibility.module.common.ewewukeks_musketmod.ewewukekMusketModule;
-import steve_gall.minecolonies_compatibility.module.common.farmersdelight.FarmersDelightModule;
-import steve_gall.minecolonies_compatibility.module.common.fruitsdelight.FruitsDelightModule;
-import steve_gall.minecolonies_compatibility.module.common.ie.IEModule;
 import steve_gall.minecolonies_compatibility.module.common.jade.JadeModule;
-import steve_gall.minecolonies_compatibility.module.common.lets_do_meadow.LetsDoMeadowModule;
-import steve_gall.minecolonies_compatibility.module.common.lets_do_vinery.LetsDoVineryModule;
 import steve_gall.minecolonies_compatibility.module.common.minecraft.MinecraftModule;
-import steve_gall.minecolonies_compatibility.module.common.neapolitan.NeapolitanModule;
 import steve_gall.minecolonies_compatibility.module.common.oreberries.OreberriesModule;
-import steve_gall.minecolonies_compatibility.module.common.pamhc2trees.PamsHarvestCraft2TreesModule;
 import steve_gall.minecolonies_compatibility.module.common.polymorph.PolymorphModule;
 import steve_gall.minecolonies_compatibility.module.common.refinedstorage.RefinedStorageModule;
 import steve_gall.minecolonies_compatibility.module.common.regions_unexplored.RegionsUnexploredModule;
 import steve_gall.minecolonies_compatibility.module.common.reliquary.ReliquaryModule;
-import steve_gall.minecolonies_compatibility.module.common.scguns.ScorchedGunsModule;
 import steve_gall.minecolonies_compatibility.module.common.silentgear.SilentGearModule;
-import steve_gall.minecolonies_compatibility.module.common.tacz.TACZModule;
 import steve_gall.minecolonies_compatibility.module.common.undergarden.UndergardenModule;
 
 public class ModuleManager
@@ -55,32 +38,32 @@ public class ModuleManager
 
 	public static final OptionalModule<MinecraftModule> MINECRAFT = register("minecraft", () -> MinecraftModule::new);
 	public static final OptionalModule<AppliedEnergistics2Module> AE2 = register("ae2", () -> AppliedEnergistics2Module::new);
-	public static final OptionalModule<AetherModule> AETHER = register("aether", () -> AetherModule::new);
-	public static final OptionalModule<ArsNouveauModule> ARS_NOUVEAU = register("ars_nouveau", () -> ArsNouveauModule::new);
-	public static final OptionalModule<AtmosphericModule> ATMOSPHERIC = register("atmospheric", () -> AtmosphericModule::new);
-	public static final OptionalModule<CobblemonModule> COBBLEMON = register("cobblemon", () -> CobblemonModule::new);
+	// fleet 26.1.2: "aether" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "ars_nouveau" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "atmospheric" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "cobblemon" module in src/disabled (mod not released for 26.1.2 NeoForge)
 	public static final OptionalModule<CreateModule> CREATE = register("create", () -> CreateModule::new);
-	public static final OptionalModule<CroptopiaModule> CROPTOPIA = register("croptopia", () -> CroptopiaModule::new);
-	public static final OptionalModule<CulturalDelightsModule> CULTURALDELIGHTS = register("culturaldelights", () -> CulturalDelightsModule::new);
+	// fleet 26.1.2: "croptopia" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "culturaldelights" module in src/disabled (mod not released for 26.1.2 NeoForge)
 	public static final OptionalModule<DynamicTreesModule> DYNAMICTREES = register("dynamictrees", () -> DynamicTreesModule::new);
-	public static final OptionalModule<ewewukekMusketModule> EWEWUKEK_MUSKET = register("musketmod", () -> ewewukekMusketModule::new);
-	public static final OptionalModule<FarmersDelightModule> FARMERSDELIGHT = register("farmersdelight", () -> FarmersDelightModule::new);
-	public static final OptionalModule<ButchercraftModule> BUTCHERCRAFT = register("butchercraft", () -> ButchercraftModule::new);
-	public static final OptionalModule<FruitsDelightModule> FRUITSDELIGHT = register("fruitsdelight", () -> FruitsDelightModule::new);
-	public static final OptionalModule<IEModule> IE = register("immersiveengineering", () -> IEModule::new);
+	// fleet 26.1.2: "musketmod" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "farmersdelight" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "butchercraft" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "fruitsdelight" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "immersiveengineering" module in src/disabled (mod not released for 26.1.2 NeoForge)
 	public static final OptionalModule<JadeModule> JADE = register("jade", () -> JadeModule::new);
-	public static final OptionalModule<LetsDoMeadowModule> LETS_DO_MEADOW = register("meadow", () -> LetsDoMeadowModule::new);
-	public static final OptionalModule<LetsDoVineryModule> LETS_DO_VINERY = register("vinery", () -> LetsDoVineryModule::new);
-	public static final OptionalModule<NeapolitanModule> NEAPOLITAN = register("neapolitan", () -> NeapolitanModule::new);
+	// fleet 26.1.2: "meadow" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "vinery" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	// fleet 26.1.2: "neapolitan" module in src/disabled (mod not released for 26.1.2 NeoForge)
 	public static final OptionalModule<OreberriesModule> OREBERRIES = register("oreberriesreplanted", () -> OreberriesModule::new);
-	public static final OptionalModule<PamsHarvestCraft2TreesModule> PHC2TREES = register("pamhc2trees", () -> PamsHarvestCraft2TreesModule::new);
-	public static final OptionalModule<PolymorphModule> POLYMORPH = register("polymorph", () -> PolymorphModule::new);
+	// fleet 26.1.2: "pamhc2trees" module in src/disabled (mod not released for 26.1.2 NeoForge)
+	public static final OptionalModule<PolymorphModule> POLYMORPH = register("polymorph_plus", () -> PolymorphModule::new); // fleet 26.1.2: Polymorph+ (mod id polymorph_plus, Polymorph API kept)
 	public static final OptionalModule<RefinedStorageModule> REFINEDSTORAGE = register("refinedstorage", () -> RefinedStorageModule::new);
 	public static final OptionalModule<RegionsUnexploredModule> REGIONS_UNEXPLORED = register("regions_unexplored", () -> RegionsUnexploredModule::new);
 	public static final OptionalModule<ReliquaryModule> RELIQUARY = register("reliquary", () -> ReliquaryModule::new);
-	public static final OptionalModule<ScorchedGunsModule> SCORCHED_GUNS = register("scguns", () -> ScorchedGunsModule::new);
+	// fleet 26.1.2: "scguns" module in src/disabled (mod not released for 26.1.2 NeoForge)
 	public static final OptionalModule<SilentGearModule> SILENTGEAR = register("silentgear", () -> SilentGearModule::new);
-	public static final OptionalModule<TACZModule> TACZ = register("tacz", () -> TACZModule::new);
+	// fleet 26.1.2: "tacz" module in src/disabled (mod not released for 26.1.2 NeoForge)
 	public static final OptionalModule<UndergardenModule> UNDERGARDEN = register("undergarden", () -> UndergardenModule::new);
 
 	private static <MODULE extends AbstractModule> OptionalModule<MODULE> register(String modid, Supplier<Supplier<MODULE>> initializer)

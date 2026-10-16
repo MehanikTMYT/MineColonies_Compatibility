@@ -5,14 +5,12 @@
 	"compatibilityLevel": "JAVA_21",
 	"client": [
 		"TeachRecipeScreenMixin",
-	
 		"minecolonies.AbstractModuleWindowAccessor",
 		"minecolonies.SettingsModuleViewMixin",
 		"minecolonies.SettingsModuleWindow1Mixin",
 		"minecolonies.WindowCraftingMixin",
 		"minecolonies.WindowListRecipes1Mixin",
 		"minecolonies.WindowListRecipesAcccessor",
-		
 		"blockui.ItemIconMixin"
 	],
 	"injectors": {
