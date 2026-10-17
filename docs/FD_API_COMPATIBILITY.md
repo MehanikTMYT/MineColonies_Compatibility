@@ -11,6 +11,24 @@ Scope: integration code only. No FD gameplay, blocks, items, recipes or library 
 - JAR metadata: `farmersdelight 1.3.3-fix7`, Minecraft `[26.1.2]`, NeoForge `[26.1.2.86,)`.
 - No Cultural Delights or Fruits Delight JAR found in the fleet pack-libs or Maven Local. Their APIs cannot be compiled or runtime-tested here.
 
+## Upstream releases clarified (2026-10-17)
+
+The addons do have published releases. Their absence from the target environment does not mean
+that the projects have no releases:
+
+- [Cultural Delights files](https://www.curseforge.com/minecraft/mc-mods/cultural-delights/files/all)
+  lists 0.19.2 for Minecraft 1.21.1 / NeoForge. User supplied
+  [file 9208654](https://www.curseforge.com/minecraft/mc-mods/cultural-delights/files/9208654);
+  the individual file page was inaccessible to the web reader, so its exact metadata was not
+  independently verified.
+- [Fruits Delight files](https://www.curseforge.com/minecraft/mc-mods/fruits-delight/files/all?page=1&pageSize=20&showAlphaFiles=hide)
+  lists fruitsdelight-1.2.14.jar for Minecraft 1.21.1 / NeoForge.
+
+Neither inspected listing advertises a 26.1.2 release. These older artifacts may inform an API
+comparison, but are not target dependencies or evidence of 26.1.2 compilation/runtime compatibility.
+Both integrations remain BLOCKED pending real target APIs/JARs; no 1.21.1 JAR was added to the
+26.1.2 build or runtime. Porting the addons themselves is outside this task.
+
 ## Compatibility matrix
 
 | Component | API used | Adaptation / blocker |
