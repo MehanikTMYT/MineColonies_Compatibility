@@ -52,6 +52,9 @@ public class FarmersDelightModule extends AbstractModule
 		var forge_bus = NeoForge.EVENT_BUS;
 		forge_bus.addListener(this::onAnimalHerdingTool);
 		forge_bus.addListener(this::onAnimalHerdingLoot);
+        forge_bus.addListener((net.neoforged.neoforge.event.OnDatapackSyncEvent event) ->
+            event.sendRecipes(vectorwing.farmersdelight.common.registry.ModRecipeTypes.COOKING.get(),
+                vectorwing.farmersdelight.common.registry.ModRecipeTypes.CUTTING.get()));
 
 		CustomizedRecipeStorageRegistry.INSTANCE.register(CuttingRecipeStorage.ID, CuttingRecipeStorage::serialize, CuttingRecipeStorage::deserialize);
 		CustomizedRecipeStorageRegistry.INSTANCE.register(CookingRecipeStorage.ID, CookingRecipeStorage::serialize, CookingRecipeStorage::new);

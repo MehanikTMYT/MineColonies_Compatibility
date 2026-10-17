@@ -9,7 +9,7 @@ import dev.xkmc.fruitsdelight.content.block.BaseLeavesBlock;
 import dev.xkmc.fruitsdelight.content.block.PassableLeavesBlock;
 import dev.xkmc.fruitsdelight.init.plants.FDTrees;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelWriter;
@@ -23,7 +23,7 @@ public class TreeLeavesFruit extends CustomizedFruit
 {
 	private final BaseLeavesBlock leaves;
 
-	private final ResourceLocation id;
+	private final Identifier id;
 	private final List<ItemStack> blockIcons;
 	private final List<ItemStack> itemIcons;
 
@@ -42,7 +42,7 @@ public class TreeLeavesFruit extends CustomizedFruit
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return this.id;
 	}

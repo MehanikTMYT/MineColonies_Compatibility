@@ -7,7 +7,7 @@ import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +28,7 @@ public class MushroomColonyFruit extends CustomizedFruit
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return BuiltInRegistries.BLOCK.getKey(this.block);
 	}
@@ -42,7 +42,7 @@ public class MushroomColonyFruit extends CustomizedFruit
 	@Override
 	public @NotNull List<ItemStack> getItemIcons()
 	{
-		return Arrays.asList(this.block.getCloneItemStack(null, null, null));
+		return Arrays.asList(this.block.defaultBlockState().getCloneItemStack(null, null, false));
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class MushroomColonyFruit extends CustomizedFruit
 			level.setBlock(context.getPosition(), state.setValue(MushroomColonyBlock.COLONY_AGE, age - 1), Block.UPDATE_CLIENTS);
 		}
 
-		return Collections.singletonList(this.block.getCloneItemStack(context.getLevel(), context.getPosition(), context.getState()));
+		return Collections.singletonList(context.getState().getCloneItemStack(context.getLevel(), context.getPosition(), false));
 	}
 
 	public MushroomColonyBlock getBlock()

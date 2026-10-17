@@ -31,7 +31,7 @@ public class CuttingOpenTeachMessage extends ModuleMenuOpenMessage
 	{
 		super(buffer);
 
-		this.toolType = IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().get(buffer.readResourceLocation());
+		this.toolType = IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getValue(buffer.readIdentifier());
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class CuttingOpenTeachMessage extends ModuleMenuOpenMessage
 	{
 		super.encode(buffer);
 
-		buffer.writeResourceLocation(IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getKey(this.toolType));
+		buffer.writeIdentifier(IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getKey(this.toolType));
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class CuttingOpenTeachMessage extends ModuleMenuOpenMessage
 	{
 		super.toBuffer(buffer, module);
 
-		buffer.writeResourceLocation(IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getKey(this.getToolType()));
+		buffer.writeIdentifier(IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getKey(this.getToolType()));
 	}
 
 	@Override

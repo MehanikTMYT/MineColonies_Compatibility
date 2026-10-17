@@ -13,8 +13,8 @@ public class CuttingChanceResult
 {
 	public static CuttingChanceResult deserialize(HolderLookup.Provider provider, CompoundTag tag)
 	{
-		var stack = ItemSerializationHelper.deserializeTag(provider, tag.getCompound("stack"));
-		var chance = tag.getFloat("chance");
+		var stack = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty("stack"));
+		var chance = tag.getFloatOr("chance", 0.0F);
 		return new CuttingChanceResult(stack, chance);
 	}
 

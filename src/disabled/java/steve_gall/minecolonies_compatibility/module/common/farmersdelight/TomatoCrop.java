@@ -83,7 +83,7 @@ public class TomatoCrop extends CustomizedCrop
 		if (context.getLevel() instanceof ServerLevel level)
 		{
 			var basePosition = context.getPosition();
-			var random = level.random;
+			var random = level.getRandom();
 			var list = new ArrayList<ItemStack>();
 
 			for (var i = 0; i < MAX_VINE_HEIGHT; i++)

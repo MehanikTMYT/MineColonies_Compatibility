@@ -6,7 +6,7 @@ import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.crafting.registry.CraftingType;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import steve_gall.minecolonies_compatibility.core.client.gui.TeachCraftingRecipeScreen;
 import steve_gall.minecolonies_compatibility.core.common.MineColoniesCompatibility;
@@ -17,18 +17,16 @@ import steve_gall.minecolonies_tweaks.api.common.crafting.ICustomizedRecipeStora
 
 public class PlatingTeachScreen extends TeachCraftingRecipeScreen<PlatingTeachMenu, PlatingRecipeStorage>
 {
-	public static final ResourceLocation TEXTURE = MineColoniesCompatibility.rl("textures/gui/farmers_plating_teach.png");
+	public static final Identifier TEXTURE = MineColoniesCompatibility.rl("textures/gui/farmers_plating_teach.png");
 
 	public PlatingTeachScreen(PlatingTeachMenu menu, Inventory inventory, Component title)
 	{
 		super(menu, inventory, title);
 
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override
-	public ResourceLocation getTexture()
+	public Identifier getTexture()
 	{
 		return TEXTURE;
 	}

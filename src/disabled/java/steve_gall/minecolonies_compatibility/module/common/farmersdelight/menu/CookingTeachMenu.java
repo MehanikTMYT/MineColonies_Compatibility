@@ -108,7 +108,7 @@ public class CookingTeachMenu extends TeachRecipeMenu<RecipeHolder<CookingPotRec
 	@Override
 	protected void onRecipeChanged(HolderLookup.Provider provider, RecipeWrapper input)
 	{
-		this.resultContainer.setItem(0, this.recipe != null ? this.recipe.value().getResultItem(provider) : ItemStack.EMPTY);
+		this.resultContainer.setItem(0, this.recipe != null ? this.recipe.value().getResultItem() : ItemStack.EMPTY);
 		this.resultContainer.setItem(1, this.recipe != null ? this.recipe.value().getOutputContainer() : ItemStack.EMPTY);
 	}
 

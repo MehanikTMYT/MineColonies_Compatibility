@@ -11,7 +11,7 @@ import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 import dev.xkmc.fruitsdelight.content.block.BaseLeavesBlock;
 import dev.xkmc.fruitsdelight.init.plants.FDTrees;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.BlockItem;
@@ -29,7 +29,7 @@ public class DurianBlockFruit extends CustomizedFruit
 {
 	private final Block block;
 
-	private final ResourceLocation id;
+	private final Identifier id;
 	private final List<ItemStack> blockIcons;
 	private final List<ItemStack> itemIcons;
 
@@ -48,7 +48,7 @@ public class DurianBlockFruit extends CustomizedFruit
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return this.id;
 	}

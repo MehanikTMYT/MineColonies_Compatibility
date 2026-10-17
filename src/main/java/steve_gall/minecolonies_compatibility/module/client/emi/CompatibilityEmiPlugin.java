@@ -1,5 +1,10 @@
 package steve_gall.minecolonies_compatibility.module.client.emi;
 
+import com.minecolonies.core.compatibility.emi.MineColoniesEmiRecipe;
+import steve_gall.minecolonies_compatibility.core.common.inventory.BucketFillingTeachMenu;
+import steve_gall.minecolonies_compatibility.core.common.crafting.BucketFillingRecipeStorage;
+import steve_gall.minecolonies_compatibility.core.common.crafting.BucketFillingGenericRecipe;
+import net.minecraft.world.level.material.Fluids;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +37,6 @@ import net.minecraft.world.item.crafting.SmithingRecipeInput;
 import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
-import net.neoforged.neoforge.fluids.FluidStack;
 import steve_gall.minecolonies_compatibility.api.client.IFluidGhostScreen;
 import steve_gall.minecolonies_compatibility.api.client.IItemGhostScreen;
 import steve_gall.minecolonies_compatibility.api.client.jei.GhostTarget;
@@ -55,7 +59,7 @@ import steve_gall.minecolonies_compatibility.core.common.util.NBTUtils2;
  * EMI integration (fleet 26.1.2; replaces the JEI plugin kept in src/disabled):
  * <ul>
  * <li>categories: research (university), orchardist fruits, butcher products;</li>
- * <li>"+" transfer of vanilla smithing / stonecutting recipes into the teaching menus;</li>
+ * <li>"+" transfer of vanilla smithing / stonecutting and typed bucket-filling recipes into the teaching menus;</li>
  * <li>drag and drop of items / fluids onto ghost slots of the teaching screens.</li>
  * </ul>
  * Recipes of the custom crafting types (smithing, stonecutting, bucket filling workers) are shown by MineColonies' own
@@ -92,6 +96,7 @@ public class CompatibilityEmiPlugin implements EmiPlugin
 
 		registry.addRecipeHandler(ModMenuTypes.SMITHING_TEACH.get(), new SmithingTeaching());
 		registry.addRecipeHandler(ModMenuTypes.STONECUTTING_TEACH.get(), new StonecutterTeaching());
+		registry.addRecipeHandler(ModMenuTypes.BUCKET_FILLING_TEACH.get(), new BucketFillingTeaching());
 		registry.addGenericDragDropHandler(CompatibilityEmiPlugin::dropOnGhostTarget);
 
 		// Research tree and the fruit/butcherable registries are filled by datapack reload: read them late.
@@ -136,9 +141,13 @@ public class CompatibilityEmiPlugin implements EmiPlugin
 		var targets = new ArrayList<GhostTarget<?>>();
 		Object payload;
 
-		if (emiStack.getKey() instanceof Fluid fluid)
+		if (emiStack.getKey() instanceof Fluid)
 		{
-			payload = new FluidStack(fluid, (int) Math.max(1, emiStack.getAmount()));
+			if (emiStack.getAmount() <= 0 || emiStack.getAmount() > Integer.MAX_VALUE)
+			{
+				return false;
+			}
+			payload = EmiGhostStacks.fluid(emiStack);
 
 			if (screen instanceof IFluidGhostScreen ghostScreen)
 			{
@@ -250,6 +259,55 @@ public class CompatibilityEmiPlugin implements EmiPlugin
 			return tag;
 		}
 
+	}
+
+	/** The worker category is owned by MineColonies; use its typed source, never infer fluid from items. */
+	private static final class BucketFillingTeaching implements EmiRecipeHandler<BucketFillingTeachMenu>
+	{
+		private BucketFillingRecipeStorage storage(EmiRecipe recipe)
+		{
+			if (recipe instanceof MineColoniesEmiRecipe worker
+				&& worker.getSourceRecipe() instanceof BucketFillingGenericRecipe filling
+				&& filling.getFluidAmount() > 0 && filling.getFluid() != Fluids.EMPTY)
+			{
+				return new BucketFillingRecipeStorage(
+					filling.getEmptyBucket().copy(), filling.getFluid(), filling.getFluidAmount(),
+					filling.getDataComponentPatch(), filling.getFilledBucket().copy());
+			}
+			return null;
+		}
+
+		@Override
+		public EmiPlayerInventory getInventory(AbstractContainerScreen<BucketFillingTeachMenu> screen)
+		{
+			return new EmiPlayerInventory(List.of());
+		}
+
+		@Override
+		public boolean supportsRecipe(EmiRecipe recipe)
+		{
+			return storage(recipe) != null;
+		}
+
+		@Override
+		public boolean canCraft(EmiRecipe recipe, EmiCraftContext<BucketFillingTeachMenu> context)
+		{
+			var storage = storage(recipe);
+			return storage != null && context.getScreenHandler().getRecipeError(storage) == null;
+		}
+
+		@Override
+		public boolean craft(EmiRecipe recipe, EmiCraftContext<BucketFillingTeachMenu> context)
+		{
+			var storage = storage(recipe);
+			if (storage == null || context.getScreenHandler().getRecipeError(storage) != null)
+			{
+				return false;
+			}
+			ClientPacketDistributor.sendToServer(new JEIRecipeTransferMessage<>(context.getScreenHandler(), storage));
+			Minecraft.getInstance().setScreen(context.getScreen());
+			return true;
+		}
 	}
 
 	private static final class SmithingTeaching extends Teaching<SmithingTeachMenu, SmithingRecipe>

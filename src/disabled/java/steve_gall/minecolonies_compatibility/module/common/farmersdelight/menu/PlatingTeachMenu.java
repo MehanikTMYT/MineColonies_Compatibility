@@ -110,7 +110,7 @@ public class PlatingTeachMenu extends TeachRecipeMenu<PlatingRecipeStorage, Sing
 	{
 		super.setContainerByTransfer(provider, recipe, payload);
 
-		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, payload.getCompound("input")));
+		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, payload.getCompoundOrEmpty("input")));
 	}
 
 	@Override

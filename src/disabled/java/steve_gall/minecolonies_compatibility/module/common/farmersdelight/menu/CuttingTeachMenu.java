@@ -63,7 +63,7 @@ public class CuttingTeachMenu extends TeachRecipeMenu<RecipeHolder<CuttingBoardR
 	public CuttingTeachMenu(int windowId, Inventory inventory, RegistryFriendlyByteBuf buffer)
 	{
 		super(ModuleMenuTypes.CUTTING_TEACH.get(), windowId, inventory, buffer);
-		this.toolType = IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().get(buffer.readResourceLocation());
+		this.toolType = IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getValue(buffer.readIdentifier());
 		this.setup();
 	}
 
@@ -108,8 +108,8 @@ public class CuttingTeachMenu extends TeachRecipeMenu<RecipeHolder<CuttingBoardR
 					return ItemStack.EMPTY;
 				}
 
-				var tools = recipe.value().getTool().getItems();
-				return tools.length == 0 ? ItemStack.EMPTY : tools[0];
+				var tools = IngredientHelper.getStacks(recipe.value().getTool());
+				return tools.isEmpty() ? ItemStack.EMPTY : tools.getFirst();
 			}
 
 		};
@@ -120,7 +120,7 @@ public class CuttingTeachMenu extends TeachRecipeMenu<RecipeHolder<CuttingBoardR
 	{
 		super.setContainerByTransfer(provider, recipe, payload);
 
-		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, payload.getCompound("input")));
+		this.inputContainer.setItem(0, ItemSerializationHelper.deserializeTag(provider, payload.getCompoundOrEmpty("input")));
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import com.baisylia.culturaldelights.block.ModBlocks;
 import com.baisylia.culturaldelights.block.custom.FruitingLeaves;
 import com.baisylia.culturaldelights.item.ModItems;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +26,7 @@ public class AvocadoFruit extends CustomizedFruit
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return ModBlocks.FRUITING_AVOCADO_LEAVES.getId();
 	}
@@ -66,7 +66,7 @@ public class AvocadoFruit extends CustomizedFruit
 	{
 		if (context.getLevel() instanceof ServerLevel level)
 		{
-			var j = 2 + level.random.nextInt(2);
+			var j = 2 + level.getRandom().nextInt(2);
 			level.setBlock(context.getPosition(), context.getState().setValue(FruitingLeaves.AGE, 0), Block.UPDATE_CLIENTS);
 			return Collections.singletonList(new ItemStack(ModItems.AVOCADO.get(), j));
 		}

@@ -1,0 +1,7 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="GPL-3.0"
+[[mods]]
+modId="compat_fluid_qa"
+version="1"
+displayName="Compatibility Fluid QA (development only)"
