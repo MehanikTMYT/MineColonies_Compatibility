@@ -29,17 +29,7 @@ final class ClientFluidQa {
     private static boolean finished;
     static void register(net.neoforged.bus.api.IEventBus modBus) {
         NeoForge.EVENT_BUS.addListener(ClientFluidQa::tick);
-        // QA-only workaround for missing client handlers in the fleet Tweaks JAR.
-        // Invoke real existing handlers; never ship this with Compatibility.
-        modBus.addListener(ClientFluidQa::tweaksHandlers);
-    }
-    private static void tweaksHandlers(net.neoforged.neoforge.client.network.event.RegisterClientPayloadHandlersEvent event) {
-        event.register(steve_gall.minecolonies_tweaks.core.common.network.message.BatchRepairDataLoadMessage.TYPE,
-            steve_gall.minecolonies_tweaks.core.common.network.message.BatchRepairDataLoadMessage::handle);
-        event.register(steve_gall.minecolonies_tweaks.core.common.network.message.BatchUpgradeDataLoadMessage.TYPE,
-            steve_gall.minecolonies_tweaks.core.common.network.message.BatchUpgradeDataLoadMessage::handle);
-        event.register(steve_gall.minecolonies_tweaks.core.common.network.message.ResourcescrollBookOpenMessage.TYPE,
-            steve_gall.minecolonies_tweaks.core.common.network.message.ResourcescrollBookOpenMessage::handle);
+        // (Tweaks 460115a registers the clientbound handlers of its bidirectional messages itself.)
     }
     private static int elapsed;
     private static int networkCase;
