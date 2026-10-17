@@ -23,7 +23,12 @@ runs {
         systemProperty "forge.logging.console.level", "info"
         modSource project.sourceSets.main
     }
-    client {}
+    client {
+        if (providers.gradleProperty('qaWorld').isPresent()) {
+            argument '--quickPlaySingleplayer'
+            argument providers.gradleProperty('qaWorld').get()
+        }
+    }
     server { argument '--nogui' }
 }
 
@@ -36,7 +41,7 @@ dependencies {
     implementation "net.neoforged:neoforge:${neoforge_api_version}"
 
     // Required — our 26.1.2 ports
-    implementation files("$forks/MineColonies/build/libs/minecolonies-${minecolonies_version}.jar")
+    implementation files(findProperty("minecoloniesJar") ?: "$forks/MineColonies/build/libs/minecolonies-${minecolonies_version}.jar")
     implementation "com.ldtteam:structurize:${structurize_version}"
     implementation "com.ldtteam:multipiston:${multipiston_version}"
     implementation "com.ldtteam:blockui:${blockui_version}"
@@ -70,4 +75,43 @@ tasks.withType(ProcessResources).configureEach {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
     options.compilerArgs += ["-Xmaxerrs", "5000"]
+}
+
+// Opt-in integration probe, excluded from release builds.
+if (providers.gradleProperty('fluidQa').isPresent()) {
+    sourceSets { qa { compileClasspath += main.output + main.compileClasspath; runtimeClasspath += main.output + main.runtimeClasspath } }
+    def qaJar = tasks.register('fluidQaJar', Jar) {
+        archiveClassifier = 'fluid-qa'
+        from sourceSets.qa.output
+    }
+    dependencies { runtimeOnly files(qaJar) }
+    dependencies { runtimeOnly("dev.emi:emi-neoforge:${emi_version}") { transitive = false } }
+}
+
+// Compile prepared integration sources only against a real FD JAR; never part of the release by default.
+if (providers.gradleProperty('fdJar').isPresent()) {
+    sourceSets {
+        fd {
+            java.srcDir 'src/disabled/java'
+            java.include '**/farmersdelight/**'
+            java.exclude '**/jei/**'
+            compileClasspath += main.output + main.compileClasspath
+            runtimeClasspath += main.output + main.runtimeClasspath
+        }
+    }
+    dependencies {
+        compileOnly files(providers.gradleProperty('fdJar').get())
+        fdImplementation files(providers.gradleProperty('fdJar').get())
+    }
+}
+
+if (providers.gradleProperty('qaRuntimeDir').isPresent()) {
+    dependencies { runtimeOnly fileTree(providers.gradleProperty('qaRuntimeDir').get()) { include '*.jar' } }
+}
+tasks.register('writeQaClasspath') {
+    doLast {
+        file('qa/logs').mkdirs()
+        file('qa/logs/classpath.txt').text = (sourceSets.main.compileClasspath.files + sourceSets.main.runtimeClasspath.files)
+            .findAll { it.name.endsWith('.jar') }.collect { it.absolutePath }.unique().join('\n')
+    }
 }

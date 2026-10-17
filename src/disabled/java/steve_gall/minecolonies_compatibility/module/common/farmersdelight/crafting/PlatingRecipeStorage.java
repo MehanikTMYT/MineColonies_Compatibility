@@ -12,7 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -23,7 +23,7 @@ import vectorwing.farmersdelight.common.block.FeastBlock;
 
 public class PlatingRecipeStorage extends GenericedRecipeStorage<PlatingGenericRecipe> implements ISecondaryRollableRecipeStorage
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("farmerdelight_plating");
+	public static final Identifier ID = MineColoniesCompatibility.rl("farmerdelight_plating");
 
 	public static void serialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag, PlatingRecipeStorage recipe)
 	{
@@ -32,8 +32,8 @@ public class PlatingRecipeStorage extends GenericedRecipeStorage<PlatingGenericR
 
 	public static PlatingRecipeStorage deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var blockId = ResourceLocation.parse(tag.getString("block"));
-		var block = BuiltInRegistries.BLOCK.get(blockId);
+		var blockId = Identifier.parse(tag.getStringOr("block", ""));
+		var block = BuiltInRegistries.BLOCK.getValue(blockId);
 		return new PlatingRecipeStorage(block);
 	}
 
@@ -78,9 +78,9 @@ public class PlatingRecipeStorage extends GenericedRecipeStorage<PlatingGenericR
 					output.setCount(output.getCount() + servingItem.getCount());
 				}
 
-				if (servingItem.hasCraftingRemainingItem())
+				if (!steve_gall.minecolonies_compatibility.core.common.item.ItemStackHelper.getCraftingRemainder(servingItem).isEmpty())
 				{
-					var containerItem = servingItem.getCraftingRemainingItem();
+					var containerItem = steve_gall.minecolonies_compatibility.core.common.item.ItemStackHelper.getCraftingRemainder(servingItem);
 
 					if (!container.isEmpty() && !ItemStack.isSameItemSameComponents(container, containerItem))
 					{
@@ -156,7 +156,7 @@ public class PlatingRecipeStorage extends GenericedRecipeStorage<PlatingGenericR
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}

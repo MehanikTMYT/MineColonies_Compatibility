@@ -15,7 +15,7 @@ import com.minecolonies.api.util.OptionalPredicate;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -31,7 +31,7 @@ import vectorwing.farmersdelight.common.registry.ModBlocks;
 
 public class CuttingGenericRecipe implements IRecipeSlotModifiableGenericRecipe
 {
-	private final ResourceLocation recipeId;
+	private final Identifier recipeId;
 	private final List<List<ItemStack>> input;
 	private final List<CuttingChanceResult> allResults;
 	private final List<ItemStack> primaryOutputs;
@@ -41,10 +41,10 @@ public class CuttingGenericRecipe implements IRecipeSlotModifiableGenericRecipe
 
 	public CuttingGenericRecipe(RecipeHolder<CuttingBoardRecipe> holder, EquipmentTypeEntry toolType)
 	{
-		this(holder.id(), IngredientHelper.getStacksList(holder.value().getIngredients()), holder.value().getRollableResults().stream().map(CuttingChanceResult::new).toList(), toolType);
+		this(holder.id().identifier(), IngredientHelper.getStacksList(holder.value().getIngredients()), holder.value().getRollableResults().stream().map(CuttingChanceResult::new).toList(), toolType);
 	}
 
-	public CuttingGenericRecipe(ResourceLocation recipeId, List<List<ItemStack>> ingredients, List<CuttingChanceResult> results, EquipmentTypeEntry toolType)
+	public CuttingGenericRecipe(Identifier recipeId, List<List<ItemStack>> ingredients, List<CuttingChanceResult> results, EquipmentTypeEntry toolType)
 	{
 		var allResults = new ArrayList<CuttingChanceResult>();
 		this.recipeId = recipeId;
@@ -117,7 +117,7 @@ public class CuttingGenericRecipe implements IRecipeSlotModifiableGenericRecipe
 	}
 
 	@Override
-	public @Nullable ResourceLocation getRecipeId()
+	public @Nullable Identifier getRecipeId()
 	{
 		return this.recipeId;
 	}

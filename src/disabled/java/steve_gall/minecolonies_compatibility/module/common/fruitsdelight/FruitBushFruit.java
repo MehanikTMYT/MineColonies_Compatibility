@@ -10,13 +10,12 @@ import dev.xkmc.fruitsdelight.content.block.BaseBushBlock;
 import dev.xkmc.fruitsdelight.content.block.DoubleFruitBushBlock;
 import dev.xkmc.fruitsdelight.init.plants.FDBushes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelWriter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import steve_gall.minecolonies_compatibility.api.common.plant.CustomizedFruit;
@@ -25,10 +24,10 @@ import steve_gall.minecolonies_compatibility.api.common.plant.PlantBlockContext;
 
 public class FruitBushFruit extends CustomizedFruit
 {
-	private final BushBlock bush;
+	private final Block bush;
 	private final Item fruit;
 
-	private final ResourceLocation id;
+	private final Identifier id;
 	private final List<ItemStack> blockIcons;
 	private final List<ItemStack> itemIcons;
 
@@ -37,7 +36,7 @@ public class FruitBushFruit extends CustomizedFruit
 		this(bush.getBush(), bush.getSeed(), bush.getFruit());
 	}
 
-	public FruitBushFruit(BushBlock bush, Item seed, Item fruit)
+	public FruitBushFruit(Block bush, Item seed, Item fruit)
 	{
 		this.bush = bush;
 		this.fruit = fruit;
@@ -48,7 +47,7 @@ public class FruitBushFruit extends CustomizedFruit
 	}
 
 	@Override
-	public @NotNull ResourceLocation getId()
+	public @NotNull Identifier getId()
 	{
 		return this.id;
 	}
@@ -115,7 +114,7 @@ public class FruitBushFruit extends CustomizedFruit
 
 		if (context.getLevel() instanceof ServerLevel level)
 		{
-			var j = 1 + level.random.nextInt(2);
+			var j = 1 + level.getRandom().nextInt(2);
 			return Collections.singletonList(new ItemStack(this.fruit, j));
 		}
 

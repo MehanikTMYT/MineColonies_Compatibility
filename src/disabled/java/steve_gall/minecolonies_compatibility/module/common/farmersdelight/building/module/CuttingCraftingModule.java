@@ -45,7 +45,7 @@ public class CuttingCraftingModule extends AbstractCraftingModuleWithExternalWor
 	{
 		super.serializeToView(buf, fullSync);
 
-		buf.writeResourceLocation(IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getKey(this.getToolType()));
+		buf.writeIdentifier(IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getKey(this.getToolType()));
 	}
 
 	@Override

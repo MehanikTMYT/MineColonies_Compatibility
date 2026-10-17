@@ -37,7 +37,7 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 		tag.put(TAG_EMPTY_BUCKET, ItemSerializationHelper.serializeTag(provider, recipe.emptyBucket));
 		tag.putString(TAG_FLUID, BuiltInRegistries.FLUID.getKey(recipe.fluid).toString());
 		tag.putInt(TAG_FLUID_AMOUNT, recipe.fluidAmount);
-		tag.put(TAG_DATA_COMPONENT_PATCH, DataComponentPatch.CODEC.encodeStart(NbtOps.INSTANCE, recipe.dataComponentPatch).getOrThrow());
+		tag.put(TAG_DATA_COMPONENT_PATCH, DataComponentPatch.CODEC.encodeStart(provider.createSerializationContext(NbtOps.INSTANCE), recipe.dataComponentPatch).getOrThrow());
 		tag.put(TAG_FILLED_BUCKET, ItemSerializationHelper.serializeTag(provider, recipe.filledBucket));
 	}
 
@@ -45,9 +45,13 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 	{
 		var emptyBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_EMPTY_BUCKET));
 		var fluidId = Identifier.parse(tag.getStringOr(TAG_FLUID, ""));
+		if (!BuiltInRegistries.FLUID.containsKey(fluidId))
+		{
+			throw new IllegalArgumentException("Unknown bucket filling fluid: " + fluidId);
+		}
 		var fluid = BuiltInRegistries.FLUID.getValue(fluidId);
 		var fluidAmount = tag.contains(TAG_FLUID_AMOUNT) ? tag.getIntOr(TAG_FLUID_AMOUNT, 0) : FluidType.BUCKET_VOLUME;
-		var dataComponentPatch = DataComponentPatch.CODEC.decode(NbtOps.INSTANCE, tag.getCompoundOrEmpty(TAG_DATA_COMPONENT_PATCH)).getOrThrow().getFirst();
+		var dataComponentPatch = DataComponentPatch.CODEC.decode(provider.createSerializationContext(NbtOps.INSTANCE), tag.getCompoundOrEmpty(TAG_DATA_COMPONENT_PATCH)).getOrThrow().getFirst();
 		var filledBucket = ItemSerializationHelper.deserializeTag(provider, tag.getCompoundOrEmpty(TAG_FILLED_BUCKET));
 		return new BucketFillingRecipeStorage(emptyBucket, fluid, fluidAmount, dataComponentPatch, filledBucket);
 	}
@@ -63,13 +67,13 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 
 	public BucketFillingRecipeStorage(ItemStack emptyBucket, Fluid fluid, int fluidAmount, DataComponentPatch dataComponentPatch, ItemStack filledBucket)
 	{
-		this.emptyBucket = emptyBucket;
+		this.emptyBucket = emptyBucket.copy();
 		this.fluid = fluid;
 		this.fluidAmount = fluidAmount;
 		this.dataComponentPatch = dataComponentPatch;
-		this.filledBucket = filledBucket;
+		this.filledBucket = filledBucket.copy();
 
-		this.input = Collections.singletonList(new ItemStorage(emptyBucket));
+		this.input = Collections.singletonList(new ItemStorage(this.emptyBucket.copy()));
 		this.recipe = new BucketFillingGenericRecipe(emptyBucket, fluid, fluidAmount, dataComponentPatch, filledBucket);
 	}
 
@@ -112,7 +116,7 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 
 	public ItemStack getEmptyBucket()
 	{
-		return this.emptyBucket;
+		return this.emptyBucket.copy();
 	}
 
 	public Fluid getFluid()
@@ -144,7 +148,7 @@ public class BucketFillingRecipeStorage extends GenericedRecipeStorage<BucketFil
 
 	public ItemStack getFilledBucket()
 	{
-		return this.filledBucket;
+		return this.filledBucket.copy();
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package steve_gall.minecolonies_compatibility.module.common.farmersdelight.build
 
 import com.minecolonies.core.colony.buildings.moduleviews.CraftingModuleView;
 
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import steve_gall.minecolonies_compatibility.module.common.farmersdelight.network.CookingOpenTeachMessage;
 
 public class CookingCraftingModuleView extends CraftingModuleView
@@ -15,7 +15,7 @@ public class CookingCraftingModuleView extends CraftingModuleView
 	@Override
 	public void openCraftingGUI()
 	{
-		PacketDistributor.sendToServer(new CookingOpenTeachMessage(this));
+		ClientPacketDistributor.sendToServer(new CookingOpenTeachMessage(this));
 	}
 
 }

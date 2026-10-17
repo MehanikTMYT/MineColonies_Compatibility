@@ -14,7 +14,7 @@ import com.minecolonies.api.equipment.registry.EquipmentTypeEntry;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootParams;
 import steve_gall.minecolonies_compatibility.api.common.crafting.GenericedRecipeStorage;
@@ -26,7 +26,7 @@ import steve_gall.minecolonies_tweaks.core.common.util.SerializationHelper;
 
 public class CuttingRecipeStorage extends GenericedRecipeStorage<CuttingGenericRecipe> implements ISecondaryRollableRecipeStorage
 {
-	public static final ResourceLocation ID = MineColoniesCompatibility.rl("farmerdelight_cutting");
+	public static final Identifier ID = MineColoniesCompatibility.rl("farmerdelight_cutting");
 
 	public static void serialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag, CuttingRecipeStorage recipe)
 	{
@@ -38,22 +38,22 @@ public class CuttingRecipeStorage extends GenericedRecipeStorage<CuttingGenericR
 
 	public static CuttingRecipeStorage deserialize(HolderLookup.Provider provider, IFactoryController controller, CompoundTag tag)
 	{
-		var recipeId = ResourceLocation.parse(tag.getString("recipeId"));
+		var recipeId = Identifier.parse(tag.getStringOr("recipeId", ""));
 		List<ItemStorage> ingredients = NBTUtils2.deserializeList(tag, "ingredients", SerializationHelper.deserializerTag(provider));
 		var results = NBTUtils2.deserializeList(tag, "results", SerializationHelper.apply(provider, CuttingChanceResult::deserialize));
-		var toolType = IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().get(ResourceLocation.parse(tag.getString("toolType")));
+		var toolType = IMinecoloniesAPI.getInstance().getEquipmentTypeRegistry().getValue(Identifier.parse(tag.getStringOr("toolType", "")));
 
 		return new CuttingRecipeStorage(recipeId, ingredients, results, toolType);
 	}
 
-	private final ResourceLocation recipeId;
+	private final Identifier recipeId;
 	private final List<ItemStorage> ingredients;
 	private final List<CuttingChanceResult> results;
 	private final EquipmentTypeEntry toolType;
 
 	private final CuttingGenericRecipe genericRecipe;
 
-	public CuttingRecipeStorage(ResourceLocation recipeId, List<ItemStorage> ingredients, List<CuttingChanceResult> results, EquipmentTypeEntry toolType)
+	public CuttingRecipeStorage(Identifier recipeId, List<ItemStorage> ingredients, List<CuttingChanceResult> results, EquipmentTypeEntry toolType)
 	{
 		this.recipeId = recipeId;
 		this.ingredients = ItemStorageHelper.filterNotEmpty(ingredients);
@@ -103,12 +103,12 @@ public class CuttingRecipeStorage extends GenericedRecipeStorage<CuttingGenericR
 	}
 
 	@Override
-	public ResourceLocation getId()
+	public Identifier getId()
 	{
 		return ID;
 	}
 
-	public ResourceLocation getRecipeId()
+	public Identifier getRecipeId()
 	{
 		return this.recipeId;
 	}

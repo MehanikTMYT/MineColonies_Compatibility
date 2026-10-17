@@ -6,7 +6,7 @@ import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.crafting.registry.CraftingType;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import steve_gall.minecolonies_compatibility.core.client.gui.TeachCraftingRecipeScreen;
@@ -19,18 +19,16 @@ import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 
 public class CookingTeachScreen extends TeachCraftingRecipeScreen<CookingTeachMenu, RecipeHolder<CookingPotRecipe>>
 {
-	public static final ResourceLocation TEXTURE = MineColoniesCompatibility.rl("textures/gui/farmers_cooking_teach.png");
+	public static final Identifier TEXTURE = MineColoniesCompatibility.rl("textures/gui/farmers_cooking_teach.png");
 
 	public CookingTeachScreen(CookingTeachMenu menu, Inventory inventory, Component title)
 	{
 		super(menu, inventory, title);
 
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override
-	public ResourceLocation getTexture()
+	public Identifier getTexture()
 	{
 		return TEXTURE;
 	}
@@ -47,7 +45,7 @@ public class CookingTeachScreen extends TeachCraftingRecipeScreen<CookingTeachMe
 		var resultContainer = this.menu.getResultContainer();
 		var output = resultContainer.getItem(0);
 		var container = resultContainer.getItem(1);
-		return new CookingRecipeStorage(recipe.id(), input, new ItemStorage(container), output);
+		return new CookingRecipeStorage(recipe.id().identifier(), input, new ItemStorage(container), output);
 	}
 
 }

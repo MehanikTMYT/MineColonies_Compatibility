@@ -80,7 +80,7 @@ public class CookingCraftingModule extends AbstractCraftingModuleWithExternalWor
 	{
 		if (recipeStorage instanceof ICustomizableRecipeStorage crs && crs.getImpl() instanceof CookingRecipeStorage rs)
 		{
-			if (worker.level().getRecipeManager().byKey(rs.getRecipeId()).map(RecipeHolder::value).orElse(null) instanceof CookingPotRecipe recipe)
+			if (steve_gall.minecolonies_compatibility.core.common.crafting.RecipeLookup.byKey(worker.level(), rs.getRecipeId()).map(RecipeHolder::value).orElse(null) instanceof CookingPotRecipe recipe)
 			{
 				return recipe.getCookTime();
 			}

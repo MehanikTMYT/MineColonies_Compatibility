@@ -6,9 +6,9 @@ import java.util.List;
 import com.minecolonies.api.crafting.ItemStorage;
 import com.minecolonies.api.crafting.registry.CraftingType;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -24,18 +24,16 @@ import vectorwing.farmersdelight.common.crafting.CuttingBoardRecipe;
 
 public class CuttingTeachScreen extends TeachCraftingRecipeScreen<CuttingTeachMenu, RecipeHolder<CuttingBoardRecipe>>
 {
-	public static final ResourceLocation TEXTURE = MineColoniesCompatibility.rl("textures/gui/farmers_cutting_teach.png");
+	public static final Identifier TEXTURE = MineColoniesCompatibility.rl("textures/gui/farmers_cutting_teach.png");
 
 	public CuttingTeachScreen(CuttingTeachMenu menu, Inventory inventory, Component title)
 	{
 		super(menu, inventory, title);
 
-		this.imageWidth = 176;
-		this.imageHeight = 166;
 	}
 
 	@Override
-	public ResourceLocation getTexture()
+	public Identifier getTexture()
 	{
 		return TEXTURE;
 	}
@@ -50,11 +48,11 @@ public class CuttingTeachScreen extends TeachCraftingRecipeScreen<CuttingTeachMe
 	protected ICustomizedRecipeStorage createRecipeStorage(RecipeHolder<CuttingBoardRecipe> recipe, List<ItemStorage> input)
 	{
 		var results = this.menu.getResults().stream().map(CuttingChanceResult::new).toList();
-		return new CuttingRecipeStorage(recipe.id(), input, results, this.menu.getToolType());
+		return new CuttingRecipeStorage(recipe.id().identifier(), input, results, this.menu.getToolType());
 	}
 
 	@Override
-	protected void renderSlotTooltip(GuiGraphics graphics, int mouseX, int mouseY, Slot slot)
+	protected void renderSlotTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY, Slot slot)
 	{
 		var item = slot.getItem();
 		var tooltip = new ArrayList<>(getTooltipFromItem(this.minecraft, item));
@@ -66,13 +64,13 @@ public class CuttingTeachScreen extends TeachCraftingRecipeScreen<CuttingTeachMe
 			tooltip.addAll(1, FarmersDelightModule.getChanceTooltip(this.menu.getResults().get(resultIndex).chance()));
 		}
 
-		graphics.renderTooltip(this.font, tooltip, item.getTooltipImage(), item, mouseX, mouseY);
+		graphics.setComponentTooltipForNextFrame(this.font, tooltip, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY)
+	public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTicks)
 	{
-		super.renderBg(graphics, partialTicks, mouseX, mouseY);
+		super.extractBackground(graphics, mouseX, mouseY, partialTicks);
 
 		var results = this.menu.getResults();
 		var resultSlots = this.menu.getResultSlots();
@@ -81,7 +79,7 @@ public class CuttingTeachScreen extends TeachCraftingRecipeScreen<CuttingTeachMe
 		{
 			var slot = resultSlots.get(i);
 			var alt = results.get(i).chance() < 1.0F;
-			graphics.blit(TEXTURE, this.leftPos + slot.x - 1, this.topPos + slot.y - 1, this.imageWidth + (alt ? 18 : 0), 0, 18, 18);
+			graphics.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED, TEXTURE, this.leftPos + slot.x - 1, this.topPos + slot.y - 1, this.imageWidth + (alt ? 18 : 0), 0, 18, 18, 256, 256);
 		}
 
 	}

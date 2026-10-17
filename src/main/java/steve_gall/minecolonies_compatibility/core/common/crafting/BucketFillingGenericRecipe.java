@@ -39,11 +39,11 @@ public class BucketFillingGenericRecipe implements IGenericRecipe
 
 	public BucketFillingGenericRecipe(ItemStack emptyBucket, Fluid fluid, int fluidAmount, DataComponentPatch dataComponentPatch, ItemStack filledBucket)
 	{
-		this.emptyBucket = emptyBucket;
+		this.emptyBucket = emptyBucket.copy();
 		this.fluid = fluid;
 		this.fluidAmount = fluidAmount;
 		this.dataComponentPatch = dataComponentPatch;
-		this.filledBucket = filledBucket;
+		this.filledBucket = filledBucket.copy();
 
 		this.allMultiOutputs = Collections.singletonList(this.getPrimaryOutput());
 		this.inputs = Collections.singletonList(Collections.singletonList(this.emptyBucket));
@@ -59,9 +59,17 @@ public class BucketFillingGenericRecipe implements IGenericRecipe
 		);
 	}
 
+	@Override
+	public List<net.neoforged.neoforge.fluids.FluidStack> getFluidInputs()
+	{
+		var stack = new net.neoforged.neoforge.fluids.FluidStack(this.fluid, this.fluidAmount);
+		stack.applyComponents(this.dataComponentPatch);
+		return List.of(stack);
+	}
+
 	public ItemStack getEmptyBucket()
 	{
-		return this.emptyBucket;
+		return this.emptyBucket.copy();
 	}
 
 	public Fluid getFluid()
@@ -81,7 +89,7 @@ public class BucketFillingGenericRecipe implements IGenericRecipe
 
 	public ItemStack getFilledBucket()
 	{
-		return this.filledBucket;
+		return this.filledBucket.copy();
 	}
 
 	protected String getSegment(Identifier id)
@@ -92,7 +100,7 @@ public class BucketFillingGenericRecipe implements IGenericRecipe
 	@Override
 	public @NotNull ItemStack getPrimaryOutput()
 	{
-		return this.filledBucket;
+		return this.filledBucket.copy();
 	}
 
 	@Override

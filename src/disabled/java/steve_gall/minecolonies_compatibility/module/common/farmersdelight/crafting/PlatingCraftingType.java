@@ -10,20 +10,20 @@ import com.minecolonies.api.crafting.IGenericRecipe;
 import com.minecolonies.api.crafting.registry.CraftingType;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.crafting.RecipeMap;
 import net.minecraft.world.level.Level;
 import vectorwing.farmersdelight.common.block.FeastBlock;
 
 public class PlatingCraftingType extends CraftingType
 {
-	public PlatingCraftingType(@NotNull ResourceLocation id)
+	public PlatingCraftingType(@NotNull Identifier id)
 	{
 		super(id);
 	}
 
 	@Override
-	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeManager recipeManager, @Nullable Level world)
+	public @NotNull List<IGenericRecipe> findRecipes(@NotNull RecipeMap recipeManager, @Nullable Level world)
 	{
 		var recipes = new ArrayList<IGenericRecipe>();
 
