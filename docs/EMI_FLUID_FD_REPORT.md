@@ -172,3 +172,25 @@ Compatibility (including prepared disabled sources and isolated QA):
 Release JAR inspection confirmed absence of `compatqa/`, disabled FD integration classes and
 `vectorwing/` classes. Original Compatibility and MineColonies worktrees remained clean at their
 baseline commits after final verification.
+
+## Integration (Claude, 2026-10-17)
+
+- Codex branches integrated: MineColonies `port/26.1` = cherry-pick `a557a2f3ec` (`17ccc424c7`) + `a2de8ded5d`
+  (fluid recipe id no longer dereferences a null client level); Compatibility `port/26.1.2` = merge `59ce89f2`.
+- Root cause of the Tweaks client failure: NeoForge 26.1 `playBidirectional(type, codec, handler)` registers the
+  serverbound handler only. Fixed in Tweaks `MessageRegistrar` (`460115a`, both handlers); the QA workaround was
+  removed from `ClientFluidQa` (`67bbed82`). Other fleet trees checked: Trade Post and SEMI pass both handlers,
+  AE2 registers clientbound handlers through `RegisterClientPayloadHandlersEvent`.
+- Re-run on the integrated trees (MineColonies jar rebuilt on FI):
+  - `jar compileFdJava -PfdJar=farmersdelight 1.3.3-fix7` — BUILD SUCCESSFUL (FI);
+  - release jar: 0 `compatqa/`, 0 FD, 0 `vectorwing/` classes, 13 EMI classes;
+  - mixin-check (Accessor/Invoker types): 38 mixins, 0 problems;
+  - dedicated server (FI): Done (9.98 s);
+  - Xvfb client (NL), unmodified Tweaks: server serialization + real bucket ghost slots PASS, client model and
+    ghost slots PASS, real EMI craft → packet → server ghost PASS for water and lava buckets, live EMI categories
+    unique (89) PASS. A fresh `runs/client` needs `onboardAccessibility:false` in options.txt (first-launch screen).
+  - EMI itself logs an NPE in its recipe-bake worker after the QA disconnect (`EmiPortClient.getEnchantmentRegistry`,
+    `client.level` null) — EMI-side shutdown race, no Compatibility/MineColonies frame.
+- Cultural Delights is All Rights Reserved (mod_license / TEMPLATE_LICENSE); the 0.19.3 tree in
+  `worktrees/cultural-delights-26.1.2` was reconstructed by decompiling the release jar. Not continued, not published
+  — needs the author's permission first. Fruits Delight is LGPL-2.1.
